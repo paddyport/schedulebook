@@ -1,0 +1,411 @@
+@charset "UTF-8";
+@import "_pseudo";
+@import "_mixin";
+
+@font-face {
+    font-family: $icon;
+    src: url("icons.woff2") format("woff2"),
+        url("icons.woff") format("woff");
+}
+* {
+	box-sizing: border-box;
+	&::before, &::after {
+		box-sizing: border-box;
+	}
+}
+body {
+    margin: 0;
+    font-size: divceil(32, 750, "vw");
+    font-family: Avenir, $font, Helvetica, Arial, sans-serif;
+    color: $black1;
+    @include mq() {
+		font-size: 20px;
+    }
+}
+input, textarea {
+	background: #fff;
+	border: 1px solid map-get($btn-nml, "font");
+	border-radius: 2px;
+    line-height: 1;
+    font: inherit;
+	cursor: pointer;
+	&:focus {
+		outline: none;
+		box-shadow: 0 0 0 2px map-get($btn-nml, "side");
+	}
+}
+button {
+    position: relative;
+	background: transparent;
+    border: none;
+	padding: 0;
+    line-height: 1;
+    font: inherit;
+	font-family: $btn;
+	appearance: unset;
+	-webkit-tap-highlight-color: transparent;
+    cursor: pointer;
+	&:focus {
+		outline: none;
+	}
+	&.def {
+		&::before {
+			content: "";
+			position: absolute;
+			border: 2px solid;
+			border-radius: 3px;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			z-index: 1;
+		}
+		> span {
+			position: absolute;
+			left: 0;
+			right: 0;
+			top: 0;
+			bottom: 0;
+			line-height: divceil(27, 16, "em");
+			pointer-events: none;
+			z-index: 5;
+		}
+		.isMD &:active > span, .isTD &:active > span {
+			color: #fff;
+			&::after {
+				color: #fff !important;
+			}
+		}
+		&.isNoActive {
+			pointer-events: none;
+		}
+	}
+	&.icn {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		background: map-get($btn-nml, "bgBase");
+		border-radius: 50%;
+		width: divceil(28, 16, "em");
+		height: divceil(28, 16, "em");
+		font-family: $icon;
+		.isMD &:hover {
+			background: map-get($btn-nml, "side");
+		}
+		.isMD &:active, .isTD &:active {
+			background: map-get($btn-nml, "font");
+			color: #fff;
+		}
+		&.isNoActive {
+			color: map-get($btn-nml, "bgActive");
+			pointer-events: none;
+		}
+	}
+}
+
+button.btnIcon {
+	width: divceil(34, 16, "em");
+	height: divceil(34, 16, "em");
+	> span {
+		color: transparent !important;
+		overflow: hidden;
+		&::after {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			font-family: $icon;
+			transform: translate(-48%, -50%);
+		}
+	}
+}
+button.btnText {
+	width: divceil(160, 16, "em");
+	height: divceil(34, 16, "em");
+	> span {
+		line-height: divceil(34-1*2, 16, "em");
+		> span {
+			line-height: divceil(34-1*2+3, 16, "em");
+		}
+		> i {
+			margin: 0 divceil(8, 16, "em") 0 0;
+			font-style: normal;
+			&::after {
+				display: inline-block;
+				font-family: $icon;
+				transform: translate(0, 3%);
+			}
+		}
+	}
+}
+button.btnWord {
+	width: divceil(80, 16, "em");
+	height: divceil(34, 16, "em");
+	> span {
+		line-height: divceil(34-1*2, 16, "em");
+		> i {
+			margin: 0 divceil(8, 16, "em") 0 0;
+			font-style: normal;
+			&::after {
+				display: inline-block;
+				font-family: $icon;
+				transform: translate(0, 3%);
+			}
+		}
+	}
+}
+
+button.widMN {
+	width: divceil(32, 16, "em");
+}
+button.widSM {
+	width: divceil(48, 16, "em");
+}
+button.widMD {
+	width: divceil(100, 16, "em");
+}
+button.widLG {
+	width: divceil(120, 16, "em");
+}
+button.heiMN {
+	height: divceil(32, 16, "em");
+	> span {
+		line-height: divceil(32, 16, "em");
+	}
+}
+
+button.nml {
+	@include btnColor($btn-nml);
+}
+button.scd {
+	@include btnColor($btn-scd);
+	&.btnIcon > span::after {
+		content: $schedule;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $schedule;
+	}
+	&.switchTab::after {
+		content: $schedule;
+	}
+}
+button.tsk {
+	@include btnColor($btn-tsk);
+	&.btnIcon > span::after {
+		content: $task;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $task;
+	}
+	&.switchTab::after {
+		content: $task;
+	}
+}
+button.tag {
+	@include btnColor($btn-tag);
+	&.btnIcon > span::after {
+		content: $tag;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $tag;
+	}
+	&.switchTab::after {
+		content: $tag;
+	}
+}
+button.menuList {
+	&.btnIcon > span::after {
+		content: $menu;
+	}
+}
+button.cng {
+	&.btnIcon > span::after {
+		content: $change;
+	}
+}
+button.edt {
+	&.btnIcon > span::after {
+		content: $edit;
+	}
+	&.btnWord > span > i::after {
+		content: $edit;
+	}
+}
+button.sch {
+	&.btnIcon > span::after {
+		content: $search;
+	}
+	&.btnWord > span > i::after {
+		content: $search;
+	}
+}
+button.cpr {
+	@include btnColor($btn-pal);
+	&.btnIcon > span::after {
+		content: $colorpicker;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $colorpicker;
+	}
+}
+button.viw {
+	&.btnIcon > span::after {
+		content: $view;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $view;
+	}
+}
+button.rem {
+	&.btnIcon > span::after {
+		content: $remove;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $remove;
+	}
+}
+button.cls {
+	&.btnIcon > span::after {
+		content: $clear;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $clear;
+	}
+}
+button.pls {
+	&.btnIcon > span::after {
+		content: $plus;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $plus;
+	}
+}
+button.mns {
+	&.btnIcon > span::after {
+		content: $minus;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $minus;
+	}
+}
+
+a.listItem {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	position: relative;
+	width: 100%;
+	height: 100%;
+	letter-spacing: 0.03em;
+	cursor: pointer;
+	&::before {
+		display: block;
+		margin: 0 divceil(8, 16, "em") 0 0;
+		font-family: $icon;
+	}
+	&::after {
+		display: block;
+		margin: 0 0 0 auto;
+		font-family: $icon;
+	}
+	&.trs {
+		&::after {
+			content: $right;
+		}
+	}
+	&.acc {
+		&::after {
+			content: $down;
+		}
+		&.isOpen::after {
+			content: $up;
+		}
+	}
+	> span {
+		display: block;
+		line-height: 1;
+		pointer-events: none;
+	}
+}
+a.cardItem {
+	display: block;
+	position: relative;
+	color: map-get($btn-nml, "font");
+	cursor: pointer;
+	&::before {
+		content: "";
+		position: absolute;
+		background: $gray6;
+		border: 2px solid;
+		border-radius: divceil(4, 16, "em");
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		pointer-events: none;
+	}
+	.isMD &.isHover::before {
+		background: map-get($btn-nml, "side");
+	}
+	.isMD &, .isTD & {
+		&.isActive {
+			color: #fff;
+			&::before {
+				background: map-get($btn-nml, "font");
+				color: map-get($btn-nml, "font");
+			}
+		}
+	}
+	> * {
+		position: relative;
+	}
+}
+a.sch {
+	&.listItem::before {
+		content: $search;
+	}
+}
+a.hst {
+	&.listItem::before {
+		content: $new;
+	}
+}
+a.edt {
+	&.listItem::before {
+		content: $edit;
+	}
+}
+a.scd {
+	&.listItem::before {
+		content: $schedule;
+		color: map-get($btn-scd, "side");
+	}
+}
+a.tsk {
+	&.listItem::before {
+		content: $task;
+		color: map-get($btn-tsk, "side");
+	}
+}
+a.fld {
+	&.listItem::before {
+		content: $category;
+		color: map-get($btn-fld, "side");
+	}
+}
+a.tag {
+	&.listItem::before {
+		content: $tag;
+		color: map-get($btn-tag, "side");
+	}
+}
+
+// wrapper
+#App {
+	position: fixed;
+	width: 100%;
+	height: 100%;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+}

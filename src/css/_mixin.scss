@@ -1,0 +1,149 @@
+@function divceil($that, $divid, $unit: "%") {
+    $result: 1; 
+    @if $unit=="%" {
+        $result: ceil($that*100000/$divid)/1000;
+        @return percentage($result/100);
+    } @else {
+        @if $unit=="em" {
+            $result: ceil($that*1000/$divid)/1000;
+        } @else {
+            $result: ceil($that*100000/$divid)/1000;
+        }
+        @return $result + unquote($unit); 
+    }
+}
+@mixin mq($breakpoint: "min-width: 768px") {
+    @media screen and ($breakpoint) {
+        @content;
+    }
+}
+@mixin btnColor($set) {
+	color: map-get($set, "font");
+	&::before {
+		background: map-get($set, "bgBase");
+	}
+	> span {
+		&::after {
+			color: map-get($set, "font");
+		}
+	}
+	.isMD &:hover::before {
+		background: map-get($set, "side");
+	}
+	.isMD &:active::before, .isTD &:active::before {
+		background: map-get($set, "font");
+	}
+	&.isNoActive {
+		color: map-get($set, "bgActive");
+		> span {
+			color: map-get($set, "bgActive");
+			&::after {
+				color: map-get($set, "bgActive");
+			}
+		}
+	}
+}
+@mixin fontWeight($weight) {
+    @if $weight == "regular" {
+        font-weight: 400;
+    } @else if $weight == "bold" {
+        font-weight: 700;
+    } @else {
+        font-weight: $weight;
+    }
+}
+@mixin endLeader() {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
+$font: source-han-sans-japanese;
+$icon: "icomoon";
+$btn: tbchibirgothicplusk-pro;
+
+$btn-nml: (
+	font: #3c3c3c,
+	bgBase: #e2e2e2,
+	bgActive: #d0d0d0,
+	side: #a3a3a3
+);
+$btn-scd: (
+	font: #1a4c86,
+	bgBase: #e8f1fc,
+	bgActive: #c2d6ef,
+	side: #75aae6
+);
+$btn-tsk: (
+	font: #842323,
+	bgBase: #ffe4e4,
+	bgActive: #ffc5c5,
+	side: #eb9494
+);
+$btn-tag: (
+	font: #6d5d18,
+	bgBase: #faf3d3,
+	bgActive: #efe0a3,
+	side: #ddc560
+);
+$btn-fld: (
+	font: #0c4d0a,
+	bgBase: #dcf1dc,
+	bgActive: #9ad498,
+	side: #71a570
+);
+$btn-pal: (
+	font: #4d350a,
+	bgBase: #f0e1c6,
+	bgActive: #e0c38d,
+	side: #8f6a24
+);
+$btn-font: (
+	nml: map-get($btn-nml, "font"),
+	scd: map-get($btn-scd, "font"),
+	tsk: map-get($btn-tsk, "font"),
+	tag: map-get($btn-tag, "font"),
+	fld: map-get($btn-fld, "font"),
+	pal: map-get($btn-pal, "font")
+);
+$btn-base: (
+	nml: map-get($btn-nml, "bgBase"),
+	scd: map-get($btn-scd, "bgBase"),
+	tsk: map-get($btn-tsk, "bgBase"),
+	tag: map-get($btn-tag, "bgBase"),
+	fld: map-get($btn-fld, "bgBase"),
+	pal: map-get($btn-pal, "bgBase")
+);
+$btn-active: (
+	nml: map-get($btn-nml, "bgActive"),
+	scd: map-get($btn-scd, "bgActive"),
+	tsk: map-get($btn-tsk, "bgActive"),
+	tag: map-get($btn-tag, "bgActive"),
+	fld: map-get($btn-fld, "bgActive"),
+	pal: map-get($btn-pal, "bgActive")
+);
+$btn-side: (
+	nml: map-get($btn-nml, "side"),
+	scd: map-get($btn-scd, "side"),
+	tsk: map-get($btn-tsk, "side"),
+	tag: map-get($btn-tag, "side"),
+	fld: map-get($btn-fld, "side"),
+	pal: map-get($btn-pal, "side")
+);
+$btn-icon: (
+	scd: $schedule,
+	tsk: $task,
+	tag: $tag,
+	fld: $category,
+	pal: $colorpicker,
+);
+
+$black1: #1a1a1a;
+$black2: #434343;
+$gray1: #f9f9f9;
+$gray2: #606060;
+$gray3: #d8d8d8;
+$gray4: #a3a3a3;
+$gray5: #c4c4c4;
+$gray6: #eaeaea;
+$gray7: #f2f2f2;
