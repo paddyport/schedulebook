@@ -1,12 +1,15 @@
 <template>
-  <calendar-container
-    :currentDatesArr="currentDatesArr">
-  </calendar-container>
+  <div id="App">
+    <calendar-container
+      :currentYYMM="{yy: currentYear, mm: currentMonth}"
+      :currentDatesArr="currentDatesArr">
+    </calendar-container>
+  </div>
 </template>
 
 <script>
 import Dexie from 'dexie'
-import CalendarContainer from './components/calendar/CalendarContainer.vue'
+import CalendarContainer from './components/calendar/CalendarContainer'
 
 export default {
   name: 'App',
@@ -82,7 +85,6 @@ export default {
 					_d = _d&&this.currentDatesCnt<_d ? null : _d;
 					obj = {
 						"date": _d,
-						"number": !_d ? null : this.zeroPad(_d, 2),
 						"time": _t,
 					};
 					this.currentDatesArr.push(obj);

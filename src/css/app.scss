@@ -16,7 +16,7 @@
 body {
     margin: 0;
     font-size: divceil(32, 750, "vw");
-    font-family: Avenir, $font, Helvetica, Arial, sans-serif;
+    font-family: $font, sans-serif;
     color: $black1;
     @include mq() {
 		font-size: 20px;
@@ -104,8 +104,8 @@ button {
 }
 
 button.btnIcon {
-	width: divceil(34, 16, "em");
-	height: divceil(34, 16, "em");
+	width: divceil(32, 16, "em");
+	height: divceil(32, 16, "em");
 	> span {
 		color: transparent !important;
 		overflow: hidden;
@@ -113,6 +113,7 @@ button.btnIcon {
 			position: absolute;
 			left: 50%;
 			top: 50%;
+			font-size: divceil(18, 16, "em");
 			font-family: $icon;
 			transform: translate(-48%, -50%);
 		}
@@ -120,17 +121,18 @@ button.btnIcon {
 }
 button.btnText {
 	width: divceil(160, 16, "em");
-	height: divceil(34, 16, "em");
+	height: divceil(32, 16, "em");
 	> span {
-		line-height: divceil(34-1*2, 16, "em");
+		line-height: divceil(32-1*2, 16, "em");
 		> span {
-			line-height: divceil(34-1*2+3, 16, "em");
+			line-height: divceil(32-1*2+3, 16, "em");
 		}
 		> i {
 			margin: 0 divceil(8, 16, "em") 0 0;
 			font-style: normal;
 			&::after {
 				display: inline-block;
+				font-size: divceil(18, 16, "em");
 				font-family: $icon;
 				transform: translate(0, 3%);
 			}
@@ -139,14 +141,15 @@ button.btnText {
 }
 button.btnWord {
 	width: divceil(80, 16, "em");
-	height: divceil(34, 16, "em");
+	height: divceil(32, 16, "em");
 	> span {
-		line-height: divceil(34-1*2, 16, "em");
+		line-height: divceil(32-1*2, 16, "em");
 		> i {
 			margin: 0 divceil(8, 16, "em") 0 0;
 			font-style: normal;
 			&::after {
 				display: inline-block;
+				font-size: divceil(18, 16, "em");
 				font-family: $icon;
 				transform: translate(0, 3%);
 			}
@@ -154,9 +157,9 @@ button.btnWord {
 	}
 }
 
-button.widMN {
-	width: divceil(32, 16, "em");
-}
+// button.widMN {
+// 	width: divceil(32, 16, "em");
+// }
 button.widSM {
 	width: divceil(48, 16, "em");
 }
@@ -198,18 +201,6 @@ button.tsk {
 	}
 	&.switchTab::after {
 		content: $task;
-	}
-}
-button.tag {
-	@include btnColor($btn-tag);
-	&.btnIcon > span::after {
-		content: $tag;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $tag;
-	}
-	&.switchTab::after {
-		content: $tag;
 	}
 }
 button.menuList {
@@ -384,18 +375,6 @@ a.tsk {
 	&.listItem::before {
 		content: $task;
 		color: map-get($btn-tsk, "side");
-	}
-}
-a.fld {
-	&.listItem::before {
-		content: $category;
-		color: map-get($btn-fld, "side");
-	}
-}
-a.tag {
-	&.listItem::before {
-		content: $tag;
-		color: map-get($btn-tag, "side");
 	}
 }
 

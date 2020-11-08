@@ -59,6 +59,7 @@
 }
 
 $font: source-han-sans-japanese;
+$num: futura-pt;
 $icon: "icomoon";
 $btn: tbchibirgothicplusk-pro;
 
@@ -75,22 +76,10 @@ $btn-scd: (
 	side: #75aae6
 );
 $btn-tsk: (
-	font: #842323,
-	bgBase: #ffe4e4,
-	bgActive: #ffc5c5,
-	side: #eb9494
-);
-$btn-tag: (
 	font: #6d5d18,
 	bgBase: #faf3d3,
 	bgActive: #efe0a3,
 	side: #ddc560
-);
-$btn-fld: (
-	font: #0c4d0a,
-	bgBase: #dcf1dc,
-	bgActive: #9ad498,
-	side: #71a570
 );
 $btn-pal: (
 	font: #4d350a,
@@ -102,39 +91,29 @@ $btn-font: (
 	nml: map-get($btn-nml, "font"),
 	scd: map-get($btn-scd, "font"),
 	tsk: map-get($btn-tsk, "font"),
-	tag: map-get($btn-tag, "font"),
-	fld: map-get($btn-fld, "font"),
 	pal: map-get($btn-pal, "font")
 );
 $btn-base: (
 	nml: map-get($btn-nml, "bgBase"),
 	scd: map-get($btn-scd, "bgBase"),
 	tsk: map-get($btn-tsk, "bgBase"),
-	tag: map-get($btn-tag, "bgBase"),
-	fld: map-get($btn-fld, "bgBase"),
 	pal: map-get($btn-pal, "bgBase")
 );
 $btn-active: (
 	nml: map-get($btn-nml, "bgActive"),
 	scd: map-get($btn-scd, "bgActive"),
 	tsk: map-get($btn-tsk, "bgActive"),
-	tag: map-get($btn-tag, "bgActive"),
-	fld: map-get($btn-fld, "bgActive"),
 	pal: map-get($btn-pal, "bgActive")
 );
 $btn-side: (
 	nml: map-get($btn-nml, "side"),
 	scd: map-get($btn-scd, "side"),
 	tsk: map-get($btn-tsk, "side"),
-	tag: map-get($btn-tag, "side"),
-	fld: map-get($btn-fld, "side"),
 	pal: map-get($btn-pal, "side")
 );
 $btn-icon: (
 	scd: $schedule,
 	tsk: $task,
-	tag: $tag,
-	fld: $category,
 	pal: $colorpicker,
 );
 

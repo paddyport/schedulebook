@@ -10,10 +10,10 @@
 	position: relative;
 	height: 100%;
 	padding: 0 0 divceil(50, 16, "em");
-.head {
+.header {
 	flex-shrink: 0;
 	display: flex;
-	justify-content: space-between;
+	justify-content: flex-start;
 	align-items: center;
 	position: relative;
 	background: $gray1;
@@ -30,9 +30,11 @@
 	}
 	> h1 {
 		margin: 0 0 0 divceil(10, 20, "em");
-		letter-spacing: 0.02em;
+		letter-spacing: 0.07em;
 		line-height: divceil(50, 20, "em");
 		font-size: divceil(20, 16, "em");
+		font-family: $font, sans-serif;
+		font-feature-settings: "palt";
 	}
 }
 .body {
@@ -72,8 +74,9 @@
 		top: divceil(12, 20, "em");
 		letter-spacing: 0.03em;
 		line-height: 1;
-		font-size: divceil(20, 16, "em");
-		@include fontWeight("bold");
+		// font-size: divceil(20, 16, "em");
+		font-weight: 600;
+		font-family: $num;
 		text-align: center;
 		color: $black2;
 		pointer-events: none;
@@ -91,13 +94,13 @@
 			position: relative;
 			margin: 0 divceil(2, 18, "em");
 			font-size: divceil(18, 16, "em");
-			font-family: $ffIcons;
+			font-family: $icon;
 			pointer-events: none;
-			&.dcm {
-				color: map-get($btn-dcm, "side");
+			&.scd {
+				color: map-get($btn-scd, "side");
 			}
-			&.ctg {
-				color: map-get($btn-ctg, "side");
+			&.tsk {
+				color: map-get($btn-tsk, "side");
 			}
 		}
 		.isMD &:hover {
@@ -162,7 +165,7 @@
 					display: block;
 					margin: 0 divceil(8, 16, "em") 0 0;
 					line-height: divceil(20, 16, "em");
-					font-family: $ffIcons;
+					font-family: $icon;
 					font-style: normal;
 					pointer-events: none;
 				}
@@ -186,7 +189,7 @@
 					pointer-events: none;
 					&::before {
 						margin: 0 divceil(5, 16, "em") 0 0;
-						font-family: $ffIcons;
+						font-family: $icon;
 					}
 				}
 				.isMD &:hover {

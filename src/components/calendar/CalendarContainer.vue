@@ -1,5 +1,8 @@
 <template>
   <div id="Calendar" class="calendar">
+    <calendar-header
+      :currentYYMM="currentYYMM">
+    </calendar-header>
     <calendar-table
       :currentDatesArr="currentDatesArr">
     </calendar-table>
@@ -7,14 +10,17 @@
 </template>
 
 <script>
-import CalendarTable from './CalendarTable.vue'
+import CalendarHeader from './CalendarHeader'
+import CalendarTable from './CalendarTable'
 
 export default {
   name: 'CalendarContainer',
   props: {
+    currentYYMM: Object,
     currentDatesArr: Array,
   },
   components: {
+    CalendarHeader,
     CalendarTable,
   },
 }
