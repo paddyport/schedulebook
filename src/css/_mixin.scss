@@ -81,40 +81,29 @@ $btn-tsk: (
 	bgActive: #efe0a3,
 	side: #ddc560
 );
-$btn-pal: (
-	font: #4d350a,
-	bgBase: #f0e1c6,
-	bgActive: #e0c38d,
-	side: #8f6a24
-);
 $btn-font: (
 	nml: map-get($btn-nml, "font"),
 	scd: map-get($btn-scd, "font"),
 	tsk: map-get($btn-tsk, "font"),
-	pal: map-get($btn-pal, "font")
 );
 $btn-base: (
 	nml: map-get($btn-nml, "bgBase"),
 	scd: map-get($btn-scd, "bgBase"),
 	tsk: map-get($btn-tsk, "bgBase"),
-	pal: map-get($btn-pal, "bgBase")
 );
 $btn-active: (
 	nml: map-get($btn-nml, "bgActive"),
 	scd: map-get($btn-scd, "bgActive"),
 	tsk: map-get($btn-tsk, "bgActive"),
-	pal: map-get($btn-pal, "bgActive")
 );
 $btn-side: (
 	nml: map-get($btn-nml, "side"),
 	scd: map-get($btn-scd, "side"),
 	tsk: map-get($btn-tsk, "side"),
-	pal: map-get($btn-pal, "side")
 );
 $btn-icon: (
 	scd: $schedule,
 	tsk: $task,
-	pal: $colorpicker,
 );
 
 $black1: #1a1a1a;

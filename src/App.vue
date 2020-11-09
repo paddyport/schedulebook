@@ -1,15 +1,23 @@
 <template>
-  <div id="App">
-    <calendar-container
-      :currentYYMM="{yy: currentYear, mm: currentMonth}"
-      :currentDatesArr="currentDatesArr">
-    </calendar-container>
+  <div id="App" :class="deviceType">
+    <CalendarLayer
+      :current-yy-mm="{yy: currentYear, mm: currentMonth}"
+      :current-dates-arr="currentDatesArr"
+      @an-open-now-anew="openNowAnew">
+    </CalendarLayer>
+    <AnewLayer
+      v-if="anewFlg"
+      :ctg-name="ctgName"
+      :mark-yy-mm="{yy: markYear, mm: markMonth}"
+      @an-close-anew="closeAnew">
+    </AnewLayer>
   </div>
 </template>
 
 <script>
 import Dexie from 'dexie'
-import CalendarContainer from './components/calendar/CalendarContainer'
+import CalendarLayer from './components/CalendarLayer'
+import AnewLayer from './components/AnewLayer'
 
 export default {
   name: 'App',
@@ -17,6 +25,7 @@ export default {
     return {
       db: "",
       dbName: "schedulebookDB",
+      deviceType: "",
       now: "",
       current: "",
       currentYear: 0,
@@ -25,12 +34,19 @@ export default {
       currentDatesCnt: 0,
       currentWeeks: 0,
       weekLen: 7,
+      anewFlg: false,
+      ctgName: "",
+      markYear: 0,
+      markMonth: 0,
+      markDate: 0,
     }
   },
   components: {
-    CalendarContainer,
+    CalendarLayer,
+    AnewLayer,
   },
   created: function(){
+    this.checkDevice();
     this.createDB();
 		this.createTable();
     this.setToday();
@@ -48,6 +64,16 @@ export default {
 		createTable() {
 
     },
+		checkDevice() {
+			const ua = navigator.userAgent.toLowerCase();
+			if(ua.indexOf("iphone")>0 || ua.indexOf("ipod")>0 || ua.indexOf("android")>0 && ua.indexOf("mobile")>0) {
+				this.deviceType = "isTD";
+			} else if (ua.indexOf("ipad")>0 || ua.indexOf("android")>0){
+				this.deviceType = "isTD";
+			} else {
+				this.deviceType = "isMD";
+			}
+		},
     setToday() {
       this.now = new Date();
 			this.now = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
@@ -90,8 +116,22 @@ export default {
 					this.currentDatesArr.push(obj);
 				}
       }
-      console.log(this.currentDatesArr);
-		},
+    },
+    openNowAnew(ctg) {
+      this.openAnew(ctg, {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+    },
+    openAnew(ctg, yymmdd) {
+      console.log(ctg);
+      this.ctgName = ctg;
+      this.markYear = yymmdd.yy;
+      this.markMonth = yymmdd.mm;
+      this.markDate = yymmdd.dd;
+      this.anewFlg = true;
+    },
+    closeAnew() {
+      this.ctgName = "";
+      this.anewFlg = false;
+    },
   },
 }
 </script>

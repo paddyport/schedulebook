@@ -4,7 +4,8 @@
 
 <script>
 export default {
-  name: 'CommonHead',
+// SU Component
+  name: 'GenerHead',
   props: {
     headStr: String,
   },

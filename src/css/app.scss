@@ -40,7 +40,8 @@ button {
     border: none;
 	padding: 0;
     line-height: 1;
-    font: inherit;
+	font: inherit;
+	font-weight: bold;
 	font-family: $btn;
 	appearance: unset;
 	-webkit-tap-highlight-color: transparent;
@@ -120,15 +121,16 @@ button.btnIcon {
 	}
 }
 button.btnText {
-	width: divceil(160, 16, "em");
+	width: divceil(134, 16, "em");
 	height: divceil(32, 16, "em");
 	> span {
-		line-height: divceil(32-1*2, 16, "em");
+		line-height: divceil(32-1*2-1, 16, "em");
 		> span {
 			line-height: divceil(32-1*2+3, 16, "em");
 		}
 		> i {
 			margin: 0 divceil(8, 16, "em") 0 0;
+			list-style: divceil(32-1*2, 16, "em");
 			font-style: normal;
 			&::after {
 				display: inline-block;
@@ -230,7 +232,6 @@ button.sch {
 	}
 }
 button.cpr {
-	@include btnColor($btn-pal);
 	&.btnIcon > span::after {
 		content: $colorpicker;
 	}

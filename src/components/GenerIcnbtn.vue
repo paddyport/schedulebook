@@ -7,15 +7,16 @@
 
 <script>
 export default {
-  name: 'CommonIcnbtn',
+// SU Component
+  name: 'GenerIcnbtn',
   props: {
     btnFlg: Boolean,
     btnStr: String,
     btnCls: String,
   },
   methods: {
-      onClick() {
-          this.$emit("icnbtn-click");
+      onClick(e) {
+          this.$emit("icnbtn-click", e);
       },
   },
 }
