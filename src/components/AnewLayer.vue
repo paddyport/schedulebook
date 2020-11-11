@@ -1,49 +1,52 @@
 <template>
   <div id="Anew" class="anew">
-    <div class="body">
-     <div class="date">
+    <div>
+      <div class="title">
+        <input type="text" placeholder="新規タイトル">
+      </div>
+      <div class="date">
 
-     </div>
-    <div class="color">
-      <GenerTxtbtn
-        v-if="!colorFlg&&!anewColor"
-        :icon-flg="!colorFlg&&!anewColor"
-        :btn-flg="true"
-        :btn-str="'選択'"
-        :btn-cls="anewColorBtnCls"
-        @txtbtn-click="switchColopicker">
-      </GenerTxtbtn>
-      <GenerIcnbtn
-        v-else
-        :btn-flg="true"
-        :btn-str="'選択'"
-        :btn-cls="'def nml cpr'"
-        @icnbtn-click="switchColopicker">
-      </GenerIcnbtn>
-      <p class="code"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
-      <GenerColorpicker
-        ref="picker"
-        v-show="colorFlg"
-        @change-swatch="changeAnewColor">
-      </GenerColorpicker>
+      </div>
+      <div class="color">
+        <GenerTxtbtn
+          v-if="!colorFlg&&!anewColor"
+          :icon-flg="!colorFlg&&!anewColor"
+          :btn-flg="true"
+          :btn-str="'選択'"
+          :btn-cls="anewColorBtnCls"
+          @txtbtn-click="switchColopicker">
+        </GenerTxtbtn>
+        <GenerIcnbtn
+          v-else
+          :btn-flg="true"
+          :btn-str="'選択'"
+          :btn-cls="'def nml cpr'"
+          @icnbtn-click="switchColopicker">
+        </GenerIcnbtn>
+        <p class="code"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
+        <GenerColorpicker
+          ref="picker"
+          v-show="colorFlg"
+          @change-swatch="changeAnewColor">
+        </GenerColorpicker>
+      </div>
+      <div class="footer">
+        <GenerTxtbtn
+          :icon-flg="true"
+          :btn-flg="true"
+          :btn-str="'キャンセル'"
+          :btn-cls="'def nml cla'"
+          @txtbtn-click="closeAnew">
+        </GenerTxtbtn>
+        <GenerTxtbtn
+          :icon-flg="true"
+          :btn-flg="true"
+          :btn-str="'新規作成'"
+          :btn-cls="'def nml '+ctgName"
+          @txtbtn-click="checkAnew">
+        </GenerTxtbtn>
+      </div>
     </div>
-    </div>
-    <div class="footer">
-     <GenerTxtbtn
-        :icon-flg="true"
-        :btn-flg="true"
-        :btn-str="'キャンセル'"
-        :btn-cls="'def nml cla'"
-        @txtbtn-click="closeAnew">
-      </GenerTxtbtn>
-      <GenerTxtbtn
-        :icon-flg="true"
-        :btn-flg="true"
-        :btn-str="'新規作成'"
-        :btn-cls="'def nml '+ctgName"
-        @txtbtn-click="checkAnew">
-      </GenerTxtbtn>
-  </div>
   </div>
 </template>
 

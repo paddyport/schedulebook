@@ -11,6 +11,7 @@
       :mark-yy-mm="{yy: markYear, mm: markMonth}"
       @an-close-anew="closeAnew">
     </AnewLayer>
+    <LoaderLayer v-if="loaderFlg"></LoaderLayer>
   </div>
 </template>
 
@@ -18,11 +19,13 @@
 import Dexie from 'dexie'
 import CalendarLayer from './components/CalendarLayer'
 import AnewLayer from './components/AnewLayer'
+import LoaderLayer from './components/LoaderLayer'
 
 export default {
   name: 'App',
   data() {
     return {
+      loaderFlg: true,
       db: "",
       dbName: "schedulebookDB",
       deviceType: "",
@@ -44,12 +47,14 @@ export default {
   components: {
     CalendarLayer,
     AnewLayer,
+    LoaderLayer,
   },
   created: function(){
     this.checkDevice();
     this.createDB();
 		this.createTable();
     this.setToday();
+    this.hiddenLoader();
   },
   methods: {
     zeroPad(num, len) {
@@ -57,6 +62,12 @@ export default {
     },
     getCurrentDates(y, m) {
       return new Date(parseInt(y, 10), parseInt(m+1, 10), 0).getDate();
+    },
+    shownLoader() {
+      this.loaderFlg = true;
+    },
+    hiddenLoader() {
+      this.loaderFlg = false;
     },
     createDB() {
 			this.db = new Dexie(this.dbName);

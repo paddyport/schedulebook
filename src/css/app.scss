@@ -25,13 +25,15 @@ body {
 input, textarea {
 	background: #fff;
 	border: 1px solid map-get($btn-nml, "font");
-	border-radius: 2px;
+	border-radius: 3px;
+	width: 100%;
     line-height: 1;
     font: inherit;
 	cursor: pointer;
 	&:focus {
+		border: 1px solid map-get($btn-nml, "side");
 		outline: none;
-		box-shadow: 0 0 0 2px map-get($btn-nml, "side");
+		box-shadow: 0 0 0 1px map-get($btn-nml, "side");
 	}
 }
 button {
