@@ -1,5 +1,5 @@
 <template>
-<div class="palette">
+<div class="colorpicker">
   <div class="swatch">
     <a
       v-for="(ps, psidx) in paletteSwatchArr"
@@ -12,7 +12,7 @@
   <div class="bar">
     <a v-for="(pb, pbidx) in paletteBarArr"
       :style="{background: paletteBarArr[pbidx]['color']}"
-      :data-pid="pbidx"
+      :data-bid="pbidx"
       :key="pbidx"
       @click="switchPaletteSwatch">
     </a>
@@ -25,6 +25,8 @@ export default {
   name: "GenerColorpicker",
   data() {
     return {
+      palleteBarIdx: 0,
+      paletteBarSelected: 0,
       paletteBarArr: [{color: "#f50f4b"}, {color: "#ef15bc"}, {color: "#ce37ff"}, {color: "#623ae8"}, {color: "#095eef"}, {color: "#2099e5"}, {color: "#11e0c8"}, {color: "#10e051"}, {color: "#d5ef12"}, {color: "#f5da0e"}, {color: "#f5810c"}, {color: "#f4430d"}],
       paletteSwatchArr: [],
     }
@@ -53,9 +55,10 @@ export default {
         b = this.zeroPad(_b.toString(16), 2);
       return "#"+r+g+b;
     },
-    getPaletteSwatch(color) {
+    getPaletteSwatch(_idx) {
       this.paletteSwatchArr = [];
-      const base = this.changeHexRgb(color ? color : this.paletteBarArr[0].color),
+      const idx = _idx ? _idx : this.paletteBarSelected,
+        base = this.changeHexRgb(this.paletteBarArr[idx].color),
         per = 1/10;
       for(let col=0;col<10;col++) {
         const wh = 255*(10-col)*per,
@@ -73,13 +76,14 @@ export default {
     },
     switchPaletteSwatch(e) {
       const btn = e.target,
-        idx = Number(btn.dataset.pid);
-      this.getPaletteSwatch(this.paletteBarArr[idx].color);
+        idx = Number(btn.dataset.bid);
+      this.palleteBarIdx = idx;
+      this.getPaletteSwatch(idx);
     },
     selectSwatch(e) {
       const btn = e.target,
         idx = Number(btn.dataset.pid);
-      console.log(idx);
+      this.paletteBarSelected = this.palleteBarIdx;
       this.$emit("change-swatch", this.paletteSwatchArr[idx].color);
     }
   },

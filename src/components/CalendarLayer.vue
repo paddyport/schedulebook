@@ -63,7 +63,6 @@ export default {
     checkAnew(e) {
       const cls = e.target.classList;
       this.$emit("an-open-now-anew", cls[cls.length-1]);
-      console.log(cls[cls.length-1]);
     }
   },
 }

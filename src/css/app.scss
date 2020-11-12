@@ -215,6 +215,7 @@ button.menuList {
 button.cng {
 	&.btnIcon > span::after {
 		content: $change;
+		transform: rotateZ(90deg) translate(-74%, 34%);
 	}
 }
 button.edt {
@@ -239,6 +240,14 @@ button.cpr {
 	}
 	&.btnText > span > i::after, &.btnWord > span > i::after {
 		content: $colorpicker;
+	}
+}
+button.dtp {
+	&.btnIcon > span::after {
+		content: $schedule;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $schedule;
 	}
 }
 button.viw {

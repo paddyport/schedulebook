@@ -5,17 +5,39 @@
         <input type="text" placeholder="新規タイトル">
       </div>
       <div class="date">
-
+        <div class="start">
+          <GenerWrdbtn
+            v-if="!startFlg&&!anewStartTime"
+            :icon-flg="!startFlg&&!anewStartTime"
+            :btn-flg="true"
+            :btn-str="'選択'"
+            :btn-cls="'def nml dtp'"
+            @wrdbtn-click="switchStartDatepicker">
+          </GenerWrdbtn>
+          <GenerIcnbtn
+            v-else
+            :btn-flg="true"
+            :btn-str="'選択'"
+            :btn-cls="'def nml dtp'"
+            @icnbtn-click="switchStartDatepicker">
+          </GenerIcnbtn>
+          <p class="code">{{ selStartYyMmDd.yy }}年{{ selStartYyMmDd.mm+1 }}月{{ selStartYyMmDd.dd }}日</p>
+          <GenerDatepicker
+            ref="datepicker"
+            v-show="startFlg"
+            @select-date="selectAnewStart">
+          </GenerDatepicker>
+        </div>
       </div>
       <div class="color">
-        <GenerTxtbtn
+        <GenerWrdbtn
           v-if="!colorFlg&&!anewColor"
           :icon-flg="!colorFlg&&!anewColor"
           :btn-flg="true"
           :btn-str="'選択'"
-          :btn-cls="anewColorBtnCls"
-          @txtbtn-click="switchColopicker">
-        </GenerTxtbtn>
+          :btn-cls="'def nml cpr'"
+          @wrdbtn-click="switchColopicker">
+        </GenerWrdbtn>
         <GenerIcnbtn
           v-else
           :btn-flg="true"
@@ -25,7 +47,7 @@
         </GenerIcnbtn>
         <p class="code"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
         <GenerColorpicker
-          ref="picker"
+          ref="colorpicker"
           v-show="colorFlg"
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
@@ -51,38 +73,58 @@
 </template>
 
 <script>
+// import GenerDatepicker from './GenerDatepicker'
 import GenerColorpicker from './GenerColorpicker'
 import GenerIcnbtn from './GenerIcnbtn'
+import GenerWrdbtn from './GenerWrdbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 
 export default {
   name: 'AnewLayer',
   props: {
     ctgName: String,
-    markYyMm: Object,
+    markYyMmDd: Object,
+    markYear: Number,
+    markMonth: Number,
+    markDate: Number,
   },
 	data() {
 		return {
       colorFlg: false,
       anewColor: "",
-      anewColorBtnCls: "def nml cpr",
-      anewPallete: "",
+      // selStartYyMmDd: {},
+      selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
+      // selStartYyMmDd: this.markYyMmDd,
+      // selEndYyMmDd: this.markYyMmDd,
+      startFlg: false,
+      anewStartTime: 0,
 		}
   },
   components: {
+    // GenerDatepicker,
     GenerColorpicker,
     GenerIcnbtn,
+    GenerWrdbtn,
     GenerTxtbtn,
   },
   methods: {
     switchColopicker() {
       this.colorFlg = this.colorFlg ? false : true;
-      if(this.colorFlg) this.$refs.picker.getPaletteSwatch(this.anewPallete);
+      if(this.colorFlg) this.$refs.colorpicker.getPaletteSwatch();
     },
     changeAnewColor(val) {
       // this.colorFlg = this.colorFlg ? false : true;
       this.anewColor = val;
-      this.anewColorBtnCls = "def cpr";
+    },
+    switchStartDatepicker() {
+      this.startFlg = this.startFlg ? false : true;
+      // this.selStartYyMmDd = {yy: this.markYear, mm: this.markMonth, dd: this.markDate};
+      // $set
+      console.log(this.selStartYyMmDd);
+      // if(this.startFlg) this.$refs.datepicker.getDating(this.selStartYyMmDd);
+    },
+    selectAnewStart(val) {
+      this.anewStartTime = val;
     },
     closeAnew() {
       this.$emit("an-close-anew");

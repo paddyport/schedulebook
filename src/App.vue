@@ -8,7 +8,10 @@
     <AnewLayer
       v-if="anewFlg"
       :ctg-name="ctgName"
-      :mark-yy-mm="{yy: markYear, mm: markMonth}"
+      :mark-yy-mm-dd="{yy: markYear, mm: markMonth, dd: markDate}"
+      :markYear="markYear"
+      :markMonth="markMonth"
+      :markDate="markDate"
       @an-close-anew="closeAnew">
     </AnewLayer>
     <LoaderLayer v-if="loaderFlg"></LoaderLayer>
@@ -137,6 +140,7 @@ export default {
       this.markYear = yymmdd.yy;
       this.markMonth = yymmdd.mm;
       this.markDate = yymmdd.dd;
+      console.log(yymmdd);
       this.anewFlg = true;
     },
     closeAnew() {

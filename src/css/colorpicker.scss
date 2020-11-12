@@ -1,9 +1,8 @@
-@charset "UTF-8";
 @import "_pseudo";
 @import "_mixin";
 
 $swatch: 24;
-.palette {
+.colorpicker {
 //	display: flex;
 	background: $gray1;
 	.swatch {
