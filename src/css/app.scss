@@ -41,10 +41,12 @@ button {
 	background: transparent;
     border: none;
 	padding: 0;
+	letter-spacing: 0.07em;
     line-height: 1;
 	font: inherit;
 	font-weight: bold;
 	font-family: $btn;
+	font-feature-settings: "palt";
 	appearance: unset;
 	-webkit-tap-highlight-color: transparent;
     cursor: pointer;
