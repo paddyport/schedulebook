@@ -7,6 +7,10 @@
     </CalendarLayer>
     <AnewLayer
       v-if="anewFlg"
+      :now="now"
+      :nowYear="now.getFullYear()"
+      :nowMonth="now.getMonth()"
+      :nowDate="now.getDate()"
       :ctg-name="ctgName"
       :mark-yy-mm-dd="{yy: markYear, mm: markMonth, dd: markDate}"
       :markYear="markYear"

@@ -23,6 +23,9 @@
 <script>
 export default {
   name: "GenerColorpicker",
+  props: {
+    barIdx: Number
+  },
   data() {
     return {
       palleteBarIdx: 0,
@@ -30,6 +33,9 @@ export default {
       paletteBarArr: [{color: "#f50f4b"}, {color: "#ef15bc"}, {color: "#ce37ff"}, {color: "#623ae8"}, {color: "#095eef"}, {color: "#2099e5"}, {color: "#11e0c8"}, {color: "#10e051"}, {color: "#d5ef12"}, {color: "#f5da0e"}, {color: "#f5810c"}, {color: "#f4430d"}],
       paletteSwatchArr: [],
     }
+  },
+  created: function(){
+    this.getPaletteSwatch(this.barIdx);
   },
   methods: {
     zeroPad(num, len) {
@@ -84,7 +90,7 @@ export default {
       const btn = e.target,
         idx = Number(btn.dataset.pid);
       this.paletteBarSelected = this.palleteBarIdx;
-      this.$emit("change-swatch", this.paletteSwatchArr[idx].color);
+      this.$emit("change-swatch", this.paletteSwatchArr[idx].color, this.paletteBarSelected);
     }
   },
 }
