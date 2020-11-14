@@ -21,18 +21,33 @@
           @icnbtn-click="switchDatepicker">
         </GenerIcnbtn>
         <div v-if="dateFlg" class="start">
-          <p class="code">開始 {{ selStartYyMmDd.yy }}年{{ selStartYyMmDd.mm+1 }}月{{ selStartYyMmDd.dd }}日</p>
-          <GenerIcnbtn
-            :btn-flg="true"
-            :btn-str="'開始選択'"
-            :btn-cls="'def nml dwn'"
-            @icnbtn-click="switchStartDatepicker">
-          </GenerIcnbtn>
+          <a
+            :class="['btn', startFlg ? 'isActive' : '']"
+            @click="switchStartDatepicker">
+            <span>開始</span>
+          </a>
+          <p class="res">{{ selStartYyMmDd.yy }}年{{ selStartYyMmDd.mm+1 }}月{{ selStartYyMmDd.dd }}日</p>
           <GenerDatepicker
             v-if="startFlg"
             :now-yy-mm-dd="{yy: this.nowYear, mm: this.nowMonth, dd: this.nowDate}"
             :mark-yy-mm-dd="selStartYyMmDd"
             @select-date="selectAnewStart">
+          </GenerDatepicker>
+        </div>
+        <div v-if="dateFlg" class="end">
+          <a
+            :class="['btn', anewStartTime ? '' : 'isNoActive', endFlg ? 'isActive' : '']"
+            @click="switchEndDatepicker">
+            <span>終了</span>
+          </a>
+          <p
+            v-if="anewStartTime"
+            class="res">{{ selEndYyMmDd.yy }}年{{ selEndYyMmDd.mm+1 }}月{{ selEndYyMmDd.dd }}日</p>
+          <GenerDatepicker
+            v-if="endFlg"
+            :now-yy-mm-dd="{yy: this.nowYear, mm: this.nowMonth, dd: this.nowDate}"
+            :mark-yy-mm-dd="selEndYyMmDd"
+            @select-date="selectAnewEnd">
           </GenerDatepicker>
         </div>
       </div>
@@ -52,7 +67,7 @@
           :btn-cls="'def nml cpr'"
           @icnbtn-click="switchColopicker">
         </GenerIcnbtn>
-        <p class="code"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
+        <p class="res"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
         <GenerColorpicker
           v-if="colorFlg"
           :barIdx="anewPaletteIdx"
@@ -108,6 +123,9 @@ export default {
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       startFlg: false,
       anewStartTime: 0,
+      selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
+      endFlg: false,
+      anewEndTime: 0,
 		}
   },
   components: {
@@ -133,6 +151,12 @@ export default {
     },
     selectAnewStart(val) {
       this.anewStartTime = val;
+    },
+    switchEndDatepicker() {
+      this.endFlg = this.endFlg ? false : true;
+    },
+    selectAnewEnd(val) {
+      this.anewEndTime = val;
     },
     closeAnew() {
       this.$emit("an-close-anew");

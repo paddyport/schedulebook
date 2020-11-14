@@ -27,12 +27,52 @@
 }
 .date {
 	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	> button {
+		flex-shrink: 0;
+	}
 	.start, .end {
 		display: flex;
 		align-items: center;
 		position: relative;
-		.code {
-			margin: 0;
+		width: calc(100% - #{divceil(32+16, 16, "em")});
+		margin: 0 0 0 divceil(8, 16, "em");
+		> .btn {
+			display: flex;
+			align-items: baseline;
+			background: map-get($map: $btn-nml, $key: bgBase);
+			border-radius: 3px;
+			padding: divceil(4, 16, "em") divceil(4, 16, "em") divceil(6, 16, "em") divceil(8, 16, "em");
+			line-height: 1;
+			cursor: pointer;
+			&::after {
+				content: $down;
+				display: block;
+				margin: 0 0 0 divceil(4, 16, "em");
+				font-family: $icon;
+			}
+			> span {
+				display: block;
+			}
+			.isMD &:hover {
+				background: map-get($map: $btn-nml, $key: bgActive);
+			}
+			.isMD &:active, .isTD &:active {
+				background: map-get($map: $btn-nml, $key: font);
+				color: #fff;
+			}
+			&.isActive {
+				background: map-get($map: $btn-nml, $key: side);
+				color: #fff;
+			}
+			&.isNoActive {
+				color: map-get($map: $btn-nml, $key: bgActive);
+				pointer-events: none;
+			}
+		}
+		> .res {
+			margin: 0 0 0 divceil(8, 16, "em");
 		}
 		.datepicker {
 			position: absolute;
@@ -42,6 +82,9 @@
 			z-index: 100;
 		}
 	}
+	.end {
+		margin-left: auto;
+	}
 }
 .color {
 	display: flex;
@@ -49,7 +92,7 @@
 	position: relative;
 	padding: divceil(10, 16, "em") 0 0;
 	text-align: left;
-	.code {
+	.res {
 		display: flex;
 		align-items: center;
 		margin: 0 0 0 divceil(16, 16, "em");
