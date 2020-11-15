@@ -6,7 +6,7 @@
       </div>
       <div class="date">
         <GenerWrdbtn
-          v-if="!dateFlg"
+          v-if="!dateFlg&&!selDateFlg"
           :icon-flg="!dateFlg"
           :btn-flg="true"
           :btn-str="'選択'"
@@ -20,36 +20,19 @@
           :btn-cls="'def nml dtp'"
           @icnbtn-click="switchDatepicker">
         </GenerIcnbtn>
-        <div v-if="dateFlg" class="start">
-          <a
-            :class="['btn', startFlg ? 'isActive' : '']"
-            @click="switchStartDatepicker">
-            <span>開始</span>
-          </a>
-          <p class="res">{{ selStartYyMmDd.yy }}年{{ selStartYyMmDd.mm+1 }}月{{ selStartYyMmDd.dd }}日</p>
-          <GenerDatepicker
-            v-if="startFlg"
-            :now-yy-mm-dd="{yy: this.nowYear, mm: this.nowMonth, dd: this.nowDate}"
-            :mark-yy-mm-dd="selStartYyMmDd"
-            @select-date="selectAnewStart">
-          </GenerDatepicker>
+        <div class="res">
+          <p class="start">{{ selStartYyMmDd.yy }}年{{ selStartYyMmDd.mm+1 }}月{{ selStartYyMmDd.dd }}日</p>
+          <p v-if="anewStartTime!=anewEndTime" class="end">{{ selEndYyMmDd.yy }}年{{ selEndYyMmDd.mm+1 }}月{{ selEndYyMmDd.dd }}日</p>
         </div>
-        <div v-if="dateFlg" class="end">
-          <a
-            :class="['btn', anewStartTime ? '' : 'isNoActive', endFlg ? 'isActive' : '']"
-            @click="switchEndDatepicker">
-            <span>終了</span>
-          </a>
-          <p
-            v-if="anewStartTime"
-            class="res">{{ selEndYyMmDd.yy }}年{{ selEndYyMmDd.mm+1 }}月{{ selEndYyMmDd.dd }}日</p>
-          <GenerDatepicker
-            v-if="endFlg"
-            :now-yy-mm-dd="{yy: this.nowYear, mm: this.nowMonth, dd: this.nowDate}"
-            :mark-yy-mm-dd="selEndYyMmDd"
-            @select-date="selectAnewEnd">
-          </GenerDatepicker>
-        </div>
+        <GenerDatepicker
+          v-if="dateFlg"
+          :now-yy-mm-dd="{yy: this.nowYear, mm: this.nowMonth, dd: this.nowDate}"
+          :mark-yy-mm-dd="selEndYyMmDd"
+          :start-time="anewStartTime"
+          :end-time="anewEndTime"
+          @select-date="selectAnewDating"
+          @clsbtn-click="switchDatepicker">
+        </GenerDatepicker>
       </div>
       <div class="color">
         <GenerWrdbtn
@@ -120,12 +103,11 @@ export default {
       anewColor: "",
       anewPaletteIdx: 0,
       dateFlg: false,
+      selDateFlg: false,
+      anewStartTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
-      startFlg: false,
-      anewStartTime: 0,
+      anewEndTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
-      endFlg: false,
-      anewEndTime: 0,
 		}
   },
   components: {
@@ -146,17 +128,23 @@ export default {
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
     },
-    switchStartDatepicker() {
-      this.startFlg = this.startFlg ? false : true;
+    selectAnewDating(val) {
+      // date そのもの or start を選んだとき
+      this.anewStartTime = val<=this.anewStartTime ? val : this.anewStartTime;
+      this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
+      this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
+      this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
+      this.anewEndTime = this.anewEndTime<=val ? val : this.anewEndTime;
+      this.selEndYyMmDd.yy = new Date(this.anewEndTime).getFullYear();
+      this.selEndYyMmDd.mm = new Date(this.anewEndTime).getMonth();
+      this.selEndYyMmDd.dd = new Date(this.anewEndTime).getDate();
+      console.log(val, this.anewStartTime, this.anewEndTime);
+      this.selDateFlg = true;
+      // this.switchDatepicker();
     },
-    selectAnewStart(val) {
-      this.anewStartTime = val;
-    },
-    switchEndDatepicker() {
-      this.endFlg = this.endFlg ? false : true;
-    },
-    selectAnewEnd(val) {
-      this.anewEndTime = val;
+    selectAnewEndDating(val) {
+      // date そのもの or end を選んだとき
+      console.log(val);
     },
     closeAnew() {
       this.$emit("an-close-anew");

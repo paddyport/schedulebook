@@ -18,11 +18,19 @@
       <div v-for="(da, daidx) in datingArr" class="day" v-bind:key="daidx">
         <a
           v-if="da"
-          :class="[startTime<da&&da<endTime ? 'isBet' : '', startTime==da||endTime==da ? 'isFixed' : '', startTime==da ? 'isStart' : '', endTime==da ? 'isEnd' : '']"
+          :class="[startTime<=da&&da<=endTime ? 'isBet' : '', startTime==da ? 'isStart' : '', endTime==da ? 'isEnd' : '']"
           @click="selectDating"
-        >{{ new Date(da).getDate() }}</a>
+        ><span>{{ new Date(da).getDate() }}</span></a>
       </div>
     </div>
+  </div>
+  <div class="foots">
+    <button
+      type="button"
+      class="btnText def nml"
+      @click="closeClick">
+        <span>閉じる</span>
+    </button>
   </div>
 </div>
 </template>
@@ -51,7 +59,6 @@ export default {
   },
   methods: {
     getDating(yymmdd) {
-      console.log("a");
       this.datingYyMmDd = yymmdd ? yymmdd : this.datingYyMm;
 			this.datingFirstDay = new Date(yymmdd.yy, yymmdd.mm).getDay();
 			this.datingArrCnt = new Date(parseInt(yymmdd.yy, 10), parseInt(yymmdd.mm+1, 10), 0).getDate();
@@ -69,8 +76,13 @@ export default {
 
     },
     selectDating(e) {
-      console.log(e);
-      this.$emit("select-date");
+      const btn = e.target,
+        dd = Number(btn.textContent),
+        time = new Date(this.datingYyMmDd.yy, this.datingYyMmDd.mm, dd).getTime();
+      this.$emit("select-date", time);
+    },
+    closeClick() {
+      this.$emit("clsbtn-click");
     },
   },
 }

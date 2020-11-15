@@ -56,35 +56,74 @@
             grid-column-gap: 4px;
             line-height: 1;
             .day {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                border-radius: 3px;
+                position: relative;
                 background: map-get($btn-nml, "bgBase");
+                border-radius: 3px;
                 width: divceil(40, 16, "em");
                 height: divceil(40, 16, "em");
                 text-align: center;
-                color: map-get($btn-nml, "font");
-                cursor: pointer;
-                &:empty {
-                    background: transparent;
-                    pointer-events: none;
+                > a {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    position: relative;
+                    width: 100%;
+                    height: 100%;
+                    color: map-get($btn-nml, "font");
+                    cursor: pointer;
+                    .isMD &:hover {
+                        background: map-get($btn-nml, "bgActive");
+                    }
+                    .isMD &:active, .isTD &:active {
+                        background: map-get($btn-nml, "font");
+                        color: #fff;
+                    }
+                    &::before {
+                        content: "";
+                        position: absolute;
+                        top: 0;
+                        bottom: 0;
+                        pointer-events: none;
+                    }
+                    > span {
+                        display: block;
+                        position: relative;
+                        z-index: 5;
+                    }
+                    &.isBet {
+                        color: #fff;
+                        &::before {
+                            background: map-get($btn-nml, "side");
+                            left: -2px;
+                            right: -2px;
+                        }
+                    }
+                    &.isStart::before {
+                        border-bottom-left-radius: 3px;
+                        border-top-left-radius: 3px;
+                        left: 0;
+                    }
+                    &.isEnd::before {
+                        border-bottom-right-radius: 3px;
+                        border-top-right-radius: 3px;
+                        right: 0;
+                    }
                 }
-                .isMD &:hover {
-                    background: map-get($btn-nml, "bgActive");
+                &:nth-child(7n+1) > a::before {
+                    left: 0 !important;
                 }
-                .isMD &:active, .isTD &:active {
-                    background: map-get($btn-nml, "font");
-                    color: #fff;
+                &:nth-child(7n) > a::before {
+                    right: 0 !important;
                 }
             }
         }
 	}
-	.btnArea {
-		margin: divceil(8, 16, "em") 0 0;
+	.foots {
+		margin: divceil(12, 16, "em") 0 0;
+        text-align: center;
 		> button {
-			display: block;
-			margin: 0 auto;
+            display: block;
+            margin: 0 auto;
 		}
 	}
 }

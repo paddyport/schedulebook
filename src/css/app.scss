@@ -217,7 +217,7 @@ button.menuList {
 button.cng {
 	&.btnIcon > span::after {
 		content: $change;
-		transform: rotateZ(90deg) translate(-74%, 34%);
+		transform: rotateZ(90deg) translate(-70%, 33%);
 	}
 }
 button.edt {
