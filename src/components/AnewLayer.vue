@@ -30,8 +30,7 @@
           :mark-yy-mm-dd="selEndYyMmDd"
           :start-time="anewStartTime"
           :end-time="anewEndTime"
-          @select-date="selectAnewDating"
-          @clsbtn-click="switchDatepicker">
+          @select-date="selectAnewDating">
         </GenerDatepicker>
       </div>
       <div class="color">
@@ -129,22 +128,17 @@ export default {
       this.dateFlg = this.dateFlg ? false : true;
     },
     selectAnewDating(val) {
-      // date そのもの or start を選んだとき
-      this.anewStartTime = val<=this.anewStartTime ? val : this.anewStartTime;
-      this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
-      this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
-      this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
-      this.anewEndTime = this.anewEndTime<=val ? val : this.anewEndTime;
+      this.anewEndTime = val<this.anewStartTime||val==this.anewEndTime||val==this.anewStartTime ? this.anewStartTime : val;
       this.selEndYyMmDd.yy = new Date(this.anewEndTime).getFullYear();
       this.selEndYyMmDd.mm = new Date(this.anewEndTime).getMonth();
       this.selEndYyMmDd.dd = new Date(this.anewEndTime).getDate();
+      this.anewStartTime = val<this.anewStartTime ? val : this.anewStartTime;
+      this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
+      this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
+      this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
       console.log(val, this.anewStartTime, this.anewEndTime);
       this.selDateFlg = true;
       // this.switchDatepicker();
-    },
-    selectAnewEndDating(val) {
-      // date そのもの or end を選んだとき
-      console.log(val);
     },
     closeAnew() {
       this.$emit("an-close-anew");

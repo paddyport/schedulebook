@@ -45,6 +45,7 @@
             }
             &.isNoActive {
                 color: map-get($btn-nml, "bgActive");
+                pointer-events: none;
             }
 		}
 	}
@@ -117,13 +118,5 @@
                 }
             }
         }
-	}
-	.foots {
-		margin: divceil(12, 16, "em") 0 0;
-        text-align: center;
-		> button {
-            display: block;
-            margin: 0 auto;
-		}
 	}
 }
