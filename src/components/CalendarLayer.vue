@@ -26,14 +26,14 @@
         :btn-flg="true"
         :btn-str="'新規作成'"
         :btn-cls="'def nml scd'"
-        @txtbtn-click="checkAnew">
+        @txtbtn-click="openAnewScd">
       </GenerTxtbtn>
       <GenerTxtbtn
         :icon-flg="true"
        :btn-flg="true"
         :btn-str="'新規作成'"
         :btn-cls="'def nml tsk'"
-        @txtbtn-click="checkAnew">
+        @txtbtn-click="openAnewTsk">
       </GenerTxtbtn>
     </div>
   </div>
@@ -60,9 +60,11 @@ export default {
     oclick(e) {
       console.log(e);
     },
-    checkAnew(e) {
-      const cls = e.target.classList;
-      this.$emit("an-open-now-anew", cls[cls.length-1]);
+    openAnewScd() {
+      this.$emit("an-open-now-anew-scd");
+    },
+    openAnewTsk() {
+      this.$emit("an-open-now-anew-tsk");
     }
   },
 }

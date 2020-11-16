@@ -3,21 +3,31 @@
     <CalendarLayer
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
-      @an-open-now-anew="openNowAnew">
+      @an-open-now-anew-scd="openNowAnewScd"
+      @an-open-now-anew-tsk="openNowAnewTsk">
     </CalendarLayer>
-    <AnewLayer
-      v-if="anewFlg"
-      :now="now"
+    <AnewLayerScd
+      v-if="anewScdFlg"
       :nowYear="now.getFullYear()"
       :nowMonth="now.getMonth()"
       :nowDate="now.getDate()"
       :ctg-name="ctgName"
-      :mark-yy-mm-dd="{yy: markYear, mm: markMonth, dd: markDate}"
       :markYear="markYear"
       :markMonth="markMonth"
       :markDate="markDate"
       @an-close-anew="closeAnew">
-    </AnewLayer>
+    </AnewLayerScd>
+    <AnewLayerTsk
+      v-if="anewTskFlg"
+      :nowYear="now.getFullYear()"
+      :nowMonth="now.getMonth()"
+      :nowDate="now.getDate()"
+      :ctg-name="ctgName"
+      :markYear="markYear"
+      :markMonth="markMonth"
+      :markDate="markDate"
+      @an-close-anew="closeAnew">
+    </AnewLayerTsk>
     <LoaderLayer v-if="loaderFlg"></LoaderLayer>
   </div>
 </template>
@@ -25,7 +35,8 @@
 <script>
 import Dexie from 'dexie'
 import CalendarLayer from './components/CalendarLayer'
-import AnewLayer from './components/AnewLayer'
+import AnewLayerScd from './components/AnewLayerScd'
+import AnewLayerTsk from './components/AnewLayerTsk'
 import LoaderLayer from './components/LoaderLayer'
 
 export default {
@@ -44,7 +55,8 @@ export default {
       currentDatesCnt: 0,
       currentWeeks: 0,
       weekLen: 7,
-      anewFlg: false,
+      anewScdFlg: false,
+      anewTskFlg: false,
       ctgName: "",
       markYear: 0,
       markMonth: 0,
@@ -53,7 +65,8 @@ export default {
   },
   components: {
     CalendarLayer,
-    AnewLayer,
+    AnewLayerScd,
+    AnewLayerTsk,
     LoaderLayer,
   },
   created: function(){
@@ -135,21 +148,24 @@ export default {
 				}
       }
     },
-    openNowAnew(ctg) {
-      this.openAnew(ctg, {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+    openNowAnewScd() {
+      this.openAnewScd("scd", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+      this.anewScdFlg = true;
     },
-    openAnew(ctg, yymmdd) {
-      console.log(ctg);
+    openNowAnewTsk() {
+      this.openAnewScd("tsk", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+      this.anewTskFlg = true;
+    },
+    openAnewScd(ctg, yymmdd) {
       this.ctgName = ctg;
       this.markYear = yymmdd.yy;
       this.markMonth = yymmdd.mm;
       this.markDate = yymmdd.dd;
-      console.log(yymmdd);
-      this.anewFlg = true;
     },
     closeAnew() {
       this.ctgName = "";
-      this.anewFlg = false;
+      this.anewScdFlg = false;
+      this.anewTskFlg = false;
     },
   },
 }

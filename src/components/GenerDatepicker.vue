@@ -60,7 +60,6 @@ export default {
 			this.datingArrCnt = new Date(parseInt(yymmdd.yy, 10), parseInt(yymmdd.mm+1, 10), 0).getDate();
       this.datingWeeks = Math.ceil((this.datingFirstDay+this.datingArrCnt)/this.weekLen);
       this.datingArr = [];
-      console.log(this.nowYyMmDd, this.datingYyMmDd);
 			for(let w=0;w<this.datingWeeks;w++) {
 				for(let d=0;d<this.weekLen;d++) {
           let _d = !w&&d<this.datingFirstDay ? null : w*this.weekLen+(d+1)-this.datingFirstDay,
@@ -88,8 +87,10 @@ export default {
     selectDating(e) {
       const btn = e.target,
         dd = Number(btn.textContent),
-        time = new Date(this.datingYyMmDd.yy, this.datingYyMmDd.mm, dd).getTime();
-      this.$emit("select-date", time);
+        _time = new Date(this.datingYyMmDd.yy, this.datingYyMmDd.mm, dd).getTime(),
+        stime = _time<this.startTime ? _time : _time==this.startTime ? this.startTime+(60*60*24*1000) : this.startTime,
+        etime = _time==this.endTime ? this.endTime-(60*60*24*1000) :this.startTime<_time ? _time : this.endTime;
+      this.$emit("select-date", stime, etime);
     },
   },
 }

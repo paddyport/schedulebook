@@ -63,6 +63,9 @@
                 width: divceil(40, 16, "em");
                 height: divceil(40, 16, "em");
                 text-align: center;
+                &:empty {
+                    background: transparent;
+                }
                 > a {
                     display: flex;
                     justify-content: center;
@@ -94,20 +97,27 @@
                     &.isBet {
                         color: #fff;
                         &::before {
-                            background: map-get($btn-nml, "side");
+                            background: map-get($btn-nml, "bgActive");
                             left: -2px;
                             right: -2px;
                         }
                     }
                     &.isStart::before {
+                        background: map-get($btn-nml, "side");
                         border-bottom-left-radius: 3px;
                         border-top-left-radius: 3px;
                         left: 0;
                     }
-                    &.isEnd::before {
-                        border-bottom-right-radius: 3px;
-                        border-top-right-radius: 3px;
-                        right: 0;
+                    &.isEnd {
+                        &::before {
+                            background: map-get($btn-nml, "side");
+                            border-bottom-right-radius: 3px;
+                            border-top-right-radius: 3px;
+                            right: 0;
+                        }
+                        &.isStart {
+                            pointer-events: none;
+                        }
                     }
                 }
                 &:nth-child(7n+1) > a::before {

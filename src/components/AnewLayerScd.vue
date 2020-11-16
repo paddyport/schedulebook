@@ -1,5 +1,5 @@
 <template>
-  <div id="Anew" class="anew">
+  <div id="AnewScd" class="anew">
     <div>
       <div class="title">
         <input type="text" placeholder="新規タイトル">
@@ -69,7 +69,7 @@
         :icon-flg="true"
         :btn-flg="true"
         :btn-str="'新規作成'"
-        :btn-cls="'def nml '+ctgName"
+        :btn-cls="'def nml scd'"
         @txtbtn-click="checkAnew">
       </GenerTxtbtn>
     </div>
@@ -84,14 +84,12 @@ import GenerWrdbtn from './GenerWrdbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 
 export default {
-  name: 'AnewLayer',
+  name: 'AnewLayerScd',
   props: {
-    now: Object,
     nowYear: Number,
     nowMonth: Number,
     nowDate: Number,
     ctgName: String,
-    markYyMmDd: Object,
     markYear: Number,
     markMonth: Number,
     markDate: Number,
@@ -126,24 +124,30 @@ export default {
     },
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
+      this.selDateFlg = this.dateFlg ? true : this.selDateFlg;
     },
-    selectAnewDating(val) {
-      this.anewEndTime = val<this.anewStartTime||val==this.anewEndTime||val==this.anewStartTime ? this.anewStartTime : val;
+    selectAnewDating(...args) {
+      // 開始:S, 終了: E, 選択: V
+      // V<S -> S = V
+      // S<V -> E = V
+      // 基本的に E が移動し、 S 以前が選択された時のみ S が移動する
+      // S/E それぞれが選択されるとそれぞれのチェックが外れ、翌日/前日に入れ替わる
+      const [stime, etime] = args;
+      this.anewEndTime = etime;
       this.selEndYyMmDd.yy = new Date(this.anewEndTime).getFullYear();
       this.selEndYyMmDd.mm = new Date(this.anewEndTime).getMonth();
       this.selEndYyMmDd.dd = new Date(this.anewEndTime).getDate();
-      this.anewStartTime = val<this.anewStartTime ? val : this.anewStartTime;
+      this.anewStartTime = stime;
       this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
       this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
       this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
-      console.log(val, this.anewStartTime, this.anewEndTime);
       this.selDateFlg = true;
-      // this.switchDatepicker();
     },
     closeAnew() {
       this.$emit("an-close-anew");
     },
     checkAnew(e) {
+      // 新規保存
       console.log(e);
     }
   },
