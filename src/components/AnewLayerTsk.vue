@@ -56,6 +56,23 @@
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
       </div>
+      <div class="link">
+        <GenerWrdbtn
+          v-if="!dateFlg&&!selDateFlg"
+          :icon-flg="!dateFlg"
+          :btn-flg="true"
+          :btn-str="'選択'"
+          :btn-cls="'def nml lnk'"
+          @wrdbtn-click="switchDatepicker">
+        </GenerWrdbtn>
+        <GenerIcnbtn
+          v-else
+          :btn-flg="true"
+          :btn-str="'選択'"
+          :btn-cls="'def nml lnk'"
+          @icnbtn-click="switchDatepicker">
+        </GenerIcnbtn>
+      </div>
     </div>
     <div class="footer">
       <GenerTxtbtn

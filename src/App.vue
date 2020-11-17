@@ -93,7 +93,10 @@ export default {
 			this.db = new Dexie(this.dbName);
 		},
 		createTable() {
-
+			this.db.version(1).stores({
+				scd: `++sid, date, color, head, body`,
+				tsk: `++tid, sid, priority, loop, date, color, head, body`,
+			});
     },
 		checkDevice() {
 			const ua = navigator.userAgent.toLowerCase();

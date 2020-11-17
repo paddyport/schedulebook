@@ -252,6 +252,14 @@ button.dtp {
 		content: $schedule;
 	}
 }
+button.lnk {
+	&.btnIcon > span::after {
+		content: $link;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $link;
+	}
+}
 button.viw {
 	&.btnIcon > span::after {
 		content: $view;
