@@ -15,7 +15,7 @@
   </div>
   <div class="dates">
     <div class="month">
-      <div v-for="(da, daidx) in datingArr" class="day" v-bind:key="daidx">
+      <div v-for="(da, daidx) in datingArr" class="day" :key="daidx">
         <a
           v-if="da"
           :class="[startTime<=da&&da<=endTime ? 'isBet' : '', startTime==da ? 'isStart' : '', endTime==da ? 'isEnd' : '']"

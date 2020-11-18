@@ -16,18 +16,26 @@ $swatch: 24;
 			width: divceil($swatch*12/(10-1), 16, "em");
 			height: divceil($swatch*12/(10-1), 16, "em");
 			cursor: pointer;
+			&::after {
+				content: "";
+				position: absolute;
+				border-radius: 4px;
+				left: -2px;
+				right: -2px;
+				top: -2px;
+				bottom: -2px;
+				z-index: 10;
+				pointer-events: none;
+			}
 			&:hover {
 				&::after {
-					content: "";
-					position: absolute;
 					border: 4px solid map-get($btn-nml, "bgActive");
-					border-radius: 4px;
-					left: -2px;
-					right: -2px;
-					top: -2px;
-					bottom: -2px;
-					z-index: 10;
-					pointer-events: none;
+				}
+			}
+			&.isCurrent {
+				pointer-events: none;
+				&::after {
+					border: 4px solid map-get($btn-nml, "side");
 				}
 			}
 		}

@@ -3,29 +3,31 @@
     <CalendarLayer
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
+      @an-shown-loader="shownLoader"
       @an-open-now-anew-scd="openNowAnewScd"
       @an-open-now-anew-tsk="openNowAnewTsk">
     </CalendarLayer>
     <AnewLayerScd
       v-if="anewScdFlg"
-      :nowYear="now.getFullYear()"
-      :nowMonth="now.getMonth()"
-      :nowDate="now.getDate()"
+      :now-year="now.getFullYear()"
+      :now-month="now.getMonth()"
+      :now-date="now.getDate()"
       :ctg-name="ctgName"
-      :markYear="markYear"
-      :markMonth="markMonth"
-      :markDate="markDate"
+      :mark-year="markYear"
+      :mark-month="markMonth"
+      :mark-date="markDate"
       @an-close-anew="closeAnew">
     </AnewLayerScd>
     <AnewLayerTsk
       v-if="anewTskFlg"
-      :nowYear="now.getFullYear()"
-      :nowMonth="now.getMonth()"
-      :nowDate="now.getDate()"
+      :now-year="now.getFullYear()"
+      :now-month="now.getMonth()"
+      :now-date="now.getDate()"
       :ctg-name="ctgName"
-      :markYear="markYear"
-      :markMonth="markMonth"
-      :markDate="markDate"
+      :mark-year="markYear"
+      :mark-month="markMonth"
+      :mark-date="markDate"
+      :scd-arr="scdArr"
       @an-close-anew="closeAnew">
     </AnewLayerTsk>
     <LoaderLayer v-if="loaderFlg"></LoaderLayer>
@@ -55,6 +57,7 @@ export default {
       currentDatesCnt: 0,
       currentWeeks: 0,
       weekLen: 7,
+      scdArr: [],
       anewScdFlg: false,
       anewTskFlg: false,
       ctgName: "",
@@ -96,8 +99,31 @@ export default {
 			this.db.version(1).stores({
 				scd: `++sid, date, color, head, body`,
 				tsk: `++tid, sid, priority, loop, date, color, head, body`,
-			});
+      });
+      // test
+      this.db.scd.put({
+        sid: 1,
+        date: [new Date(2020,10,10).getTime(), null],
+        color: "#c63c60",
+        head: "徒然なるまゝに",
+        body: "つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。"
+      });
+      this.db.scd.put({
+        sid: 2,
+        date: [new Date(2020,10,15).getTime(), new Date(2020,10,16).getTime()],
+        color: "#c63c60",
+        head: "日暮らし",
+        body: "つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。"
+      });
     },
+		getScdAllData() {
+			const that = this;
+			return new Promise(function(resolve){
+				that.db.scd.toArray().then((list) => {
+					resolve(list);
+				});
+			});
+		},
 		checkDevice() {
 			const ua = navigator.userAgent.toLowerCase();
 			if(ua.indexOf("iphone")>0 || ua.indexOf("ipod")>0 || ua.indexOf("android")>0 && ua.indexOf("mobile")>0) {
@@ -152,14 +178,17 @@ export default {
       }
     },
     openNowAnewScd() {
-      this.openAnewScd("scd", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+      this.openAnew("scd", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
       this.anewScdFlg = true;
+      this.hiddenLoader();
     },
-    openNowAnewTsk() {
-      this.openAnewScd("tsk", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+    async openNowAnewTsk() {
+      this.openAnew("tsk", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+      this.scdArr = await this.getScdAllData();
       this.anewTskFlg = true;
+      this.hiddenLoader();
     },
-    openAnewScd(ctg, yymmdd) {
+    openAnew(ctg, yymmdd) {
       this.ctgName = ctg;
       this.markYear = yymmdd.yy;
       this.markMonth = yymmdd.mm;

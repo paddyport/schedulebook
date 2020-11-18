@@ -1,0 +1,35 @@
+@import "_pseudo";
+@import "_mixin";
+
+.scdlist {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: $gray1;
+    padding: divceil(8, 16, "em");
+    .checked {
+        margin: 0;
+    }
+    ul {
+        max-height: 100%;
+        overflow-y: scroll;
+        > li {
+            display: block;
+            &.isChecked {
+                // display: none;
+                background: map-get($map: $btn-nml, $key: side);
+                color: #fff;
+                pointer-events: none;
+            }
+            > a {
+                display: block;
+                color: inherit;
+                @include endLeader();
+            }
+        }
+    }
+    .note {
+        margin: 0;
+    }
+
+}

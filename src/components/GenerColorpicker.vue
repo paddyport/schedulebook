@@ -3,6 +3,7 @@
   <div class="swatch">
     <a
       v-for="(ps, psidx) in paletteSwatchArr"
+      :class="[selColor&&paletteSwatchArr[psidx]['color']==selColor ? 'isCurrent' : '']"
       :style="{background: paletteSwatchArr[psidx]['color']}"
       :data-pid="psidx"
       :key="psidx"
@@ -24,7 +25,8 @@
 export default {
   name: "GenerColorpicker",
   props: {
-    barIdx: Number
+    barIdx: Number,
+    selColor: String,
   },
   data() {
     return {

@@ -5,16 +5,7 @@
         <input type="text" placeholder="新規タイトル">
       </div>
       <div class="date">
-        <GenerWrdbtn
-          v-if="!dateFlg&&!selDateFlg"
-          :icon-flg="!dateFlg"
-          :btn-flg="true"
-          :btn-str="'選択'"
-          :btn-cls="'def nml dtp'"
-          @wrdbtn-click="switchDatepicker">
-        </GenerWrdbtn>
         <GenerIcnbtn
-          v-else
           :btn-flg="true"
           :btn-str="'選択'"
           :btn-cls="'def nml dtp'"
@@ -34,16 +25,7 @@
         </GenerDatepicker>
       </div>
       <div class="color">
-        <GenerWrdbtn
-          v-if="!colorFlg&&!anewColor"
-          :icon-flg="!colorFlg&&!anewColor"
-          :btn-flg="true"
-          :btn-str="'選択'"
-          :btn-cls="'def nml cpr'"
-          @wrdbtn-click="switchColopicker">
-        </GenerWrdbtn>
         <GenerIcnbtn
-          v-else
           :btn-flg="true"
           :btn-str="'選択'"
           :btn-cls="'def nml cpr'"
@@ -52,26 +34,25 @@
         <p class="res"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
         <GenerColorpicker
           v-if="colorFlg"
-          :barIdx="anewPaletteIdx"
+          :bar-idx="anewPaletteIdx"
+          :sel-color="anewColor"
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
       </div>
       <div class="link">
-        <GenerWrdbtn
-          v-if="!dateFlg&&!selDateFlg"
-          :icon-flg="!dateFlg"
-          :btn-flg="true"
-          :btn-str="'選択'"
-          :btn-cls="'def nml lnk'"
-          @wrdbtn-click="switchDatepicker">
-        </GenerWrdbtn>
         <GenerIcnbtn
-          v-else
           :btn-flg="true"
           :btn-str="'選択'"
           :btn-cls="'def nml lnk'"
-          @icnbtn-click="switchDatepicker">
+          @icnbtn-click="switchScdlist">
         </GenerIcnbtn>
+        <p class="res">{{ anewLinkObj.sid ? anewLinkObj.head : "－－" }}</p>
+        <GenerScdlist
+          v-if="linkFlg"
+          :check-sid="0"
+          :scd-arr="scdArr"
+          @change-link="changeAnewScdlink">
+        </GenerScdlist>
       </div>
     </div>
     <div class="footer">
@@ -96,8 +77,9 @@
 <script>
 import GenerDatepicker from './GenerDatepicker'
 import GenerColorpicker from './GenerColorpicker'
+import GenerScdlist from './GenerScdlist'
 import GenerIcnbtn from './GenerIcnbtn'
-import GenerWrdbtn from './GenerWrdbtn'
+// import GenerWrdbtn from './GenerWrdbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 
 export default {
@@ -110,25 +92,28 @@ export default {
     markYear: Number,
     markMonth: Number,
     markDate: Number,
+    scdArr: Array,
   },
 	data() {
 		return {
-      colorFlg: false,
-      anewColor: "",
-      anewPaletteIdx: 0,
       dateFlg: false,
-      selDateFlg: false,
       anewStartTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       anewEndTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
+      colorFlg: false,
+      anewColor: "#fee7ed",
+      anewPaletteIdx: 0,
+      linkFlg: false,
+      anewLinkObj: {sid: 0},
 		}
   },
   components: {
     GenerDatepicker,
     GenerColorpicker,
+    GenerScdlist,
     GenerIcnbtn,
-    GenerWrdbtn,
+    // GenerWrdbtn,
     GenerTxtbtn,
   },
   methods: {
@@ -141,7 +126,6 @@ export default {
     },
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
-      this.selDateFlg = this.dateFlg ? true : this.selDateFlg;
     },
     selectAnewDating(...args) {
       // 開始:S, 終了: E, 選択: V
@@ -158,7 +142,14 @@ export default {
       this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
       this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
       this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
-      this.selDateFlg = true;
+    },
+    switchScdlist() {
+      this.linkFlg = this.linkFlg ? false : true;
+    },
+    changeAnewScdlink(id) {
+      for(let obj of this.scdArr) {
+        if(obj.sid==id) this.anewLinkObj = Object.assign({}, this.anewLinkObj, obj);
+      }
     },
     closeAnew() {
       this.$emit("an-close-anew");

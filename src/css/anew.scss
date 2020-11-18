@@ -27,19 +27,14 @@
 }
 .date {
 	display: flex;
-	// flex-wrap: wrap;
-	// justify-content: space-between;
 	align-items: center;
 	position: relative;
-	> button {
-		flex-shrink: 0;
-	}
+	padding: divceil(16, 16, "em") 0 0;
 	.res {
 		display: flex;
 		align-items: center;
 		position: relative;
-		// width: calc(100% - #{divceil(32+16, 16, "em")});
-		margin: 0 0 0 divceil(16, 16, "em");
+		margin: 0 0 0 divceil(10, 16, "em");
 		letter-spacing: 0.03em;
 		.start {
 			margin: 0;
@@ -54,7 +49,7 @@
 	}
 	.datepicker {
 		position: absolute;
-		left: divceil(32+16, 16, "em");
+		left: divceil(32+10, 16, "em");
 		top: 100%;
 		padding: divceil(10, 16, "em");
 		z-index: 100;
@@ -64,12 +59,11 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: divceil(10, 16, "em") 0 0;
-	text-align: left;
+	padding: divceil(16, 16, "em") 0 0;
 	.res {
 		display: flex;
 		align-items: center;
-		margin: 0 0 0 divceil(16, 16, "em");
+		margin: 0 0 0 divceil(10, 16, "em");
 		letter-spacing: 0.03em;
 		> i {
 			display: block;
@@ -80,10 +74,31 @@
 	}
 	.colorpicker {
 		position: absolute;
-		left: divceil(32+16, 16, "em");
+		left: divceil(32+10, 16, "em");
 		top: 100%;
 		padding: divceil(10, 16, "em");
 		z-index: 100;
+	}
+}
+.link {
+	display: flex;
+	align-items: center;
+	position: relative;
+	padding: divceil(16, 16, "em") 0 0;
+	.res {
+		display: flex;
+		align-items: center;
+		position: relative;
+		margin: 0 0 0 divceil(10, 16, "em");
+		letter-spacing: 0.03em;
+		@include endLeader();
+	}
+	.scdlist {
+		position: absolute;
+		max-height: divceil(280, 16, "em");
+		left: divceil(32+10, 16, "em");
+		right: 0;
+		top: 100%;
 	}
 }
 .body {

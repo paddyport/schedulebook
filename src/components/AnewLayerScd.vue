@@ -5,16 +5,7 @@
         <input type="text" placeholder="新規タイトル">
       </div>
       <div class="date">
-        <GenerWrdbtn
-          v-if="!dateFlg&&!selDateFlg"
-          :icon-flg="!dateFlg"
-          :btn-flg="true"
-          :btn-str="'選択'"
-          :btn-cls="'def nml dtp'"
-          @wrdbtn-click="switchDatepicker">
-        </GenerWrdbtn>
         <GenerIcnbtn
-          v-else
           :btn-flg="true"
           :btn-str="'選択'"
           :btn-cls="'def nml dtp'"
@@ -34,16 +25,7 @@
         </GenerDatepicker>
       </div>
       <div class="color">
-        <GenerWrdbtn
-          v-if="!colorFlg&&!anewColor"
-          :icon-flg="!colorFlg&&!anewColor"
-          :btn-flg="true"
-          :btn-str="'選択'"
-          :btn-cls="'def nml cpr'"
-          @wrdbtn-click="switchColopicker">
-        </GenerWrdbtn>
         <GenerIcnbtn
-          v-else
           :btn-flg="true"
           :btn-str="'選択'"
           :btn-cls="'def nml cpr'"
@@ -53,6 +35,7 @@
         <GenerColorpicker
           v-if="colorFlg"
           :barIdx="anewPaletteIdx"
+          :sel-color="anewColor"
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
       </div>
@@ -80,7 +63,6 @@
 import GenerDatepicker from './GenerDatepicker'
 import GenerColorpicker from './GenerColorpicker'
 import GenerIcnbtn from './GenerIcnbtn'
-import GenerWrdbtn from './GenerWrdbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 
 export default {
@@ -96,22 +78,20 @@ export default {
   },
 	data() {
 		return {
-      colorFlg: false,
-      anewColor: "",
-      anewPaletteIdx: 0,
       dateFlg: false,
-      selDateFlg: false,
       anewStartTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       anewEndTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
+      colorFlg: false,
+      anewColor: "#fee7ed",
+      anewPaletteIdx: 0,
 		}
   },
   components: {
     GenerDatepicker,
     GenerColorpicker,
     GenerIcnbtn,
-    GenerWrdbtn,
     GenerTxtbtn,
   },
   methods: {
@@ -124,7 +104,6 @@ export default {
     },
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
-      this.selDateFlg = this.dateFlg ? true : this.selDateFlg;
     },
     selectAnewDating(...args) {
       // 開始:S, 終了: E, 選択: V
@@ -141,7 +120,6 @@ export default {
       this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
       this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
       this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
-      this.selDateFlg = true;
     },
     closeAnew() {
       this.$emit("an-close-anew");

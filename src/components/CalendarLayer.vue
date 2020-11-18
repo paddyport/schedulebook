@@ -61,9 +61,11 @@ export default {
       console.log(e);
     },
     openAnewScd() {
+      this.$emit("an-shown-loader");
       this.$emit("an-open-now-anew-scd");
     },
     openAnewTsk() {
+      this.$emit("an-shown-loader");
       this.$emit("an-open-now-anew-tsk");
     }
   },
