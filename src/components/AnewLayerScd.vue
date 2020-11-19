@@ -39,6 +39,9 @@
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
       </div>
+      <div class="label">
+        
+      </div>
     </div>
     <div class="footer">
       <GenerTxtbtn
