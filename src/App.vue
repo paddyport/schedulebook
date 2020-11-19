@@ -75,7 +75,6 @@ export default {
   created: function(){
     this.checkDevice();
     this.createDB();
-		this.createTable();
     this.setToday();
     this.hiddenLoader();
   },
@@ -94,26 +93,88 @@ export default {
     },
     createDB() {
 			this.db = new Dexie(this.dbName);
+      this.createTable();
 		},
 		createTable() {
 			this.db.version(1).stores({
-				scd: `++sid, date, color, head, body`,
-				tsk: `++tid, sid, priority, loop, date, color, head, body`,
+				scd: "++sid, cid, start, end, notice, member, title, memo",
+        tsk: "++tid, cid, sid, date, loop, notice, priority, title, memo",
+        ctg: "++cid, color, title",
       });
+      // scd: sid, cid, start, end, notice, member, title, memo, 
+      // tsk: tid, cid, sid, date, loop, notice, priority(3以下), title, memo
+      // ctg: cid, color, title
+      // this.testAddDB();
+      console.log(this.db);
+    },
+    testAddDB() {
       // test
       this.db.scd.put({
         sid: 1,
-        date: [new Date(2020,10,10).getTime(), null],
-        color: "#c63c60",
-        head: "徒然なるまゝに",
-        body: "つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。"
+        cid: 1,
+        start: new Date(2020,11,30).getTime(),
+        end: new Date(2020,11,30).getTime(),
+        notice: true,
+        member: [],
+        title: "徒然なるまゝに",
+        memo: ""
       });
       this.db.scd.put({
         sid: 2,
-        date: [new Date(2020,10,15).getTime(), new Date(2020,10,16).getTime()],
-        color: "#c63c60",
-        head: "日暮らし",
-        body: "つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。つれづれなるまゝに、日暮らし、硯にむかひて、心にうつりゆくよしなし事を、そこはかとなく書きつくれば、あやしうこそものぐるほしけれ。"
+        cid: 2,
+        start: new Date(2020,11,15).getTime(),
+        end: new Date(2020,11,16).getTime(),
+        notice: false,
+        member: ["aaa"],
+        title: "日暮らし",
+        memo: "あやしうこそものぐるほしけれ。"
+      });
+      this.db.scd.put({
+        sid: 3,
+        cid: 2,
+        start: new Date(2020,12,1).getTime(),
+        end: new Date(2020,12,5).getTime(),
+        notice: false,
+        member: [],
+        title: "あやしうこそ",
+        memo: ""
+      });
+      this.db.tsk.put({
+        tid: 1,
+        cid: 2,
+        sid: 2,
+        date: new Date(2020,11,14).getTime(),
+        loop: false,
+        notice: true,
+        priority: 3,
+        title: "あやしう",
+        memo: "",
+      });
+      this.db.tsk.put({
+        tid: 1,
+        cid: 3,
+        sid: null,
+        date: 20,
+        loop: "month",
+        notice: true,
+        priority: 2,
+        title: "硯",
+        memo: "",
+      });
+      this.db.ctg.put({
+        cid: 1,
+        color: "#fcf4b7",
+        title: "竹の園生",
+      });
+      this.db.ctg.put({
+        cid: 2,
+        color: "#fa87a5",
+        title: "因幡国",
+      });
+      this.db.ctg.put({
+        cid: 3,
+        color: "#2a668c",
+        title: "末葉(すゑば)",
       });
     },
 		getScdAllData() {

@@ -12,19 +12,44 @@
     }
     ul {
         max-height: 100%;
+        margin: 0;
+        padding: 0;
         overflow-y: scroll;
+        &::-webkit-scrollbar {
+            background: $gray6;
+            width: divceil(4, 16, "em");
+        }
+        &::-webkit-scrollbar-thumb {
+            background: $gray2;
+        }
         > li {
             display: block;
+            padding: divceil(4, 16, "em") 0;
+            line-height: divceil(28, 16, "em");
             &.isChecked {
                 // display: none;
                 background: map-get($map: $btn-nml, $key: side);
                 color: #fff;
-                pointer-events: none;
+                // pointer-events: none;
+                > a {
+                    padding: 0 divceil(8, 16, "em");
+                    &::before {
+                        content: none;
+                    }
+                }
             }
             > a {
                 display: block;
+                position: relative;
+                padding: 0 divceil(6, 16, "em");
                 color: inherit;
                 @include endLeader();
+                cursor: pointer;
+                &::before {
+                    content: $right;
+                    margin: 0 divceil(4, 16, "em") 0 0;
+                    font-family: $icon;
+                }
             }
         }
     }

@@ -46,11 +46,12 @@
           :btn-cls="'def nml lnk'"
           @icnbtn-click="switchScdlist">
         </GenerIcnbtn>
-        <p class="res">{{ anewLinkObj.sid ? anewLinkObj.head : "－－" }}</p>
+        <p class="res">{{ anewLinkObj.sid ? anewLinkObj.title : "－－" }}</p>
         <GenerScdlist
           v-if="linkFlg"
           :check-sid="0"
           :scd-arr="scdArr"
+          :now-time="new Date(this.nowYear, this.nowMonth, this.nowDate).getTime()"
           @change-link="changeAnewScdlink">
         </GenerScdlist>
       </div>

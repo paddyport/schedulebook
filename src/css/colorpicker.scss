@@ -5,6 +5,7 @@ $swatch: 24;
 .colorpicker {
 //	display: flex;
 	background: $gray1;
+	padding: divceil(8, 16, "em");
 	.swatch {
 		display: grid;
 		grid-template-columns: repeat((10-1), 1fr);
@@ -13,8 +14,7 @@ $swatch: 24;
 		> a {
 			display: block;
 			position: relative;
-			width: divceil($swatch*12/(10-1), 16, "em");
-			height: divceil($swatch*12/(10-1), 16, "em");
+			padding: 50%;
 			cursor: pointer;
 			&::after {
 				content: "";
@@ -42,12 +42,12 @@ $swatch: 24;
 	}
 	.bar {
 		display: flex;
-//		flex-direction: column;
+		justify-content: space-between;
 		margin: divceil(10, 16, "em") 0 0;
 		> a {
 			display: block;
 			position: relative;
-			width: divceil($swatch, 16, "em");
+			width: 100%;
 			height: divceil($swatch, 16, "em");
 			cursor: pointer;
 			&:hover {
