@@ -24,7 +24,7 @@
           @select-date="selectAnewDating">
         </GenerDatepicker>
       </div>
-      <div class="color">
+      <div class="label">
         <GenerIcnbtn
           :btn-flg="true"
           :btn-str="'選択'"
@@ -38,9 +38,6 @@
           :sel-color="anewColor"
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
-      </div>
-      <div class="label">
-        
       </div>
     </div>
     <div class="footer">

@@ -16,6 +16,7 @@
       :mark-year="markYear"
       :mark-month="markMonth"
       :mark-date="markDate"
+      :lbl-arr="lblArr"
       @an-close-anew="closeAnew">
     </AnewLayerScd>
     <AnewLayerTsk
@@ -28,6 +29,7 @@
       :mark-month="markMonth"
       :mark-date="markDate"
       :scd-arr="scdArr"
+      :lbl-arr="lblArr"
       @an-close-anew="closeAnew">
     </AnewLayerTsk>
     <LoaderLayer v-if="loaderFlg"></LoaderLayer>
@@ -58,6 +60,7 @@ export default {
       currentWeeks: 0,
       weekLen: 7,
       scdArr: [],
+      lblArr: [],
       anewScdFlg: false,
       anewTskFlg: false,
       ctgName: "",
@@ -97,13 +100,13 @@ export default {
 		},
 		createTable() {
 			this.db.version(1).stores({
-				scd: "++sid, cid, start, end, notice, member, title, memo",
-        tsk: "++tid, cid, sid, date, loop, notice, priority, title, memo",
-        ctg: "++cid, color, title",
+				scd: "++sid, lid, start, end, notice, member, title, memo",
+        tsk: "++tid, lid, sid, date, loop, notice, priority, title, memo",
+        lbl: "++lid, color, title",
       });
-      // scd: sid, cid, start, end, notice, member, title, memo, 
-      // tsk: tid, cid, sid, date, loop, notice, priority(3以下), title, memo
-      // ctg: cid, color, title
+      // scd: sid, lid, start, end, notice, member, title, memo, 
+      // tsk: tid, lid, sid, date, loop, notice, priority(3以下), title, memo
+      // lbl: lid, color, title
       // this.testAddDB();
       console.log(this.db);
     },
@@ -111,7 +114,7 @@ export default {
       // test
       this.db.scd.put({
         sid: 1,
-        cid: 1,
+        lid: 1,
         start: new Date(2020,11,30).getTime(),
         end: new Date(2020,11,30).getTime(),
         notice: true,
@@ -121,7 +124,7 @@ export default {
       });
       this.db.scd.put({
         sid: 2,
-        cid: 2,
+        lid: 2,
         start: new Date(2020,11,15).getTime(),
         end: new Date(2020,11,16).getTime(),
         notice: false,
@@ -131,7 +134,7 @@ export default {
       });
       this.db.scd.put({
         sid: 3,
-        cid: 2,
+        lid: 2,
         start: new Date(2020,12,1).getTime(),
         end: new Date(2020,12,5).getTime(),
         notice: false,
@@ -141,7 +144,7 @@ export default {
       });
       this.db.tsk.put({
         tid: 1,
-        cid: 2,
+        lid: 2,
         sid: 2,
         date: new Date(2020,11,14).getTime(),
         loop: false,
@@ -152,7 +155,7 @@ export default {
       });
       this.db.tsk.put({
         tid: 1,
-        cid: 3,
+        lid: 3,
         sid: null,
         date: 20,
         loop: "month",
@@ -161,18 +164,18 @@ export default {
         title: "硯",
         memo: "",
       });
-      this.db.ctg.put({
-        cid: 1,
+      this.db.lbl.put({
+        lid: 1,
         color: "#fcf4b7",
         title: "竹の園生",
       });
-      this.db.ctg.put({
-        cid: 2,
+      this.db.lbl.put({
+        lid: 2,
         color: "#fa87a5",
         title: "因幡国",
       });
-      this.db.ctg.put({
-        cid: 3,
+      this.db.lbl.put({
+        lid: 3,
         color: "#2a668c",
         title: "末葉(すゑば)",
       });

@@ -24,7 +24,7 @@
           @select-date="selectAnewDating">
         </GenerDatepicker>
       </div>
-      <div class="color">
+      <div class="label">
         <GenerIcnbtn
           :btn-flg="true"
           :btn-str="'選択'"
