@@ -188,6 +188,14 @@ export default {
 				});
 			});
 		},
+		getLblAllData() {
+			const that = this;
+			return new Promise(function(resolve){
+				that.db.lbl.toArray().then((list) => {
+					resolve(list);
+				});
+			});
+		},
 		checkDevice() {
 			const ua = navigator.userAgent.toLowerCase();
 			if(ua.indexOf("iphone")>0 || ua.indexOf("ipod")>0 || ua.indexOf("android")>0 && ua.indexOf("mobile")>0) {
@@ -241,14 +249,16 @@ export default {
 				}
       }
     },
-    openNowAnewScd() {
+    async openNowAnewScd() {
       this.openAnew("scd", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+      this.lblArr = await this.getLblAllData();
       this.anewScdFlg = true;
       this.hiddenLoader();
     },
     async openNowAnewTsk() {
       this.openAnew("tsk", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
       this.scdArr = await this.getScdAllData();
+      this.lblArr = await this.getLblAllData();
       this.anewTskFlg = true;
       this.hiddenLoader();
     },

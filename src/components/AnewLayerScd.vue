@@ -75,6 +75,7 @@ export default {
     markYear: Number,
     markMonth: Number,
     markDate: Number,
+    lblArr: Array,
   },
 	data() {
 		return {

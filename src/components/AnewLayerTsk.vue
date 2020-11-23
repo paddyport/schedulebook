@@ -94,6 +94,7 @@ export default {
     markMonth: Number,
     markDate: Number,
     scdArr: Array,
+    lblArr: Array,
   },
 	data() {
 		return {
