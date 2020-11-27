@@ -209,6 +209,17 @@ button.tsk {
 		content: $task;
 	}
 }
+button.lbl {
+	&.btnIcon > span::after {
+		content: $label;
+	}
+	&.btnText > span > i::after, &.btnWord > span > i::after {
+		content: $label;
+	}
+	&.switchTab::after {
+		content: $label;
+	}
+}
 button.menuList {
 	&.btnIcon > span::after {
 		content: $menu;

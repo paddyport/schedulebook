@@ -1,5 +1,10 @@
 <template>
-  <div id="App" :class="deviceType">
+  <div id="App"
+    :class="[
+      deviceType,
+      2<=now.getMonth()&&now.getMonth()<5 ? 'spr' : 
+      5<=now.getMonth()&&now.getMonth()<8 ? 'smm' : 
+      8<=now.getMonth()&&now.getMonth()<11 ? 'atm' : 'wnt']">
     <CalendarLayer
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
@@ -44,7 +49,7 @@ import AnewLayerTsk from './components/AnewLayerTsk'
 import LoaderLayer from './components/LoaderLayer'
 
 export default {
-  name: 'App',
+  name: '#App',
   data() {
     return {
       loaderFlg: true,
@@ -94,6 +99,17 @@ export default {
     hiddenLoader() {
       this.loaderFlg = false;
     },
+		checkDevice() {
+      const ua = navigator.userAgent.toLowerCase();
+      console.log(ua);
+			if(ua.indexOf("iphone")>0 || ua.indexOf("ipod")>0 || ua.indexOf("android")>0 && ua.indexOf("mobile")>0) {
+				this.deviceType = "isTD";
+			} else if (ua.indexOf("ipad")>0 || ua.indexOf("android")>0){
+				this.deviceType = "isTD";
+			} else {
+				this.deviceType = "isMD";
+			}
+		},
     createDB() {
 			this.db = new Dexie(this.dbName);
       this.createTable();
@@ -108,7 +124,7 @@ export default {
       // tsk: tid, lid, sid, date, loop, notice, priority(3以下), title, memo
       // lbl: lid, color, title
       // this.testAddDB();
-      console.log(this.db);
+      // console.log(this.db);
     },
     testAddDB() {
       // test
@@ -195,16 +211,6 @@ export default {
 					resolve(list);
 				});
 			});
-		},
-		checkDevice() {
-			const ua = navigator.userAgent.toLowerCase();
-			if(ua.indexOf("iphone")>0 || ua.indexOf("ipod")>0 || ua.indexOf("android")>0 && ua.indexOf("mobile")>0) {
-				this.deviceType = "isTD";
-			} else if (ua.indexOf("ipad")>0 || ua.indexOf("android")>0){
-				this.deviceType = "isTD";
-			} else {
-				this.deviceType = "isMD";
-			}
 		},
     setToday() {
       this.now = new Date();

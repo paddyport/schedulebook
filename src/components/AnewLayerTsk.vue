@@ -39,6 +39,21 @@
           @change-swatch="changeAnewColor">
         </GenerColorpicker>
       </div>
+      <div class="label">
+        <GenerIcnbtn
+          :btn-flg="true"
+          :btn-str="'選択'"
+          :btn-cls="'def nml lbl'"
+          @icnbtn-click="switchLbllist">
+        </GenerIcnbtn>
+        <p class="res">{{ anewLabelObj.sid ? anewLabelObj.title : "－－" }}</p>
+        <GenerLbllist
+          v-if="labelFlg"
+          :check-lid="0"
+          :lbl-arr="lblArr"
+          @change-link="changeAnewLblLabel">
+        </GenerLbllist>
+      </div>
       <div class="link">
         <GenerIcnbtn
           :btn-flg="true"
@@ -78,6 +93,7 @@
 <script>
 import GenerDatepicker from './GenerDatepicker'
 import GenerColorpicker from './GenerColorpicker'
+import GenerLbllist from './GenerLbllist'
 import GenerScdlist from './GenerScdlist'
 import GenerIcnbtn from './GenerIcnbtn'
 // import GenerWrdbtn from './GenerWrdbtn'
@@ -93,8 +109,8 @@ export default {
     markYear: Number,
     markMonth: Number,
     markDate: Number,
-    scdArr: Array,
     lblArr: Array,
+    scdArr: Array,
   },
 	data() {
 		return {
@@ -106,6 +122,8 @@ export default {
       colorFlg: false,
       anewColor: "#fee7ed",
       anewPaletteIdx: 0,
+      labelFlg: false,
+      anewLabelObj: {lid: 0},
       linkFlg: false,
       anewLinkObj: {sid: 0},
 		}
@@ -113,6 +131,7 @@ export default {
   components: {
     GenerDatepicker,
     GenerColorpicker,
+    GenerLbllist,
     GenerScdlist,
     GenerIcnbtn,
     // GenerWrdbtn,
@@ -144,6 +163,15 @@ export default {
       this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
       this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
       this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
+    },
+    switchLbllist() {
+      this.labelFlg = this.labelFlg ? false : true;
+      console.log(this.labelFlg);
+    },
+    changeAnewLblLabel(id) {
+      for(let obj of this.lblArr) {
+        if(obj.lid==id) this.anewLabelObj = Object.assign({}, this.anewLabelObj, obj);
+      }
     },
     switchScdlist() {
       this.linkFlg = this.linkFlg ? false : true;
