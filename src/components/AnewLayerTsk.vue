@@ -46,12 +46,17 @@
           :btn-cls="'def nml lbl'"
           @icnbtn-click="switchLbllist">
         </GenerIcnbtn>
-        <p class="res">{{ anewLabelObj.sid ? anewLabelObj.title : "－－" }}</p>
+        <p class="res">
+          <i v-show="anewLabelObj.color" :style="{background: anewLabelObj.color}"></i>
+          {{ anewLabelObj.lid ? anewLabelObj.title : "－－" }}</p>
         <GenerLbllist
           v-if="labelFlg"
           :check-lid="0"
           :lbl-arr="lblArr"
-          @change-link="changeAnewLblLabel">
+          :bar-idx="anewPaletteIdx"
+          :sel-color="anewColor"
+          @change-label="changeAnewLblLabel"
+          @change-swatch="changeAnewColor">
         </GenerLbllist>
       </div>
       <div class="link">
@@ -169,6 +174,7 @@ export default {
       console.log(this.labelFlg);
     },
     changeAnewLblLabel(id) {
+      console.log(id);
       for(let obj of this.lblArr) {
         if(obj.lid==id) this.anewLabelObj = Object.assign({}, this.anewLabelObj, obj);
       }

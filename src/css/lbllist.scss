@@ -10,7 +10,30 @@
     .checked {
         margin: 0;
     }
-    ul {
+    > div {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        position: relative;
+        margin: 0 0 divceil(8, 16, "em");
+        > i {
+            flex-shrink: 0;
+            display: block;
+            border: 1px solid $gray2;
+            width: divceil(28, 16, "em");
+            height: divceil(28, 16, "em");
+            margin: 0 divceil(6, 16, "em") 0 0;
+        }
+        > button {
+            flex-shrink: 0;
+            margin: 0 0 0 divceil(6, 16, "em");
+        }
+        .colorpicker {
+            left: divceil(-8, 16, "em") !important;
+            right: divceil(48+6-8, 16, "em") !important;
+        }
+    }
+    > ul {
         max-height: 100%;
         margin: 0;
         padding: 0;
@@ -39,7 +62,8 @@
                 }
             }
             > a {
-                display: block;
+                display: flex;
+                align-items: center;
                 position: relative;
                 padding: 0 divceil(6, 16, "em");
                 color: inherit;
@@ -49,6 +73,13 @@
                     content: $right;
                     margin: 0 divceil(4, 16, "em") 0 0;
                     font-family: $icon;
+                }
+                > i {
+                    display: block;
+                    border: 1px solid $gray2;
+                    width: 1.1em;
+                    height: 1.1em;
+                    margin: 0 divceil(6, 16, "em") 0 0;
                 }
             }
         }
