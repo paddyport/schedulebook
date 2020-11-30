@@ -27,6 +27,7 @@ input, textarea {
 	border: 1px solid map-get($btn-nml, "font");
 	border-radius: 3px;
 	width: 100%;
+	padding: divceil(4, 16, "em") divceil(8, 16, "em");
     line-height: 1;
     font: inherit;
 	cursor: pointer;

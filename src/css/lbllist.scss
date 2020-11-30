@@ -30,7 +30,8 @@
         }
         .colorpicker {
             left: divceil(-8, 16, "em") !important;
-            right: divceil(48+6-8, 16, "em") !important;
+            // right: divceil(48-8-36, 16, "em") !important;
+            margin: 1px 0 0;
         }
     }
     > ul {

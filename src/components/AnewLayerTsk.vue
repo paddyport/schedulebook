@@ -28,21 +28,6 @@
         <GenerIcnbtn
           :btn-flg="true"
           :btn-str="'選択'"
-          :btn-cls="'def nml cpr'"
-          @icnbtn-click="switchColopicker">
-        </GenerIcnbtn>
-        <p class="res"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
-        <GenerColorpicker
-          v-if="colorFlg"
-          :bar-idx="anewPaletteIdx"
-          :sel-color="anewColor"
-          @change-swatch="changeAnewColor">
-        </GenerColorpicker>
-      </div>
-      <div class="label">
-        <GenerIcnbtn
-          :btn-flg="true"
-          :btn-str="'選択'"
           :btn-cls="'def nml lbl'"
           @icnbtn-click="switchLbllist">
         </GenerIcnbtn>
@@ -53,9 +38,7 @@
           v-if="labelFlg"
           :check-lid="0"
           :lbl-arr="lblArr"
-          :bar-idx="anewPaletteIdx"
-          :sel-color="anewColor"
-          @change-label="changeAnewLblLabel"
+          @change-label="changeAnewLabel"
           @change-swatch="changeAnewColor">
         </GenerLbllist>
       </div>
@@ -72,7 +55,7 @@
           :check-sid="0"
           :scd-arr="scdArr"
           :now-time="new Date(this.nowYear, this.nowMonth, this.nowDate).getTime()"
-          @change-link="changeAnewScdlink">
+          @change-link="changeAnewLink">
         </GenerScdlist>
       </div>
     </div>
@@ -97,7 +80,6 @@
 
 <script>
 import GenerDatepicker from './GenerDatepicker'
-import GenerColorpicker from './GenerColorpicker'
 import GenerLbllist from './GenerLbllist'
 import GenerScdlist from './GenerScdlist'
 import GenerIcnbtn from './GenerIcnbtn'
@@ -124,10 +106,10 @@ export default {
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       anewEndTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
-      colorFlg: false,
+      labelFlg: false,
+      addLblFlg: false,
       anewColor: "#fee7ed",
       anewPaletteIdx: 0,
-      labelFlg: false,
       anewLabelObj: {lid: 0},
       linkFlg: false,
       anewLinkObj: {sid: 0},
@@ -135,7 +117,6 @@ export default {
   },
   components: {
     GenerDatepicker,
-    GenerColorpicker,
     GenerLbllist,
     GenerScdlist,
     GenerIcnbtn,
@@ -143,13 +124,6 @@ export default {
     GenerTxtbtn,
   },
   methods: {
-    switchColopicker() {
-      this.colorFlg = this.colorFlg ? false : true;
-    },
-    changeAnewColor(val, idx) {
-      this.anewColor = val;
-      this.anewPaletteIdx = idx;
-    },
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
     },
@@ -173,16 +147,24 @@ export default {
       this.labelFlg = this.labelFlg ? false : true;
       console.log(this.labelFlg);
     },
-    changeAnewLblLabel(id) {
+    changeAnewColor(val, idx) {
+      this.anewColor = val;
+      this.anewPaletteIdx = idx;
+      this.addLblFlg = true;
+    },
+    changeAnewLabel(id) {
       console.log(id);
       for(let obj of this.lblArr) {
-        if(obj.lid==id) this.anewLabelObj = Object.assign({}, this.anewLabelObj, obj);
+        if(obj.lid==id) {
+          this.addLblFlg = false;
+          this.anewLabelObj = Object.assign({}, this.anewLabelObj, obj);
+        }
       }
     },
     switchScdlist() {
       this.linkFlg = this.linkFlg ? false : true;
     },
-    changeAnewScdlink(id) {
+    changeAnewLink(id) {
       for(let obj of this.scdArr) {
         if(obj.sid==id) this.anewLinkObj = Object.assign({}, this.anewLinkObj, obj);
       }

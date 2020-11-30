@@ -1,22 +1,25 @@
 <template>
 <div class="lbllist">
   <div>
-    <i
-      :style="{background: anewColor}"
+    <i 
+      :style="{background: addLabelColor}"
       @click="switchColopicker"></i>
     <GenerColorpicker
       v-if="colorFlg"
       :bar-idx="anewPaletteIdx"
       :sel-color="anewColor"
-      @change-swatch="change-swatch">
+      @change-swatch="addLblColor">
     </GenerColorpicker>
-    <input type="text">
+    <input
+      type="text"
+      @focus="inputLblTitle"
+      @blur="addLblTitle">
     <GenerWrdbtn
       :icon-flg="false"
       :btn-flg="addLabelFlg"
       :btn-str="'追加'"
       :btn-cls="'def nml widSM'"
-      @txtbtn-click="closeAnew">
+      @wrdbtn-click="addLbl">
     </GenerWrdbtn>
   </div>
   <ul v-if="lblArr.length">
@@ -49,9 +52,8 @@ export default {
   props: {
     checkLid: Number,
     lblArr: Array,
-    // colorFlg: Boolean,
-    barIdx: Number,
-    selColor: String,
+    // barIdx: Number,
+    // selColor: String,
   },
   data() {
     return {
@@ -59,6 +61,10 @@ export default {
       sortLblArr: this.lblArr,
       colorFlg: false,
       addLabelFlg: false,
+      anewColor: "#fee7ed",
+      anewPaletteIdx: 0,
+      addLabelColor: "",
+      addLabelTitle: "",
     }
   },
   components: {
@@ -84,6 +90,24 @@ export default {
       for(let obj of this.lblArr) {
         if(obj.lid==id) this.checkLidObj = Object.assign({}, this.checkLidObj, obj);
       }
+    },
+    addLblColor(val, idx) {
+      this.anewColor = val;
+      this.anewPaletteIdx = idx;
+      this.addLabelColor = val;
+    },
+    inputLblTitle() {
+      this.colorFlg = false;
+    },
+    addLblTitle(e) {
+      const val = e.target.value;
+      if(val) {
+        this.addLabelFlg = true;
+        this.addLabelTitle = val;
+      }
+    },
+    addLbl() {
+      this.colorFlg = false;
     },
     changeLbl(e) {
       const btn = e.target,
