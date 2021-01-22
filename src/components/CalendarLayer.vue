@@ -3,12 +3,11 @@
     <div class="header">
       <GenerIcnbtn
         :btn-flg="true"
-        :btn-str="'メニュー'"
         :btn-cls="'def nml cng'"
         @icnbtn-click="oclick">
       </GenerIcnbtn>
       <GenerHead
-        :head-str="currentYyMm.yy+'年'+currentYyMm.mm+'月'">
+        :head-str="currentYyMm.yy+'年'+(Number(currentYyMm.mm)+1)+'月'">
       </GenerHead>
     </div>
     <div class="body">
@@ -22,15 +21,13 @@
     </div>
     <div class="footer">
      <GenerTxtbtn
-        :icon-flg="true"
         :btn-flg="true"
         :btn-str="'新規作成'"
         :btn-cls="'def nml scd'"
         @txtbtn-click="openAnewScd">
       </GenerTxtbtn>
       <GenerTxtbtn
-        :icon-flg="true"
-       :btn-flg="true"
+        :btn-flg="true"
         :btn-str="'新規作成'"
         :btn-cls="'def nml tsk'"
         @txtbtn-click="openAnewTsk">

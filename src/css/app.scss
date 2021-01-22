@@ -4,8 +4,7 @@
 
 @font-face {
     font-family: $icon;
-    src: url("icons.woff2") format("woff2"),
-        url("icons.woff") format("woff");
+    src: url("ScheduleIcon.woff") format("woff");
 }
 * {
 	box-sizing: border-box;
@@ -25,11 +24,11 @@ body {
 input, textarea {
 	background: #fff;
 	border: 1px solid map-get($btn-nml, "font");
-	border-radius: 3px;
+	border-radius: 2px;
 	width: 100%;
 	padding: divceil(4, 16, "em") divceil(8, 16, "em");
-    line-height: 1;
-    font: inherit;
+  line-height: 1;
+  font: inherit;
 	cursor: pointer;
 	&:focus {
 		border: 1px solid map-get($btn-nml, "side");
@@ -38,55 +37,57 @@ input, textarea {
 	}
 }
 button {
-    position: relative;
+  position: relative;
 	background: transparent;
-    border: none;
+  border: none;
 	padding: 0;
 	letter-spacing: 0.07em;
-    line-height: 1;
-	font: inherit;
+  line-height: 1;
+  font-size: 16px;
 	font-weight: bold;
 	font-family: $btn;
 	font-feature-settings: "palt";
 	appearance: unset;
 	-webkit-tap-highlight-color: transparent;
-    cursor: pointer;
+  cursor: pointer;
 	&:focus {
 		outline: none;
 	}
 	&.def {
-		&::before {
-			content: "";
-			position: absolute;
-			border: 2px solid;
-			border-radius: 3px;
-			left: 0;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			z-index: 1;
-		}
-		> span {
-			position: absolute;
-			left: 0;
-			right: 0;
-			top: 0;
-			bottom: 0;
-			line-height: divceil(27, 16, "em");
-			pointer-events: none;
-			z-index: 5;
-		}
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border: 2px solid;
+    border-radius: 4px;
+    &::before {
+      font-family: $icon;
+    }
 		.isMD &:active > span, .isTD &:active > span {
 			color: #fff;
-			&::after {
-				color: #fff !important;
-			}
 		}
 		&.isNoActive {
 			pointer-events: none;
 		}
 	}
-	&.icn {
+  &.icn {
+    width: divceil(32, 16, "em");
+    height: divceil(32, 16, "em");
+  }
+  &.wrd {
+    width: divceil(48, 16, "em");
+    height: divceil(32, 16, "em");
+    &::before {
+      margin-right: 0.5em;
+    }
+  }
+  &.txt {
+    width: divceil(160, 16, "em");
+    height: divceil(32, 16, "em");
+    &::before {
+      margin-right: 0.5em;
+    }
+  }
+	&.ccl {
 		display: flex;
 		justify-content: center;
 		align-items: center;
@@ -106,211 +107,64 @@ button {
 			color: map-get($btn-nml, "bgActive");
 			pointer-events: none;
 		}
-	}
-}
-
-button.btnIcon {
-	width: divceil(32, 16, "em");
-	height: divceil(32, 16, "em");
-	> span {
-		color: transparent !important;
-		overflow: hidden;
-		&::after {
-			position: absolute;
-			left: 50%;
-			top: 50%;
-			font-size: divceil(18, 16, "em");
-			font-family: $icon;
-			transform: translate(-48%, -50%);
-		}
-	}
-}
-button.btnText {
-	width: divceil(134, 16, "em");
-	height: divceil(32, 16, "em");
-	> span {
-		line-height: divceil(32-1*2-1, 16, "em");
-		> span {
-			line-height: divceil(32-1*2+3, 16, "em");
-		}
-		> i {
-			margin: 0 divceil(8, 16, "em") 0 0;
-			list-style: divceil(32-1*2, 16, "em");
-			font-style: normal;
-			&::after {
-				display: inline-block;
-				font-size: divceil(18, 16, "em");
-				font-family: $icon;
-				transform: translate(0, 3%);
-			}
-		}
-	}
-}
-button.btnWord {
-	width: divceil(80, 16, "em");
-	height: divceil(32, 16, "em");
-	> span {
-		line-height: divceil(32-1*2, 16, "em");
-		> i {
-			margin: 0 divceil(8, 16, "em") 0 0;
-			font-style: normal;
-			&::after {
-				display: inline-block;
-				font-size: divceil(18, 16, "em");
-				font-family: $icon;
-				transform: translate(0, 3%);
-			}
-		}
-	}
-}
-
-// button.widMN {
-// 	width: divceil(32, 16, "em");
-// }
-button.widSM {
-	width: divceil(48, 16, "em");
-}
-button.widMD {
-	width: divceil(100, 16, "em");
-}
-button.widLG {
-	width: divceil(120, 16, "em");
-}
-button.heiMN {
-	height: divceil(32, 16, "em");
-	> span {
-		line-height: divceil(32, 16, "em");
-	}
-}
-
-button.nml {
-	@include btnColor($btn-nml);
-}
-button.scd {
-	@include btnColor($btn-scd);
-	&.btnIcon > span::after {
-		content: $schedule;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $schedule;
-	}
-	&.switchTab::after {
-		content: $schedule;
-	}
-}
-button.tsk {
-	@include btnColor($btn-tsk);
-	&.btnIcon > span::after {
-		content: $task;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $task;
-	}
-	&.switchTab::after {
-		content: $task;
-	}
-}
-button.lbl {
-	&.btnIcon > span::after {
-		content: $label;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $label;
-	}
-	&.switchTab::after {
-		content: $label;
-	}
-}
-button.menuList {
-	&.btnIcon > span::after {
-		content: $menu;
-	}
-}
-button.cng {
-	&.btnIcon > span::after {
-		content: $change;
-		transform: rotateZ(90deg) translate(-70%, 33%);
-	}
-}
-button.edt {
-	&.btnIcon > span::after {
-		content: $edit;
-	}
-	&.btnWord > span > i::after {
-		content: $edit;
-	}
-}
-button.sch {
-	&.btnIcon > span::after {
-		content: $search;
-	}
-	&.btnWord > span > i::after {
-		content: $search;
-	}
-}
-button.cpr {
-	&.btnIcon > span::after {
-		content: $colorpicker;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $colorpicker;
-	}
-}
-button.dtp {
-	&.btnIcon > span::after {
-		content: $schedule;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $schedule;
-	}
-}
-button.lnk {
-	&.btnIcon > span::after {
-		content: $link;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $link;
-	}
-}
-button.viw {
-	&.btnIcon > span::after {
-		content: $view;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $view;
-	}
-}
-button.rem {
-	&.btnIcon > span::after {
-		content: $remove;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $remove;
-	}
-}
-button.cls {
-	&.btnIcon > span::after {
-		content: $clear;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $clear;
-	}
-}
-button.pls {
-	&.btnIcon > span::after {
-		content: $plus;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $plus;
-	}
-}
-button.mns {
-	&.btnIcon > span::after {
-		content: $minus;
-	}
-	&.btnText > span > i::after, &.btnWord > span > i::after {
-		content: $minus;
-	}
+  }
+  &.nml {
+    @include btnColor($btn-nml);
+  }
+  &.scd {
+    @include btnColor($btn-scd);
+    &::before {
+      content: $schedule;
+    }
+  }
+  &.tsk {
+    @include btnColor($btn-tsk);
+    &::before {
+      content: $task;
+    }
+  }
+  &.lbl::before {
+    content: $label;
+  }
+  &.mnl::before {
+    content: $menu;
+  }
+  &.cng::before {
+    content: $change;
+  }
+  &.edt::before {
+    content: $edit;
+  }
+  &.sch::before {
+    content: $search;
+  }
+  &.prr::before {
+    content: $priority;
+  }
+  &.cpr::before {
+    content: $colorpicker;
+  }
+  &.dtp::before {
+    content: $datepicker;
+  }
+  &.lnk::before {
+    content: $link;
+  }
+  &.viw::before {
+    content: $view;
+  }
+  &.rem::before {
+    content: $remove;
+  }
+  &.cls::before {
+    content: $clear;
+  }
+  &.pls::before {
+    content: $plus;
+  }
+  &.mns::before {
+    content: $minus;
+  }
 }
 
 a.listItem {

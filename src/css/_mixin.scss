@@ -18,29 +18,19 @@
     }
 }
 @mixin btnColor($set) {
+  background: map-get($set, "bgBase");
 	color: map-get($set, "font");
-	&::before {
-		background: map-get($set, "bgBase");
-	}
-	> span {
-		&::after {
-			color: map-get($set, "font");
-		}
-	}
-	.isMD &:hover::before {
+	.isMD &:hover {
 		background: map-get($set, "side");
 	}
-	.isMD &:active::before, .isTD &:active::before {
-		background: map-get($set, "font");
+	.isMD &:active, .isTD &:active {
+    background: map-get($set, "font");
+    border-color: map-get($set, "font");
+    color: #fff;
 	}
 	&.isNoActive {
+    border-color: map-get($set, "bgBase");
 		color: map-get($set, "bgActive");
-		> span {
-			color: map-get($set, "bgActive");
-			&::after {
-				color: map-get($set, "bgActive");
-			}
-		}
 	}
 }
 @mixin fontWeight($weight) {

@@ -4,7 +4,8 @@
       deviceType,
       2<=now.getMonth()&&now.getMonth()<5 ? 'spr' : 
       5<=now.getMonth()&&now.getMonth()<8 ? 'smm' : 
-      8<=now.getMonth()&&now.getMonth()<11 ? 'atm' : 'wnt']">
+      8<=now.getMonth()&&now.getMonth()<11 ? 'atm' : 
+      'wnt']">
     <CalendarLayer
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"

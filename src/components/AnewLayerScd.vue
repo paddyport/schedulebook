@@ -7,7 +7,6 @@
       <div class="date">
         <GenerIcnbtn
           :btn-flg="true"
-          :btn-str="'選択'"
           :btn-cls="'def nml dtp'"
           @icnbtn-click="switchDatepicker">
         </GenerIcnbtn>
@@ -24,10 +23,15 @@
           @select-date="selectAnewDating">
         </GenerDatepicker>
       </div>
+      <div class="priority">
+        <GenerIcnbtn
+          :btn-flg="true"
+          :btn-cls="'def nml prr'">
+        </GenerIcnbtn>
+      </div>
       <div class="label">
         <GenerIcnbtn
           :btn-flg="true"
-          :btn-str="'選択'"
           :btn-cls="'def nml cpr'"
           @icnbtn-click="switchColopicker">
         </GenerIcnbtn>

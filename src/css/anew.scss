@@ -16,6 +16,11 @@
 	height: 100%;
 	padding: divceil(10, 16, "em");
 	overflow-y: scroll;
+	> div {
+		+ div {
+			margin-top: divceil(16, 16, "em");
+		}
+	}
 }
 .content {
 	height: calc(100% - #{divceil(50+16-4, 16, "em")});
@@ -30,7 +35,6 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: divceil(16, 16, "em") 0 0;
 	.res {
 		display: flex;
 		align-items: center;
@@ -57,11 +61,15 @@
 		z-index: 100;
 	}
 }
+.priority {
+  > button.prr {
+    pointer-events: none;
+  }
+}
 .label {
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: divceil(16, 16, "em") 0 0;
 	.res {
 		display: flex;
 		align-items: center;
@@ -93,7 +101,6 @@
 	display: flex;
 	align-items: center;
 	position: relative;
-	padding: divceil(16, 16, "em") 0 0;
 	.res {
 		display: flex;
 		align-items: center;
@@ -111,7 +118,6 @@
 	}
 }
 .body {
-	padding: divceil(16, 16, "em") 0;
 	line-height: 0;
 	> div {
 		border: 1px solid map-get($btn-nml, "font");
@@ -135,7 +141,6 @@
 	}
 }
 .list {
-	padding: divceil(10, 16, "em") 0 0;
 	text-align: left;
 	list-style: none;
 	> ul {
