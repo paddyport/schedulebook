@@ -95,8 +95,8 @@
 			font-size: divceil(18, 16, "em");
 			font-family: $icon;
 			pointer-events: none;
-			&.scd {
-				color: map-get($btn-scd, "side");
+			&.prj {
+				color: map-get($btn-prj, "side");
 			}
 			&.tsk {
 				color: map-get($btn-tsk, "side");

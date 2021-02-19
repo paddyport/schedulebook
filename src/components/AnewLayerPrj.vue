@@ -1,5 +1,5 @@
 <template>
-  <div id="AnewScd" class="anew">
+  <div id="AnewPrj" class="anew">
     <div>
       <div class="title">
         <input type="text" placeholder="新規タイトル">
@@ -23,25 +23,17 @@
           @select-date="selectAnewDating">
         </GenerDatepicker>
       </div>
-      <div class="priority">
+      <div class="member">
         <GenerIcnbtn
           :btn-flg="true"
-          :btn-cls="'def nml prr'">
+          :btn-cls="'def nml mmb'"
+          @icnbtn-click="switchDatepicker">
         </GenerIcnbtn>
       </div>
-      <div class="label">
-        <GenerIcnbtn
-          :btn-flg="true"
-          :btn-cls="'def nml cpr'"
-          @icnbtn-click="switchColopicker">
-        </GenerIcnbtn>
-        <p class="res"><i v-show="anewColor" :style="{background: anewColor}"></i>{{ anewColor }}</p>
-        <GenerColorpicker
-          v-if="colorFlg"
-          :barIdx="anewPaletteIdx"
-          :sel-color="anewColor"
-          @change-swatch="changeAnewColor">
-        </GenerColorpicker>
+      <div class="caption">
+        <GenerTxtarea
+          @txtarea-blur="checkText">
+        </GenerTxtarea>
       </div>
     </div>
     <div class="footer">
@@ -56,7 +48,7 @@
         :icon-flg="true"
         :btn-flg="true"
         :btn-str="'新規作成'"
-        :btn-cls="'def nml scd'"
+        :btn-cls="'def nml prj'"
         @txtbtn-click="checkAnew">
       </GenerTxtbtn>
     </div>
@@ -65,12 +57,12 @@
 
 <script>
 import GenerDatepicker from './GenerDatepicker'
-import GenerColorpicker from './GenerColorpicker'
 import GenerIcnbtn from './GenerIcnbtn'
 import GenerTxtbtn from './GenerTxtbtn'
+import GenerTxtarea from './GenerTxtarea'
 
 export default {
-  name: 'AnewLayerScd',
+  name: 'AnewLayerPrj',
   props: {
     nowYear: Number,
     nowMonth: Number,
@@ -95,9 +87,9 @@ export default {
   },
   components: {
     GenerDatepicker,
-    GenerColorpicker,
     GenerIcnbtn,
     GenerTxtbtn,
+    GenerTxtarea,
   },
   methods: {
     switchColopicker() {

@@ -16,9 +16,9 @@ export default {
     btnCls: String,
   },
   methods: {
-      onClick(e) {
-          this.$emit("txtbtn-click", e);
-      },
+    onClick(e) {
+      this.$emit("txtbtn-click", e);
+    },
   },
 }
 </script>

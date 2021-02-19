@@ -3,8 +3,8 @@
 @import "_mixin";
 
 @font-face {
-    font-family: $icon;
-    src: url("ScheduleIcon.woff") format("woff");
+  font-family: $icon;
+  src: url("ScheduleIcon.woff") format("woff");
 }
 * {
 	box-sizing: border-box;
@@ -13,13 +13,13 @@
 	}
 }
 body {
-    margin: 0;
-    font-size: divceil(32, 750, "vw");
-    font-family: $font, sans-serif;
-    color: $black1;
-    @include mq() {
+  margin: 0;
+  font-size: divceil(32, 750, "vw");
+  font-family: $font, sans-serif;
+  color: $black1;
+  @include mq() {
 		font-size: 20px;
-    }
+  }
 }
 input, textarea {
 	background: #fff;
@@ -111,10 +111,10 @@ button {
   &.nml {
     @include btnColor($btn-nml);
   }
-  &.scd {
-    @include btnColor($btn-scd);
+  &.prj {
+    @include btnColor($btn-prj);
     &::before {
-      content: $schedule;
+      content: $project;
     }
   }
   &.tsk {
@@ -141,17 +141,14 @@ button {
   &.prr::before {
     content: $priority;
   }
-  &.cpr::before {
-    content: $colorpicker;
-  }
   &.dtp::before {
     content: $datepicker;
   }
   &.lnk::before {
     content: $link;
   }
-  &.viw::before {
-    content: $view;
+  &.mmb::before {
+    content: $member;
   }
   &.rem::before {
     content: $remove;
@@ -243,20 +240,15 @@ a.sch {
 		content: $search;
 	}
 }
-a.hst {
-	&.listItem::before {
-		content: $new;
-	}
-}
 a.edt {
 	&.listItem::before {
 		content: $edit;
 	}
 }
-a.scd {
+a.prj {
 	&.listItem::before {
-		content: $schedule;
-		color: map-get($btn-scd, "side");
+		content: $project;
+		color: map-get($btn-prj, "side");
 	}
 }
 a.tsk {

@@ -57,7 +57,7 @@ export default {
   },
   data() {
     return {
-      checkLidObj: {sid: this.checkLid},
+      checkLidObj: {pid: this.checkLid},
       sortLblArr: this.lblArr,
       colorFlg: false,
       addLabelFlg: false,
@@ -80,11 +80,11 @@ export default {
       this.colorFlg = this.colorFlg ? false : true;
     },
     // sortTimetoArr() {
-    //   for(let obj of this.scdArr) {
+    //   for(let obj of this.prjArr) {
     //   console.log(this.nowTime, obj.end);
-    //     if(this.nowTime<=obj.end) this.sortScdArr.push(obj);
+    //     if(this.nowTime<=obj.end) this.sortPrjArr.push(obj);
     //   }
-    //   console.log(this.sortScdArr);
+    //   console.log(this.sortPrjArr);
     // },
     getLidObj(id) {
       for(let obj of this.lblArr) {

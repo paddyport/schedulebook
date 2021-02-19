@@ -3,7 +3,7 @@
 
 .datepicker {
     background: $gray1;
-	padding: divceil(8, 16, "em");
+	padding: divceil(10, 16, "em");
 	.heads {
 		display: flex;
 		justify-content: space-between;
@@ -11,123 +11,127 @@
 		position: relative;
 		padding: 0 0 divceil(12, 16, "em");
 		> p {
-            margin: 0;
-            letter-spacing: 0.05em;
+      margin: 0;
+      letter-spacing: 0.05em;
 			font-size: divceil(20, 16, "em");
 		}
 		> button {
-            position: relative;
-            background: map-get($btn-nml, "bgBase");
-            border-radius: 50%;
-            width: divceil(16*2, 16, "em");
-            height: divceil(16*2, 16, "em");
-            color: map-get($btn-nml, "font");
-            &::before {
-                position: absolute;
-                left: 50%;
-                top: 50%;
-                font-family: $icon;
-            }
-            &.prv::before {
-                content: $left;
-                transform: translate(-52%, -52%);
-            }
-            &.nxt::before {
-                content: $right;
-                transform: translate(-48%, -52%);
-            }
-            .isMD &:hover {
-                background: map-get($btn-nml, "bgActive");
-            }
-            .isMD &:active, .isTD &:active {
-                background: map-get($btn-nml, "font");
-                color: #fff;
-            }
-            &.isNoActive {
-                color: map-get($btn-nml, "bgActive");
-                pointer-events: none;
-            }
+      position: relative;
+      background: map-get($btn-nml, "bgBase");
+      border-radius: 50%;
+      width: divceil(16*2, 16, "em");
+      height: divceil(16*2, 16, "em");
+      color: map-get($btn-nml, "font");
+      &::before {
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        font-family: $icon;
+      }
+      &.prv::before {
+        content: $left;
+        transform: translate(-52%, -52%);
+      }
+      &.nxt::before {
+        content: $right;
+        transform: translate(-48%, -52%);
+      }
+      .isMD &:hover {
+        background: map-get($btn-nml, "bgActive");
+      }
+      .isMD &:active, .isTD &:active {
+        background: map-get($btn-nml, "font");
+        color: #fff;
+      }
+      &.isNoActive {
+        color: map-get($btn-nml, "bgActive");
+        pointer-events: none;
+      }
 		}
 	}
 	.dates {
-        .month {
-            display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            grid-row-gap: 4px;
-            grid-column-gap: 4px;
-            line-height: 0.6em;
-            .day {
-                position: relative;
-                background: map-get($btn-nml, "bgBase");
-                border-radius: 3px;
-                padding: 50%;
-                text-align: center;
-                &:empty {
-                    background: transparent;
-                }
-                > a {
-                    display: flex;
-                    justify-content: center;
-                    align-items: center;
-                    position: absolute;
-                    left: 0;
-                    right: 0;
-                    top: 0;
-                    bottom: 0;
-                    color: map-get($btn-nml, "font");
-                    cursor: pointer;
-                    .isMD &:hover {
-                        background: map-get($btn-nml, "bgActive");
-                    }
-                    .isMD &:active, .isTD &:active {
-                        background: map-get($btn-nml, "font");
-                        color: #fff;
-                    }
-                    &::before {
-                        content: "";
-                        position: absolute;
-                        top: 0;
-                        bottom: 0;
-                        pointer-events: none;
-                    }
-                    > span {
-                        display: block;
-                        position: relative;
-                        z-index: 5;
-                    }
-                    &.isBet {
-                        color: #fff;
-                        &::before {
-                            background: map-get($btn-nml, "bgActive");
-                            left: -2px;
-                            right: -2px;
-                        }
-                    }
-                    &.isStart::before {
-                        background: map-get($btn-nml, "side");
-                        border-bottom-left-radius: 3px;
-                        border-top-left-radius: 3px;
-                        left: 0;
-                    }
-                    &.isEnd {
-                        &::before {
-                            background: map-get($btn-nml, "side");
-                            border-bottom-right-radius: 3px;
-                            border-top-right-radius: 3px;
-                            right: 0;
-                        }
-                        &.isStart {
-                            pointer-events: none;
-                        }
-                    }
-                }
-                &:nth-child(7n+1) > a::before {
-                    left: 0 !important;
-                }
-                &:nth-child(7n) > a::before {
-                    right: 0 !important;
-                }
-            }
+    .month {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      grid-row-gap: 8px;
+      grid-column-gap: 8px;
+      line-height: 0.6em;
+      .day {
+        position: relative;
+        background: map-get($btn-nml, "bgBase");
+        border-radius: 3px;
+        padding: 50%;
+        text-align: center;
+        &:empty {
+          background: transparent;
         }
+        > a {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          bottom: 0;
+          font-size: divceil(18, 16, "em");
+          font-family: $num;
+          color: map-get($btn-nml, "font");
+          cursor: pointer;
+          &::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            pointer-events: none;
+          }
+          > span {
+            display: block;
+            position: relative;
+            z-index: 5;
+          }
+          .isMD &:hover {
+            background: map-get($btn-nml, "bgActive");
+          }
+          .isMD &:active, .isTD &:active {
+            background: map-get($btn-nml, "font");
+            color: #fff;
+          }
+          &.isBet {
+            color: #fff;
+            &::before {
+              background: map-get($btn-nml, "bgActive");
+              left: -4px;
+              right: -4px;
+            }
+          }
+          &.isStart {
+            &::before {
+              background: map-get($btn-nml, "side");
+              border-bottom-left-radius: 3px;
+              border-top-left-radius: 3px;
+              left: 0;
+            }
+          }
+          &.isEnd {
+            &::before {
+              background: map-get($btn-nml, "side");
+              border-bottom-right-radius: 3px;
+              border-top-right-radius: 3px;
+              right: 0;
+            }
+            &.isStart {
+              pointer-events: none;
+            }
+          }
+        }
+        &:nth-child(7n+1) > a::before {
+          left: 0 !important;
+        }
+        &:nth-child(7n) > a::before {
+          right: 0 !important;
+        }
+      }
+    }
 	}
 }

@@ -1,11 +1,11 @@
 @import "_pseudo";
 @import "_mixin";
 
-$swatch: 24;
+$swatch: 28;
 .colorpicker {
 //	display: flex;
 	background: $gray1;
-	padding: divceil(8, 16, "em");
+	padding: divceil(10, 16, "em");
 	.swatch {
 		display: grid;
 		grid-template-columns: repeat((10-1), 1fr);
@@ -14,7 +14,8 @@ $swatch: 24;
 		> a {
 			display: block;
 			position: relative;
-			padding: 50%;
+      // padding: 50%;
+      height: divceil(30, 16, "em");
 			cursor: pointer;
 			&::after {
 				content: "";
@@ -41,14 +42,13 @@ $swatch: 24;
 		}
 	}
 	.bar {
-		display: flex;
-		justify-content: space-between;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
 		margin: divceil(10, 16, "em") 0 0;
 		> a {
 			display: block;
 			position: relative;
-			width: 100%;
-			height: divceil($swatch, 16, "em");
+      padding: 50%;
 			cursor: pointer;
 			&:hover {
 				&::after {

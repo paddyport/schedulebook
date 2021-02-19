@@ -23,8 +23,8 @@
      <GenerTxtbtn
         :btn-flg="true"
         :btn-str="'新規作成'"
-        :btn-cls="'def nml scd'"
-        @txtbtn-click="openAnewScd">
+        :btn-cls="'def nml prj'"
+        @txtbtn-click="openAnewPrj">
       </GenerTxtbtn>
       <GenerTxtbtn
         :btn-flg="true"
@@ -57,9 +57,9 @@ export default {
     oclick(e) {
       console.log(e);
     },
-    openAnewScd() {
+    openAnewPrj() {
       this.$emit("an-shown-loader");
-      this.$emit("an-open-now-anew-scd");
+      this.$emit("an-open-now-anew-prj");
     },
     openAnewTsk() {
       this.$emit("an-shown-loader");

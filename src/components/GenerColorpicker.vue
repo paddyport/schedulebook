@@ -5,7 +5,7 @@
       v-for="(ps, psidx) in paletteSwatchArr"
       :class="[selColor&&paletteSwatchArr[psidx]['color']==selColor ? 'isCurrent' : '']"
       :style="{background: paletteSwatchArr[psidx]['color']}"
-      :data-pid="psidx"
+      :data-sid="psidx"
       :key="psidx"
       @click="selectSwatch">
     </a>
@@ -90,7 +90,7 @@ export default {
     },
     selectSwatch(e) {
       const btn = e.target,
-        idx = Number(btn.dataset.pid);
+        idx = Number(btn.dataset.sid);
       this.paletteBarSelected = this.palleteBarIdx;
       this.$emit("change-swatch", this.paletteSwatchArr[idx].color, this.paletteBarSelected);
     }

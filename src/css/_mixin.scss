@@ -1,21 +1,21 @@
 @function divceil($that, $divid, $unit: "%") {
-    $result: 1; 
-    @if $unit=="%" {
-        $result: ceil($that*100000/$divid)/1000;
-        @return percentage($result/100);
+  $result: 1; 
+  @if $unit=="%" {
+    $result: ceil($that*100000/$divid)/1000;
+    @return percentage($result/100);
+  } @else {
+    @if $unit=="em" {
+      $result: ceil($that*1000/$divid)/1000;
     } @else {
-        @if $unit=="em" {
-            $result: ceil($that*1000/$divid)/1000;
-        } @else {
-            $result: ceil($that*100000/$divid)/1000;
-        }
-        @return $result + unquote($unit); 
+      $result: ceil($that*100000/$divid)/1000;
     }
+    @return $result + unquote($unit); 
+  }
 }
 @mixin mq($breakpoint: "min-width: 768px") {
-    @media screen and ($breakpoint) {
-        @content;
-    }
+  @media screen and ($breakpoint) {
+    @content;
+  }
 }
 @mixin btnColor($set) {
   background: map-get($set, "bgBase");
@@ -34,13 +34,13 @@
 	}
 }
 @mixin fontWeight($weight) {
-    @if $weight == "regular" {
-        font-weight: 400;
-    } @else if $weight == "bold" {
-        font-weight: 700;
-    } @else {
-        font-weight: $weight;
-    }
+  @if $weight == "regular" {
+    font-weight: 400;
+  } @else if $weight == "bold" {
+    font-weight: 700;
+  } @else {
+    font-weight: $weight;
+  }
 }
 @mixin endLeader() {
 	white-space: nowrap;
@@ -50,8 +50,8 @@
 
 $font: source-han-sans-japanese;
 $num: futura-pt;
-$icon: "icomoon";
-$btn: tbchibirgothicplusk-pro;
+$icon: "Scheduleicon";
+$btn: fot-tsukuardgothic-std;
 
 $btn-nml: (
 	font: #3c3c3c,
@@ -59,7 +59,7 @@ $btn-nml: (
 	bgActive: #d0d0d0,
 	side: #a3a3a3
 );
-$btn-scd: (
+$btn-prj: (
 	font: #1a4c86,
 	bgBase: #e8f1fc,
 	bgActive: #c2d6ef,
@@ -73,26 +73,26 @@ $btn-tsk: (
 );
 $btn-font: (
 	nml: map-get($btn-nml, "font"),
-	scd: map-get($btn-scd, "font"),
+	prj: map-get($btn-prj, "font"),
 	tsk: map-get($btn-tsk, "font"),
 );
 $btn-base: (
 	nml: map-get($btn-nml, "bgBase"),
-	scd: map-get($btn-scd, "bgBase"),
+	prj: map-get($btn-prj, "bgBase"),
 	tsk: map-get($btn-tsk, "bgBase"),
 );
 $btn-active: (
 	nml: map-get($btn-nml, "bgActive"),
-	scd: map-get($btn-scd, "bgActive"),
+	prj: map-get($btn-prj, "bgActive"),
 	tsk: map-get($btn-tsk, "bgActive"),
 );
 $btn-side: (
 	nml: map-get($btn-nml, "side"),
-	scd: map-get($btn-scd, "side"),
+	prj: map-get($btn-prj, "side"),
 	tsk: map-get($btn-tsk, "side"),
 );
 $btn-icon: (
-	scd: $schedule,
+	prj: $project,
 	tsk: $task,
 );
 

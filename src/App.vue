@@ -10,11 +10,11 @@
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
       @an-shown-loader="shownLoader"
-      @an-open-now-anew-scd="openNowAnewScd"
+      @an-open-now-anew-prj="openNowAnewPrj"
       @an-open-now-anew-tsk="openNowAnewTsk">
     </CalendarLayer>
-    <AnewLayerScd
-      v-if="anewScdFlg"
+    <AnewLayerPrj
+      v-if="anewPrjFlg"
       :now-year="now.getFullYear()"
       :now-month="now.getMonth()"
       :now-date="now.getDate()"
@@ -24,7 +24,7 @@
       :mark-date="markDate"
       :lbl-arr="lblArr"
       @an-close-anew="closeAnew">
-    </AnewLayerScd>
+    </AnewLayerPrj>
     <AnewLayerTsk
       v-if="anewTskFlg"
       :now-year="now.getFullYear()"
@@ -34,7 +34,7 @@
       :mark-year="markYear"
       :mark-month="markMonth"
       :mark-date="markDate"
-      :scd-arr="scdArr"
+      :prj-arr="prjArr"
       :lbl-arr="lblArr"
       @an-close-anew="closeAnew">
     </AnewLayerTsk>
@@ -45,7 +45,7 @@
 <script>
 import Dexie from 'dexie'
 import CalendarLayer from './components/CalendarLayer'
-import AnewLayerScd from './components/AnewLayerScd'
+import AnewLayerPrj from './components/AnewLayerPrj'
 import AnewLayerTsk from './components/AnewLayerTsk'
 import LoaderLayer from './components/LoaderLayer'
 
@@ -65,9 +65,9 @@ export default {
       currentDatesCnt: 0,
       currentWeeks: 0,
       weekLen: 7,
-      scdArr: [],
+      prjArr: [],
       lblArr: [],
-      anewScdFlg: false,
+      anewPrjFlg: false,
       anewTskFlg: false,
       ctgName: "",
       markYear: 0,
@@ -77,7 +77,7 @@ export default {
   },
   components: {
     CalendarLayer,
-    AnewLayerScd,
+    AnewLayerPrj,
     AnewLayerTsk,
     LoaderLayer,
   },
@@ -117,20 +117,22 @@ export default {
 		},
 		createTable() {
 			this.db.version(1).stores({
-				scd: "++sid, lid, start, end, notice, member, title, memo",
-        tsk: "++tid, lid, sid, date, loop, notice, priority, title, memo",
+				prj: "++pid, start, end, member, title, memo",
+        tsk: "++tid, lid, pid, tids, date, notice, priority, title, memo",
         lbl: "++lid, color, title",
+        mmb: "++mid, name",
       });
-      // scd: sid, lid, start, end, notice, member, title, memo, 
-      // tsk: tid, lid, sid, date, loop, notice, priority(3以下), title, memo
+      // prj: pid, start, end, member, title, memo, 
+      // tsk: tid, lid, pid, date, tids(arr), notice, priority(3以下), title, memo
       // lbl: lid, color, title
+      // mmb: mid, name
       // this.testAddDB();
       // console.log(this.db);
     },
     testAddDB() {
       // test
-      this.db.scd.put({
-        sid: 1,
+      this.db.prj.put({
+        pid: 1,
         lid: 1,
         start: new Date(2020,11,30).getTime(),
         end: new Date(2020,11,30).getTime(),
@@ -139,8 +141,8 @@ export default {
         title: "徒然なるまゝに",
         memo: ""
       });
-      this.db.scd.put({
-        sid: 2,
+      this.db.prj.put({
+        pid: 2,
         lid: 2,
         start: new Date(2020,11,15).getTime(),
         end: new Date(2020,11,16).getTime(),
@@ -149,8 +151,8 @@ export default {
         title: "日暮らし",
         memo: "あやしうこそものぐるほしけれ。"
       });
-      this.db.scd.put({
-        sid: 3,
+      this.db.prj.put({
+        pid: 3,
         lid: 2,
         start: new Date(2020,12,1).getTime(),
         end: new Date(2020,12,5).getTime(),
@@ -162,7 +164,7 @@ export default {
       this.db.tsk.put({
         tid: 1,
         lid: 2,
-        sid: 2,
+        pid: 2,
         date: new Date(2020,11,14).getTime(),
         loop: false,
         notice: true,
@@ -173,7 +175,7 @@ export default {
       this.db.tsk.put({
         tid: 1,
         lid: 3,
-        sid: null,
+        pid: null,
         date: 20,
         loop: "month",
         notice: true,
@@ -197,10 +199,10 @@ export default {
         title: "末葉(すゑば)",
       });
     },
-		getScdAllData() {
+		getPrjAllData() {
 			const that = this;
 			return new Promise(function(resolve){
-				that.db.scd.toArray().then((list) => {
+				that.db.prj.toArray().then((list) => {
 					resolve(list);
 				});
 			});
@@ -256,15 +258,15 @@ export default {
 				}
       }
     },
-    async openNowAnewScd() {
-      this.openAnew("scd", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+    async openNowAnewPrj() {
+      this.openAnew("prj", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
       this.lblArr = await this.getLblAllData();
-      this.anewScdFlg = true;
+      this.anewPrjFlg = true;
       this.hiddenLoader();
     },
     async openNowAnewTsk() {
       this.openAnew("tsk", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
-      this.scdArr = await this.getScdAllData();
+      this.prjArr = await this.getPrjAllData();
       this.lblArr = await this.getLblAllData();
       this.anewTskFlg = true;
       this.hiddenLoader();
@@ -277,7 +279,7 @@ export default {
     },
     closeAnew() {
       this.ctgName = "";
-      this.anewScdFlg = false;
+      this.anewPrjFlg = false;
       this.anewTskFlg = false;
     },
   },

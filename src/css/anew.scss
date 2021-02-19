@@ -54,10 +54,9 @@
 	}
 	.datepicker {
 		position: absolute;
-		left: divceil(32+10, 16, "em");
+		left: 0;
 		right: 0;
 		top: 100%;
-		// padding: divceil(10, 16, "em");
 		z-index: 100;
 	}
 }
@@ -84,7 +83,7 @@
 	}
 	.colorpicker {
 		position: absolute;
-		left: divceil(32+10, 16, "em");
+		left: 0;
 		right: 0;
 		top: 100%;
 		z-index: 100;
@@ -109,7 +108,7 @@
 		letter-spacing: 0.03em;
 		@include endLeader();
 	}
-	.scdlist {
+	.prjlist {
 		position: absolute;
 		max-height: divceil(280, 16, "em");
 		left: divceil(32+10, 16, "em");
@@ -117,9 +116,9 @@
 		top: 100%;
 	}
 }
-.body {
+.caption {
 	line-height: 0;
-	> div {
+	> textarea {
 		border: 1px solid map-get($btn-nml, "font");
 		border-radius: 2px;
 		width: 100%;
@@ -197,12 +196,6 @@
 				font-family: $icon;
 				color: $black2;
 				transform: translate(0, -50%);
-			}
-			&.date::before {
-				content: $new;
-			}
-			&.last::before {
-				content: $edit;
 			}
 		}
 		> p {

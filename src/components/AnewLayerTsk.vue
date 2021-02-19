@@ -47,16 +47,16 @@
           :btn-flg="true"
           :btn-str="'選択'"
           :btn-cls="'def nml lnk'"
-          @icnbtn-click="switchScdlist">
+          @icnbtn-click="switchPrjlist">
         </GenerIcnbtn>
-        <p class="res">{{ anewLinkObj.sid ? anewLinkObj.title : "－－" }}</p>
-        <GenerScdlist
+        <p class="res">{{ anewLinkObj.pid ? anewLinkObj.title : "－－" }}</p>
+        <GenerPrjlist
           v-if="linkFlg"
-          :check-sid="0"
-          :scd-arr="scdArr"
+          :check-pid="0"
+          :prj-arr="prjArr"
           :now-time="new Date(this.nowYear, this.nowMonth, this.nowDate).getTime()"
           @change-link="changeAnewLink">
-        </GenerScdlist>
+        </GenerPrjlist>
       </div>
     </div>
     <div class="footer">
@@ -81,7 +81,7 @@
 <script>
 import GenerDatepicker from './GenerDatepicker'
 import GenerLbllist from './GenerLbllist'
-import GenerScdlist from './GenerScdlist'
+import GenerPrjlist from './GenerPrjlist'
 import GenerIcnbtn from './GenerIcnbtn'
 // import GenerWrdbtn from './GenerWrdbtn'
 import GenerTxtbtn from './GenerTxtbtn'
@@ -97,7 +97,7 @@ export default {
     markMonth: Number,
     markDate: Number,
     lblArr: Array,
-    scdArr: Array,
+    prjArr: Array,
   },
 	data() {
 		return {
@@ -112,13 +112,13 @@ export default {
       anewPaletteIdx: 0,
       anewLabelObj: {lid: 0},
       linkFlg: false,
-      anewLinkObj: {sid: 0},
+      anewLinkObj: {pid: 0},
 		}
   },
   components: {
     GenerDatepicker,
     GenerLbllist,
-    GenerScdlist,
+    GenerPrjlist,
     GenerIcnbtn,
     // GenerWrdbtn,
     GenerTxtbtn,
@@ -161,12 +161,12 @@ export default {
         }
       }
     },
-    switchScdlist() {
+    switchPrjlist() {
       this.linkFlg = this.linkFlg ? false : true;
     },
     changeAnewLink(id) {
-      for(let obj of this.scdArr) {
-        if(obj.sid==id) this.anewLinkObj = Object.assign({}, this.anewLinkObj, obj);
+      for(let obj of this.prjArr) {
+        if(obj.pid==id) this.anewLinkObj = Object.assign({}, this.anewLinkObj, obj);
       }
     },
     closeAnew() {
