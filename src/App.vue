@@ -22,7 +22,7 @@
       :mark-year="markYear"
       :mark-month="markMonth"
       :mark-date="markDate"
-      :lbl-arr="lblArr"
+      :mmb-arr="mmbArr"
       @an-close-anew="closeAnew">
     </AnewLayerPrj>
     <AnewLayerTsk
@@ -66,6 +66,7 @@ export default {
       currentWeeks: 0,
       weekLen: 7,
       prjArr: [],
+      mmbArr: [],
       lblArr: [],
       anewPrjFlg: false,
       anewTskFlg: false,
@@ -120,12 +121,12 @@ export default {
 				prj: "++pid, start, end, member, title, memo",
         tsk: "++tid, lid, pid, tids, date, notice, priority, title, memo",
         lbl: "++lid, color, title",
-        mmb: "++mid, name",
+        mmb: "++mid, name, authority, address",
       });
-      // prj: pid, start, end, member, title, memo, 
+      // prj: pid, start, end, member, title, memo,
       // tsk: tid, lid, pid, date, tids(arr), notice, priority(3以下), title, memo
+      // mmb: mid, name, authority(2以下), icon(検索なしなので↑で設定しない)
       // lbl: lid, color, title
-      // mmb: mid, name
       // this.testAddDB();
       // console.log(this.db);
     },
@@ -133,30 +134,24 @@ export default {
       // test
       this.db.prj.put({
         pid: 1,
-        lid: 1,
         start: new Date(2020,11,30).getTime(),
         end: new Date(2020,11,30).getTime(),
-        notice: true,
         member: [],
         title: "徒然なるまゝに",
         memo: ""
       });
       this.db.prj.put({
         pid: 2,
-        lid: 2,
         start: new Date(2020,11,15).getTime(),
         end: new Date(2020,11,16).getTime(),
-        notice: false,
         member: ["aaa"],
         title: "日暮らし",
         memo: "あやしうこそものぐるほしけれ。"
       });
       this.db.prj.put({
         pid: 3,
-        lid: 2,
         start: new Date(2020,12,1).getTime(),
         end: new Date(2020,12,5).getTime(),
-        notice: false,
         member: [],
         title: "あやしうこそ",
         memo: ""
@@ -183,6 +178,34 @@ export default {
         title: "硯",
         memo: "",
       });
+      this.db.mmb.put({
+        mid: 1,
+        name: "山田太郎",
+        authority: 2,
+        address: "example1@gmail.com",
+        icon: "/assets/images/icon01.png"
+      });
+      this.db.mmb.put({
+        mid: 2,
+        name: "小林太郎",
+        authority: 1,
+        address: "example2@gmail.com",
+        icon: "/assets/images/icon02.png"
+      });
+      this.db.mmb.put({
+        mid: 3,
+        name: "鈴木一郎",
+        authority: 0,
+        address: "example3@gmail.com",
+        icon: "/assets/images/icon03.png"
+      });
+      this.db.mmb.put({
+        mid: 4,
+        name: "鈴木二郎",
+        authority: 0,
+        address: "example4@gmail.com",
+        icon: "/assets/images/icon04.png"
+      });
       this.db.lbl.put({
         lid: 1,
         color: "#fcf4b7",
@@ -207,6 +230,14 @@ export default {
 				});
 			});
 		},
+    getMmbAllData() {
+      const that = this;
+			return new Promise(function(resolve){
+				that.db.mmb.toArray().then((list) => {
+					resolve(list);
+				});
+			});
+    },
 		getLblAllData() {
 			const that = this;
 			return new Promise(function(resolve){
@@ -260,7 +291,7 @@ export default {
     },
     async openNowAnewPrj() {
       this.openAnew("prj", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
-      this.lblArr = await this.getLblAllData();
+      this.mmbArr = await this.getMmbAllData();
       this.anewPrjFlg = true;
       this.hiddenLoader();
     },

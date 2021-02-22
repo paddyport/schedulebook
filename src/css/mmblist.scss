@@ -1,0 +1,43 @@
+@import "_pseudo";
+@import "_mixin";
+
+.mmblist {
+  > ul {
+    background: $gray1;
+    padding: 0;
+    line-height: 1;
+    > li {
+      display: block;
+      > a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: divceil(8, 16, "em") divceil(16, 16, "em");
+        cursor: pointer;
+        > figure {
+          flex-shrink: 0;
+          border-radius: 50%;
+          width: divceil(32, 16, "em");
+          height: divceil(32, 16, "em");
+          margin: 0 divceil(8, 16, "em") 0 0;
+          line-height: 0;
+          overflow: hidden;
+          > img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+        > p {
+          width: 100%;
+          margin: 0;
+        }
+        &:hover {
+          background: $gray3;
+        }
+      }
+      + li {
+        margin-top: divceil(8, 16, "em");
+      }
+    }
+  }
+}

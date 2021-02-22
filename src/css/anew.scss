@@ -54,7 +54,7 @@
 	}
 	.datepicker {
 		position: absolute;
-		left: 0;
+		left: divceil(32, 16, "em");
 		right: 0;
 		top: 100%;
 		z-index: 100;
@@ -63,6 +63,25 @@
 .priority {
   > button.prr {
     pointer-events: none;
+  }
+}
+.member {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  > button {
+    flex-shrink: 0;
+  }
+  > ul {
+    width: 100%;
+  }
+  .mmblist {
+    position: absolute;
+		left: divceil(32, 16, "em");
+		right: 0;
+		top: 100%;
+		z-index: 100;
   }
 }
 .label {

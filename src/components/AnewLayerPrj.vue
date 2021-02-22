@@ -27,8 +27,25 @@
         <GenerIcnbtn
           :btn-flg="true"
           :btn-cls="'def nml mmb'"
-          @icnbtn-click="switchDatepicker">
+          @icnbtn-click="switchMmblist">
         </GenerIcnbtn>
+        <div class="res">
+          <ul v-if="choiceMmbArr.length">
+            <li
+              v-for="(cm, cmidx) in choiceMmbArr"
+              :key="cmidx">
+              <figure>
+                <img src="{{cm.icon}}" alt="{{cm.name}}">
+              </figure>
+            </li>
+          </ul>
+        </div>
+        <GenerMmblist
+          v-if="memberFlg"
+          :check-mid="checkMid"
+          :mmb-arr="mmbArr"
+          @choice-member="switchMmblist">
+        </GenerMmblist>
       </div>
       <div class="caption">
         <GenerTxtarea
@@ -57,6 +74,7 @@
 
 <script>
 import GenerDatepicker from './GenerDatepicker'
+import GenerMmblist from './GenerMmblist'
 import GenerIcnbtn from './GenerIcnbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 import GenerTxtarea from './GenerTxtarea'
@@ -71,7 +89,7 @@ export default {
     markYear: Number,
     markMonth: Number,
     markDate: Number,
-    lblArr: Array,
+    mmbArr: Array,
   },
 	data() {
 		return {
@@ -80,25 +98,18 @@ export default {
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       anewEndTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
-      colorFlg: false,
-      anewColor: "#fee7ed",
-      anewPaletteIdx: 0,
+      memberFlg: false,
+      choiceMmbArr: [],
 		}
   },
   components: {
     GenerDatepicker,
+    GenerMmblist,
     GenerIcnbtn,
     GenerTxtbtn,
     GenerTxtarea,
   },
   methods: {
-    switchColopicker() {
-      this.colorFlg = this.colorFlg ? false : true;
-    },
-    changeAnewColor(val, idx) {
-      this.anewColor = val;
-      this.anewPaletteIdx = idx;
-    },
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
     },
@@ -117,6 +128,9 @@ export default {
       this.selStartYyMmDd.yy = new Date(this.anewStartTime).getFullYear();
       this.selStartYyMmDd.mm = new Date(this.anewStartTime).getMonth();
       this.selStartYyMmDd.dd = new Date(this.anewStartTime).getDate();
+    },
+    switchMmblist() {
+      this.memberFlg = this.memberFlg ? false : true;
     },
     closeAnew() {
       this.$emit("an-close-anew");

@@ -1,0 +1,15 @@
+.mmblist > ul { background: #f9f9f9; padding: 0; line-height: 1; }
+
+.mmblist > ul > li { display: block; }
+
+.mmblist > ul > li > a { display: -webkit-box; display: -ms-flexbox; display: flex; -webkit-box-pack: justify; -ms-flex-pack: justify; justify-content: space-between; -webkit-box-align: center; -ms-flex-align: center; align-items: center; padding: 0.5em 1em; cursor: pointer; }
+
+.mmblist > ul > li > a > figure { -ms-flex-negative: 0; flex-shrink: 0; border-radius: 50%; width: 2em; height: 2em; margin: 0 0.5em 0 0; line-height: 0; overflow: hidden; }
+
+.mmblist > ul > li > a > figure > img { max-width: 100%; max-height: 100%; }
+
+.mmblist > ul > li > a > p { width: 100%; margin: 0; }
+
+.mmblist > ul > li > a:hover { background: #d8d8d8; }
+
+.mmblist > ul > li + li { margin-top: 0.5em; }
