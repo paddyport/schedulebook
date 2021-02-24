@@ -67,14 +67,42 @@
 }
 .member {
   display: flex;
-  justify-content: space-between;
   align-items: center;
   position: relative;
   > button {
     flex-shrink: 0;
   }
-  > ul {
+  .res {
     width: 100%;
+		margin: 0 0 0 divceil(10, 16, "em");
+    > ul {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      line-height: 0;
+      overflow: hidden;
+      > li {
+        display: block;
+        flex-shrink: 0;
+        > figure {
+          border-radius: 50%;
+          width: divceil(28, 16, "em");
+          height: divceil(28, 16, "em");
+          margin: divceil(32-28, 16, "em") 0;
+          overflow: hidden;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+        + li {
+          margin-left: divceil(6, 16, "em");
+        }
+      }
+    }
   }
   .mmblist {
     position: absolute;

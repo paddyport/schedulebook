@@ -2,26 +2,56 @@
 @import "_mixin";
 
 .mmblist {
+  background: $gray1;
+  padding: divceil(8, 16, "em");
+  > div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    > button {
+      flex-shrink: 0;
+      margin-left: divceil(8, 16, "em");
+    }
+  }
   > ul {
-    background: $gray1;
-    padding: 0;
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    padding: divceil(10, 16, "em") 0 0;
     line-height: 1;
+    overflow-y: scroll;
     > li {
       display: block;
+      &.isCandidate {
+        order: -5;
+        > a {
+          background: map-get($btn-nml, "bgBase");
+        }
+      }
+      &.isChecked {
+        // display: none;
+        order: -10;
+        > a {
+          background: map-get($btn-nml, "side");
+          color: #fff;
+        }
+      }
       > a {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: divceil(8, 16, "em") divceil(16, 16, "em");
+        padding: divceil(8, 16, "em") divceil(10, 16, "em");
         cursor: pointer;
         > figure {
           flex-shrink: 0;
+          background: #fff;
           border-radius: 50%;
           width: divceil(32, 16, "em");
           height: divceil(32, 16, "em");
           margin: 0 divceil(8, 16, "em") 0 0;
           line-height: 0;
           overflow: hidden;
+          pointer-events: none;
           > img {
             max-width: 100%;
             max-height: 100%;
@@ -30,14 +60,15 @@
         > p {
           width: 100%;
           margin: 0;
+          pointer-events: none;
         }
         &:hover {
-          background: $gray3;
+          background: map-get($btn-nml, "bgActive");
         }
       }
-      + li {
-        margin-top: divceil(8, 16, "em");
-      }
+      // + li {
+      //   margin-top: divceil(8, 16, "em");
+      // }
     }
   }
 }

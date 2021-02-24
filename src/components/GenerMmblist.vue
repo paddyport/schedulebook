@@ -3,7 +3,6 @@
   <div>
     <input
       type="text"
-      @focus="inputMmbName"
       @blur="addMmbName">
     <GenerWrdbtn
       :icon-flg="false"
@@ -16,12 +15,11 @@
   <ul v-if="mmbArr.length">
     <li
       v-for="(sm, smidx) in sortMmbArr"
-      :class="[sm.mid==checkMidObj.mid ? 'isChecked' : sm.name==candidateMmbName ?'isCandidate' : '']"
+      :class="[choiceMmbArr&&choiceMmbArr.some(item=>item.mid==sm.mid) ? 'isChecked' : candidateMmbName&&sm.name.indexOf(candidateMmbName)>-1 ?'isCandidate' : '']"
       :key="smidx">
       <a
         :data-mid="sm.mid"
-        @click="choiceMmb"
-      >
+        @click="choiceMmb">
         <figure><img :src="sm.icon" :alt="sm.name"></figure>
         <p>{{ sm.name }}</p>
       </a>
@@ -39,6 +37,7 @@ export default {
   props: {
     checkMid: Number,
     mmbArr: Array,
+    choiceMmbArr: Array,
   },
   data() {
     return {
@@ -70,18 +69,24 @@ export default {
     },
     addMmbName(e) {
       const val = e.target.value;
-      if(val) {
-        this.candidateMmbName = val;
-      }
+      if(!val) return;
+      this.addMmbFlg = true;
+      this.candidateMmbName = val;
     },
-    addMmb() {
+    addMmb(e) {
         console.log("a");
+        console.log(e.target.previousElementSibling);
     },
     choiceMmb(e) {
       const btn = e.target,
 				id = Number(btn.dataset.mid);
-      this.getMidObj(id);
-      this.$emit("choice-member", id);
+      if(this.choiceMmbArr.some(item=>item.mid==id)) {
+        console.log("checked");
+        // this.choiceMmbArrから削除
+      } else {
+        this.getMidObj(id);
+        this.$emit("choice-member", id);
+      }
     },
   },
 }

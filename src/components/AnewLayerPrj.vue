@@ -35,7 +35,7 @@
               v-for="(cm, cmidx) in choiceMmbArr"
               :key="cmidx">
               <figure>
-                <img src="{{cm.icon}}" alt="{{cm.name}}">
+                <img :src="cm.icon" :alt="cm.name">
               </figure>
             </li>
           </ul>
@@ -44,7 +44,8 @@
           v-if="memberFlg"
           :check-mid="checkMid"
           :mmb-arr="mmbArr"
-          @choice-member="switchMmblist">
+          :choice-mmb-arr="choiceMmbArr"
+          @choice-member="selectMember">
         </GenerMmblist>
       </div>
       <div class="caption">
@@ -131,6 +132,10 @@ export default {
     },
     switchMmblist() {
       this.memberFlg = this.memberFlg ? false : true;
+    },
+    selectMember(id) {
+      const obj = this.mmbArr.filter(function(arr){return arr.mid===id});
+      this.choiceMmbArr.push(obj[0]);
     },
     closeAnew() {
       this.$emit("an-close-anew");
