@@ -31,9 +31,8 @@ input, textarea {
   font: inherit;
 	cursor: pointer;
 	&:focus {
-		border: 1px solid map-get($btn-nml, "side");
 		outline: none;
-		box-shadow: 0 0 0 1px map-get($btn-nml, "side");
+    box-shadow: 0 0 0 2px map-get($btn-nml, "side");
 	}
 }
 button {

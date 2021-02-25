@@ -123,9 +123,21 @@ export default {
         lbl: "++lid, color, title",
         mmb: "++mid, name, authority, address",
       });
+      // DB連携後のイメージ
+      // グループごとに分かれ、グループ内で案件・メンバーを設定（メンバーを増やす時は招待）
+      // （メンバー招待してからでないと案件・タスクに登録できない）
+      // 案件内でタスクを設定
       // prj: pid, start, end, member, title, memo,
       // tsk: tid, lid, pid, date, tids(arr), notice, priority(3以下), title, memo
-      // mmb: mid, name, authority(2以下), icon(検索なしなので↑で設定しない)
+      // mmb: mid, name, authority(2以下), icon(検索なし), address, pass(検索なし)
+      // メンバーは各自で変更する要素が多い（↓参照）が、活用できるのはDB連携が可能になってから
+      // → authority: タスク、案件の変更・登録の権限
+      //              0（全権（案件削除など））、
+      //              1（タスク・案件登録変更、タスク削除、メンバー招待）、
+      //              2（タスクの状態変更のみ）
+      // → icon: サムネイル（各自で変更）
+      // → address: ログイン・通知・グループへの招待に使用（各自で変更）
+      // → pass: ログインに使用（各自で変更）
       // lbl: lid, color, title
       // this.testAddDB();
       // console.log(this.db);

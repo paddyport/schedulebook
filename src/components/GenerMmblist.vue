@@ -52,7 +52,7 @@ export default {
   },
   created: function(){
     // this.sortTimetoArr();
-    if(this.checkMid) this.getMidObj(this.checkMid);
+    // if(this.checkMid) this.getMidObj(this.checkMid);
   },
   methods: {
     // sortTimetoArr() {
@@ -62,11 +62,11 @@ export default {
     //   }
     //   console.log(this.sortPrjArr);
     // },
-    getMidObj(id) {
-      for(let obj of this.mmbArr) {
-        if(obj.mid==id) this.checkMidObj = Object.assign({}, this.checkMidObj, obj);
-      }
-    },
+    // getMidObj(id) {
+    //   for(let obj of this.mmbArr) {
+    //     if(obj.mid==id) this.checkMidObj = Object.assign({}, this.checkMidObj, obj);
+    //   }
+    // },
     addMmbName(e) {
       const val = e.target.value;
       if(!val) return;
@@ -81,11 +81,10 @@ export default {
       const btn = e.target,
 				id = Number(btn.dataset.mid);
       if(this.choiceMmbArr.some(item=>item.mid==id)) {
-        console.log("checked");
-        // this.choiceMmbArrから削除
+        this.$emit("rem-member", id);
       } else {
-        this.getMidObj(id);
-        this.$emit("choice-member", id);
+        // this.getMidObj(id);
+        this.$emit("add-member", id);
       }
     },
   },

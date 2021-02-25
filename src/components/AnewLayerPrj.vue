@@ -2,7 +2,10 @@
   <div id="AnewPrj" class="anew">
     <div>
       <div class="title">
-        <input type="text" placeholder="新規タイトル">
+        <GenerTxtinput
+          :input-placeholder="'新規タイトル'"
+          @txtinput-blur="checkText">
+        </GenerTxtinput>
       </div>
       <div class="date">
         <GenerIcnbtn
@@ -45,13 +48,12 @@
           :check-mid="checkMid"
           :mmb-arr="mmbArr"
           :choice-mmb-arr="choiceMmbArr"
-          @choice-member="selectMember">
+          @rem-member="remMember"
+          @add-member="addMember">
         </GenerMmblist>
       </div>
       <div class="caption">
-        <GenerTxtarea
-          @txtarea-blur="checkText">
-        </GenerTxtarea>
+        <GenerTxtarea></GenerTxtarea>
       </div>
     </div>
     <div class="footer">
@@ -64,7 +66,7 @@
       </GenerTxtbtn>
       <GenerTxtbtn
         :icon-flg="true"
-        :btn-flg="true"
+        :btn-flg="anewBtnFlg"
         :btn-str="'新規作成'"
         :btn-cls="'def nml prj'"
         @txtbtn-click="checkAnew">
@@ -79,6 +81,7 @@ import GenerMmblist from './GenerMmblist'
 import GenerIcnbtn from './GenerIcnbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 import GenerTxtarea from './GenerTxtarea'
+import GenerTxtinput from './GenerTxtinput'
 
 export default {
   name: 'AnewLayerPrj',
@@ -94,6 +97,7 @@ export default {
   },
 	data() {
 		return {
+      anewTitle: "",
       dateFlg: false,
       anewStartTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selStartYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
@@ -101,6 +105,7 @@ export default {
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       memberFlg: false,
       choiceMmbArr: [],
+      anewBtnFlg: false,
 		}
   },
   components: {
@@ -108,6 +113,7 @@ export default {
     GenerMmblist,
     GenerIcnbtn,
     GenerTxtbtn,
+    GenerTxtinput,
     GenerTxtarea,
   },
   methods: {
@@ -133,12 +139,21 @@ export default {
     switchMmblist() {
       this.memberFlg = this.memberFlg ? false : true;
     },
-    selectMember(id) {
+    remMember(id) {
+      console.log(id, this.choiceMmbArr);
+      this.choiceMmbArr = this.choiceMmbArr.filter(function(arr){return arr.mid!==id});
+      console.log(this.choiceMmbArr);
+    },
+    addMember(id) {
       const obj = this.mmbArr.filter(function(arr){return arr.mid===id});
       this.choiceMmbArr.push(obj[0]);
     },
     closeAnew() {
       this.$emit("an-close-anew");
+    },
+    checkText(str) {
+      this.anewBtnFlg = true;
+      this.anewTitle = str;
     },
     checkAnew(e) {
       // 新規保存

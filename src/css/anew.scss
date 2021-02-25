@@ -91,7 +91,7 @@
           border-radius: 50%;
           width: divceil(28, 16, "em");
           height: divceil(28, 16, "em");
-          margin: divceil(32-28, 16, "em") 0;
+          margin: divceil((32-28)/2, 16, "em") 0;
           overflow: hidden;
           img {
             max-width: 100%;
@@ -166,7 +166,6 @@
 .caption {
 	line-height: 0;
 	> textarea {
-		border: 1px solid map-get($btn-nml, "font");
 		border-radius: 2px;
 		width: 100%;
 		min-height: divceil(30*3+2*2+1*2, 16, "em");
@@ -179,10 +178,6 @@
 		&[data-placeholder]:empty::before {
 			content: attr(data-placeholder);
 			color: $gray4;
-		}
-		&:focus {
-			outline: none;
-			box-shadow: 0 0 0 2px map-get($btn-nml, "side");
 		}
 	}
 }
