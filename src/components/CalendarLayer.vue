@@ -6,6 +6,9 @@
         :btn-cls="'def nml cng'"
         @icnbtn-click="oclick">
       </GenerIcnbtn>
+      <MonthList
+        :now-yy-mm="nowYyMm">
+      </MonthList>
       <GenerHead
         :head-str="currentYyMm.yy+'年'+(Number(currentYyMm.mm)+1)+'月'">
       </GenerHead>
@@ -37,6 +40,7 @@
 </template>
 
 <script>
+import MonthList from './MonthList'
 import GenerHead from './GenerHead'
 import GenerIcnbtn from './GenerIcnbtn'
 import GenerTxtbtn from './GenerTxtbtn'
@@ -44,10 +48,12 @@ import GenerTxtbtn from './GenerTxtbtn'
 export default {
   name: 'CalendarTable',
   props: {
+    nowYyMm: Object,
     currentYyMm: Object,
     currentDatesArr: Array,
   },
   components: {
+    MonthList,
     GenerHead,
     GenerIcnbtn,
     GenerTxtbtn,

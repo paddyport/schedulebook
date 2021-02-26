@@ -7,6 +7,7 @@
       8<=now.getMonth()&&now.getMonth()<11 ? 'atm' : 
       'wnt']">
     <CalendarLayer
+      :now-yy-mm="{yy: now.getFullYear(), mm: now.getMonth()}"
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
       @ap-shown-loader="shownLoader"
@@ -271,16 +272,13 @@ export default {
 			this.setCurrent({year: this.now.getFullYear(), month: this.now.getMonth()});
     },
     setCurrent(yymm) {
-			let pt = this.current.getTime(),
-				ct = new Date(yymm.year, yymm.month).getTime(),
-				flg = Boolean(pt==ct);
+			// let pt = this.current.getTime(),
+			// 	ct = new Date(yymm.year, yymm.month).getTime(),
+			// 	flg = Boolean(pt==ct);
 			this.current = new Date(yymm.year, yymm.month);
 			this.currentYear = this.current.getFullYear();
 			this.currentMonth = this.current.getMonth();
 			this.setCalendar(yymm);
-			if(!flg) {
-				// this.switchChangeMonth();
-			}
     },
     setCalendar(yymm) {
 			// this.changeMonthObj = {};
