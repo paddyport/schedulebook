@@ -42,7 +42,6 @@ import GenerIcnbtn from './GenerIcnbtn'
 import GenerTxtbtn from './GenerTxtbtn'
 
 export default {
-// GP component
   name: 'CalendarTable',
   props: {
     currentYyMm: Object,
@@ -58,12 +57,12 @@ export default {
       console.log(e);
     },
     openAnewPrj() {
-      this.$emit("an-shown-loader");
-      this.$emit("an-open-now-anew-prj");
+      this.$emit("ap-shown-loader");
+      this.$emit("ap-open-now-anew-prj");
     },
     openAnewTsk() {
-      this.$emit("an-shown-loader");
-      this.$emit("an-open-now-anew-tsk");
+      this.$emit("ap-shown-loader");
+      this.$emit("ap-open-now-anew-tsk");
     }
   },
 }

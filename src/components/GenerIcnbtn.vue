@@ -5,7 +5,6 @@
 
 <script>
 export default {
-// SU Component
   name: 'GenerIcnbtn',
   props: {
     btnFlg: Boolean,

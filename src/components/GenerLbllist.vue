@@ -47,7 +47,6 @@ import GenerColorpicker from './GenerColorpicker'
 import GenerWrdbtn from './GenerWrdbtn'
 
 export default {
-// SU Component
   name: 'GenerLbllist',
   props: {
     checkLid: Number,

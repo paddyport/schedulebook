@@ -170,7 +170,7 @@ export default {
       }
     },
     closeAnew() {
-      this.$emit("an-close-anew");
+      this.$emit("ap-close-anew");
     },
     checkAnew(e) {
       // 新規保存

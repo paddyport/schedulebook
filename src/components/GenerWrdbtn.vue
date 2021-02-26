@@ -8,7 +8,6 @@
 
 <script>
 export default {
-// SU Component
   name: 'GenerWrdbtn',
   props: {
     btnFlg: Boolean,

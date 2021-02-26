@@ -10,7 +10,12 @@ export default {
   name: 'GenerTxtarea',
   methods: {
     onBlur(e) {
-      this.$emit("txtarea-blur", e);
+      const str = e.target.value;
+      if(!str || !str.match(/\S/g)) {
+        e.target.value = "";
+        return;
+      }
+      this.$emit("txtarea-blur", str);
     },
   },
 }

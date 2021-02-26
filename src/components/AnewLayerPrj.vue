@@ -4,7 +4,7 @@
       <div class="title">
         <GenerTxtinput
           :input-placeholder="'新規タイトル'"
-          @txtinput-blur="checkText">
+          @txtinput-blur="checkTitle">
         </GenerTxtinput>
       </div>
       <div class="date">
@@ -45,7 +45,6 @@
         </div>
         <GenerMmblist
           v-if="memberFlg"
-          :check-mid="checkMid"
           :mmb-arr="mmbArr"
           :choice-mmb-arr="choiceMmbArr"
           @rem-member="remMember"
@@ -53,7 +52,8 @@
         </GenerMmblist>
       </div>
       <div class="caption">
-        <GenerTxtarea></GenerTxtarea>
+        <GenerTxtarea
+          @txtarea-blur="inputText"></GenerTxtarea>
       </div>
     </div>
     <div class="footer">
@@ -105,6 +105,7 @@ export default {
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       memberFlg: false,
       choiceMmbArr: [],
+      anewMemo: "",
       anewBtnFlg: false,
 		}
   },
@@ -117,6 +118,10 @@ export default {
     GenerTxtarea,
   },
   methods: {
+    checkTitle(str) {
+      this.anewBtnFlg = true;
+      this.anewTitle = str;
+    },
     switchDatepicker() {
       this.dateFlg = this.dateFlg ? false : true;
     },
@@ -148,17 +153,18 @@ export default {
       const obj = this.mmbArr.filter(function(arr){return arr.mid===id});
       this.choiceMmbArr.push(obj[0]);
     },
-    closeAnew() {
-      this.$emit("an-close-anew");
+    inputText(str) {
+      this.anewMemo = str;
     },
-    checkText(str) {
-      this.anewBtnFlg = true;
-      this.anewTitle = str;
-    },
-    checkAnew(e) {
+    checkAnew() {
       // 新規保存
-      console.log(e);
-    }
+      // console.log(this.anewTitle, this.choiceMmbArr, this.anewStartTime, this.anewEndTime, this.anewMemo);
+      const mmb = this.choiceMmbArr.map(function(item) {return item.mid;});
+      this.$emit("ap-anew-prj", this.anewTitle, this.anewStartTime, this.anewEndTime, mmb, this.anewMemo);
+    },
+    closeAnew() {
+      this.$emit("ap-close-anew");
+    },
   },
 }
 </script>

@@ -6,7 +6,6 @@
 
 <script>
 export default {
-// SU Component
   name: 'GenerCclbtn',
   props: {
     btnFlg: Boolean,

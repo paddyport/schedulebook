@@ -20,7 +20,6 @@
 
 <script>
 export default {
-// SU Component
   name: 'GenerPrjlist',
   props: {
     checkPid: Number,

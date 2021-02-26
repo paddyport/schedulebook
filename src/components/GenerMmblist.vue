@@ -3,13 +3,14 @@
   <div>
     <input
       type="text"
-      @blur="addMmbName">
+      @keyup="checkInput"
+      @blur="checkInput">
     <GenerWrdbtn
       :icon-flg="false"
       :btn-flg="addMmbFlg"
-      :btn-str="'追加'"
+      :btn-str="'絞込'"
       :btn-cls="'def nml wrd'"
-      @wrdbtn-click="addMmb">
+      @wrdbtn-click="sortMmbName">
     </GenerWrdbtn>
   </div>
   <ul v-if="mmbArr.length">
@@ -32,16 +33,13 @@
 import GenerWrdbtn from './GenerWrdbtn'
 
 export default {
-// SU Component
   name: 'GenerMmblist',
   props: {
-    checkMid: Number,
     mmbArr: Array,
     choiceMmbArr: Array,
   },
   data() {
     return {
-      checkMidObj: {pid: this.checkMid},
       sortMmbArr: this.mmbArr,
       addMmbFlg: false,
       candidateMmbName: "",
@@ -50,32 +48,15 @@ export default {
   components: {
     GenerWrdbtn,
   },
-  created: function(){
-    // this.sortTimetoArr();
-    // if(this.checkMid) this.getMidObj(this.checkMid);
-  },
   methods: {
-    // sortTimetoArr() {
-    //   for(let obj of this.prjArr) {
-    //   console.log(this.nowTime, obj.end);
-    //     if(this.nowTime<=obj.end) this.sortPrjArr.push(obj);
-    //   }
-    //   console.log(this.sortPrjArr);
-    // },
-    // getMidObj(id) {
-    //   for(let obj of this.mmbArr) {
-    //     if(obj.mid==id) this.checkMidObj = Object.assign({}, this.checkMidObj, obj);
-    //   }
-    // },
-    addMmbName(e) {
+    checkInput(e) {
       const val = e.target.value;
       if(!val) return;
       this.addMmbFlg = true;
-      this.candidateMmbName = val;
     },
-    addMmb(e) {
-        console.log("a");
-        console.log(e.target.previousElementSibling);
+    sortMmbName(e) {
+      const val = e.target.previousElementSibling.value;
+      this.candidateMmbName = val;
     },
     choiceMmb(e) {
       const btn = e.target,
@@ -83,7 +64,6 @@ export default {
       if(this.choiceMmbArr.some(item=>item.mid==id)) {
         this.$emit("rem-member", id);
       } else {
-        // this.getMidObj(id);
         this.$emit("add-member", id);
       }
     },

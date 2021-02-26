@@ -7,7 +7,6 @@
 
 <script>
 export default {
-// SU Component
   name: 'GenerTxtarea',
   props: {
     inputPlaceholder: String,

@@ -9,9 +9,9 @@
     <CalendarLayer
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
-      @an-shown-loader="shownLoader"
-      @an-open-now-anew-prj="openNowAnewPrj"
-      @an-open-now-anew-tsk="openNowAnewTsk">
+      @ap-shown-loader="shownLoader"
+      @ap-open-now-anew-prj="openNowAnewPrj"
+      @ap-open-now-anew-tsk="openNowAnewTsk">
     </CalendarLayer>
     <AnewLayerPrj
       v-if="anewPrjFlg"
@@ -23,7 +23,8 @@
       :mark-month="markMonth"
       :mark-date="markDate"
       :mmb-arr="mmbArr"
-      @an-close-anew="closeAnew">
+      @ap-anew-prj="anewPrj"
+      @ap-close-anew="closeAnew">
     </AnewLayerPrj>
     <AnewLayerTsk
       v-if="anewTskFlg"
@@ -36,7 +37,7 @@
       :mark-date="markDate"
       :prj-arr="prjArr"
       :lbl-arr="lblArr"
-      @an-close-anew="closeAnew">
+      @ap-close-anew="closeAnew">
     </AnewLayerTsk>
     <LoaderLayer v-if="loaderFlg"></LoaderLayer>
   </div>
@@ -118,8 +119,8 @@ export default {
 		},
 		createTable() {
 			this.db.version(1).stores({
-				prj: "++pid, start, end, member, title, memo",
-        tsk: "++tid, lid, pid, tids, date, notice, priority, title, memo",
+				prj: "++pid, start, end, *member, title",
+        tsk: "++tid, lid, pid, *tids, *member, start, end, priority, title",
         lbl: "++lid, color, title",
         mmb: "++mid, name, authority, address",
       });
@@ -127,8 +128,8 @@ export default {
       // グループごとに分かれ、グループ内で案件・メンバーを設定（メンバーを増やす時は招待）
       // （メンバー招待してからでないと案件・タスクに登録できない）
       // 案件内でタスクを設定
-      // prj: pid, start, end, member, title, memo,
-      // tsk: tid, lid, pid, date, tids(arr), notice, priority(3以下), title, memo
+      // prj: pid, start, end, member, title, memo(検索なし),
+      // tsk: tid, lid, pid, tids, member, start, end, notice(検索なし), priority(3以下), title, memo(検索なし)
       // mmb: mid, name, authority(2以下), icon(検索なし), address, pass(検索なし)
       // メンバーは各自で変更する要素が多い（↓参照）が、活用できるのはDB連携が可能になってから
       // → authority: タスク、案件の変更・登録の権限
@@ -148,23 +149,23 @@ export default {
         pid: 1,
         start: new Date(2020,11,30).getTime(),
         end: new Date(2020,11,30).getTime(),
-        member: [],
+        member: [1, 2, 3, 4],
         title: "徒然なるまゝに",
         memo: ""
       });
       this.db.prj.put({
         pid: 2,
-        start: new Date(2020,11,15).getTime(),
-        end: new Date(2020,11,16).getTime(),
-        member: ["aaa"],
+        start: new Date(2021,11,15).getTime(),
+        end: new Date(2021,11,16).getTime(),
+        member: [1, 4],
         title: "日暮らし",
         memo: "あやしうこそものぐるほしけれ。"
       });
       this.db.prj.put({
         pid: 3,
-        start: new Date(2020,12,1).getTime(),
-        end: new Date(2020,12,5).getTime(),
-        member: [],
+        start: new Date(2021,12,1).getTime(),
+        end: new Date(2021,12,5).getTime(),
+        member: [1, 2, 4],
         title: "あやしうこそ",
         memo: ""
       });
@@ -172,19 +173,23 @@ export default {
         tid: 1,
         lid: 2,
         pid: 2,
-        date: new Date(2020,11,14).getTime(),
-        loop: false,
+        tids: [2],
+        start: new Date(2021,11,15).getTime(),
+        end: new Date(2021,11,15).getTime(),
+        member: [1, 4],
         notice: true,
         priority: 3,
         title: "あやしう",
         memo: "",
       });
       this.db.tsk.put({
-        tid: 1,
+        tid: 2,
         lid: 3,
-        pid: null,
-        date: 20,
-        loop: "month",
+        pid: 3,
+        tids: [],
+        start: new Date(2021,12,1).getTime(),
+        end: new Date(2021,12,2).getTime(),
+        member: [2, 4],
         notice: true,
         priority: 2,
         title: "硯",
@@ -319,6 +324,20 @@ export default {
       this.markYear = yymmdd.yy;
       this.markMonth = yymmdd.mm;
       this.markDate = yymmdd.dd;
+    },
+    async anewPrj(...args) {
+      const that = this,
+        [title, start, end, member, memo] = args,
+        prjLen = await that.getPrjAllData(),
+        pid = prjLen.length+1;
+      that.db.prj.put({
+        pid: pid,
+        start: start,
+        end: end,
+        member: member,
+        title: title,
+        memo: memo
+      });
     },
     closeAnew() {
       this.ctgName = "";
