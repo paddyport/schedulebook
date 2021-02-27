@@ -7,7 +7,7 @@
         @icnbtn-click="oclick">
       </GenerIcnbtn>
       <MonthList
-        :now-yy-mm="nowYyMm">
+        :month-list-arr="monthListArr">
       </MonthList>
       <GenerHead
         :head-str="currentYyMm.yy+'年'+(Number(currentYyMm.mm)+1)+'月'">
@@ -51,6 +51,7 @@ export default {
     nowYyMm: Object,
     currentYyMm: Object,
     currentDatesArr: Array,
+    monthListArr: Array,
   },
   components: {
     MonthList,

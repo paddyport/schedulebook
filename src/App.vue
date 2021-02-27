@@ -10,6 +10,7 @@
       :now-yy-mm="{yy: now.getFullYear(), mm: now.getMonth()}"
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
+      :month-list-arr="monthListArr"
       @ap-shown-loader="shownLoader"
       @ap-open-now-anew-prj="openNowAnewPrj"
       @ap-open-now-anew-tsk="openNowAnewTsk">
@@ -70,6 +71,7 @@ export default {
       prjArr: [],
       mmbArr: [],
       lblArr: [],
+      monthListArr: [],
       anewPrjFlg: false,
       anewTskFlg: false,
       ctgName: "",
@@ -120,8 +122,8 @@ export default {
 		},
 		createTable() {
 			this.db.version(1).stores({
-				prj: "++pid, start, end, *member, title",
-        tsk: "++tid, lid, pid, *tids, *member, start, end, priority, title",
+				prj: "++pid, start, end, *member, status, title",
+        tsk: "++tid, lid, pid, *tids, *member, start, end, priority, status, title",
         lbl: "++lid, color, title",
         mmb: "++mid, name, authority, address",
       });
@@ -129,8 +131,10 @@ export default {
       // グループごとに分かれ、グループ内で案件・メンバーを設定（メンバーを増やす時は招待）
       // （メンバー招待してからでないと案件・タスクに登録できない）
       // 案件内でタスクを設定
-      // prj: pid, start, end, member, title, memo(検索なし),
-      // tsk: tid, lid, pid, tids, member, start, end, notice(検索なし), priority(3以下), title, memo(検索なし)
+      // status（prj）: 0 期間前/ 1 期間中/ 2 期間終了
+      // status（tsk）: 0 未処理/ 1 処理中/ 2 処理済み
+      // prj: pid, start, end, member, status, title, memo(検索なし),
+      // tsk: tid, lid, pid, tids, member, start, end, notice(検索なし), priority(3以下), status, title, memo(検索なし)
       // mmb: mid, name, authority(2以下), icon(検索なし), address, pass(検索なし)
       // メンバーは各自で変更する要素が多い（↓参照）が、活用できるのはDB連携が可能になってから
       // → authority: タスク、案件の変更・登録の権限
@@ -148,9 +152,10 @@ export default {
       // test
       this.db.prj.put({
         pid: 1,
-        start: new Date(2020,11,30).getTime(),
-        end: new Date(2020,11,30).getTime(),
+        start: new Date(2021,11,30).getTime(),
+        end: new Date(2021,11,30).getTime(),
         member: [1, 2, 3, 4],
+        status: 0,
         title: "徒然なるまゝに",
         memo: ""
       });
@@ -159,6 +164,7 @@ export default {
         start: new Date(2021,11,15).getTime(),
         end: new Date(2021,11,16).getTime(),
         member: [1, 4],
+        status: 0,
         title: "日暮らし",
         memo: "あやしうこそものぐるほしけれ。"
       });
@@ -167,6 +173,7 @@ export default {
         start: new Date(2021,12,1).getTime(),
         end: new Date(2021,12,5).getTime(),
         member: [1, 2, 4],
+        status: 0,
         title: "あやしうこそ",
         memo: ""
       });
@@ -180,6 +187,7 @@ export default {
         member: [1, 4],
         notice: true,
         priority: 3,
+        status: 0,
         title: "あやしう",
         memo: "",
       });
@@ -193,6 +201,7 @@ export default {
         member: [2, 4],
         notice: true,
         priority: 2,
+        status: 0,
         title: "硯",
         memo: "",
       });
@@ -286,6 +295,7 @@ export default {
 			this.currentDatesCnt = this.getCurrentDates(yymm.year, yymm.month);
 			this.currentWeeks = Math.ceil((this.currentFirstDay+this.currentDatesCnt)/this.weekLen);
 			this.setCalendarArr(yymm);
+			this.setMonthList();
 			// this.setDataCtg(yymm);
 		},
     setCalendarArr(yymm) {
@@ -302,6 +312,23 @@ export default {
 					};
 					this.currentDatesArr.push(obj);
 				}
+      }
+    },
+    async setMonthList() {
+      const prjArr = await this.getPrjAllData();
+      for(let m=0;m<12;m++) {
+        console.log(m, new Date(this.now.getFullYear(), this.now.getMonth()+m, 1).getTime()-1);
+        const s = new Date(this.now.getFullYear(), this.now.getMonth()+m, 1).getTime()-1,
+          e = new Date(this.now.getFullYear(), this.now.getMonth()+m+1, 1).getTime()-1,
+          arr = prjArr.filter((item)=> {
+            return (s<item.start&&item.start<e) || (s<item.end&&item.end<e);
+          }),
+          obj = {
+            yy: new Date(s).getFullYear(),
+            mm: new Date(s).getMonth(),
+            prj: arr,
+          };
+        this.monthListArr.push(obj);
       }
     },
     async openNowAnewPrj() {
