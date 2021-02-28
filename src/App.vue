@@ -7,11 +7,11 @@
       8<=now.getMonth()&&now.getMonth()<11 ? 'atm' : 
       'wnt']">
     <CalendarLayer
-      :now-yy-mm="{yy: now.getFullYear(), mm: now.getMonth()}"
       :current-yy-mm="{yy: currentYear, mm: currentMonth}"
       :current-dates-arr="currentDatesArr"
       :month-list-arr="monthListArr"
       @ap-shown-loader="shownLoader"
+      @ap-change-month="changeMonth"
       @ap-open-now-anew-prj="openNowAnewPrj"
       @ap-open-now-anew-tsk="openNowAnewTsk">
     </CalendarLayer>
@@ -90,7 +90,6 @@ export default {
     this.checkDevice();
     this.createDB();
     this.setToday();
-    this.hiddenLoader();
   },
   methods: {
     zeroPad(num, len) {
@@ -103,7 +102,9 @@ export default {
       this.loaderFlg = true;
     },
     hiddenLoader() {
-      this.loaderFlg = false;
+      setTimeout(() => {
+        this.loaderFlg = false;
+      }, 300);
     },
 		checkDevice() {
       const ua = navigator.userAgent.toLowerCase();
@@ -277,13 +278,9 @@ export default {
       this.now = new Date();
 			this.now = new Date(this.now.getFullYear(), this.now.getMonth(), this.now.getDate());
 			this.nowTime = this.now.getTime();
-			this.current = new Date(this.now.getFullYear(), this.now.getMonth());
 			this.setCurrent({year: this.now.getFullYear(), month: this.now.getMonth()});
     },
     setCurrent(yymm) {
-			// let pt = this.current.getTime(),
-			// 	ct = new Date(yymm.year, yymm.month).getTime(),
-			// 	flg = Boolean(pt==ct);
 			this.current = new Date(yymm.year, yymm.month);
 			this.currentYear = this.current.getFullYear();
 			this.currentMonth = this.current.getMonth();
@@ -315,13 +312,13 @@ export default {
       }
     },
     async setMonthList() {
+      this.monthListArr = [];
       const prjArr = await this.getPrjAllData();
       for(let m=0;m<12;m++) {
-        console.log(m, new Date(this.now.getFullYear(), this.now.getMonth()+m, 1).getTime()-1);
-        const s = new Date(this.now.getFullYear(), this.now.getMonth()+m, 1).getTime()-1,
+        const s = new Date(this.now.getFullYear(), this.now.getMonth()+m, 1).getTime(),
           e = new Date(this.now.getFullYear(), this.now.getMonth()+m+1, 1).getTime()-1,
           arr = prjArr.filter((item)=> {
-            return (s<item.start&&item.start<e) || (s<item.end&&item.end<e);
+            return (s<=item.start&&item.start<e) || (s<=item.end&&item.end<e);
           }),
           obj = {
             yy: new Date(s).getFullYear(),
@@ -330,6 +327,11 @@ export default {
           };
         this.monthListArr.push(obj);
       }
+      this.hiddenLoader();
+    },
+    changeMonth(yymm) {
+      this.shownLoader();
+      this.setCurrent(yymm);
     },
     async openNowAnewPrj() {
       this.openAnew("prj", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});

@@ -4,10 +4,13 @@
       <GenerIcnbtn
         :btn-flg="true"
         :btn-cls="'def nml cng'"
-        @icnbtn-click="oclick">
+        @icnbtn-click="switchMonthList">
       </GenerIcnbtn>
       <MonthList
-        :month-list-arr="monthListArr">
+        :month-list-flg="monthListFlg"
+        :current-yy-mm="currentYyMm"
+        :month-list-arr="monthListArr"
+        @click-month="clickMonth">
       </MonthList>
       <GenerHead
         :head-str="currentYyMm.yy+'年'+(Number(currentYyMm.mm)+1)+'月'">
@@ -48,10 +51,14 @@ import GenerTxtbtn from './GenerTxtbtn'
 export default {
   name: 'CalendarTable',
   props: {
-    nowYyMm: Object,
     currentYyMm: Object,
     currentDatesArr: Array,
     monthListArr: Array,
+  },
+  data() {
+    return {
+      monthListFlg: false,
+    }
   },
   components: {
     MonthList,
@@ -60,8 +67,13 @@ export default {
     GenerTxtbtn,
   },
   methods: {
-    oclick(e) {
-      console.log(e);
+    switchMonthList() {
+      this.monthListFlg = this.monthListFlg ? false : true;
+    },
+    clickMonth(...args) {
+      const [yy, mm] = args;
+      this.monthListFlg = false;
+      this.$emit("ap-change-month", {year: yy, month: mm});
     },
     openAnewPrj() {
       this.$emit("ap-shown-loader");

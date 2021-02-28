@@ -15,25 +15,39 @@
 	justify-content: flex-start;
 	align-items: center;
 	position: relative;
-	background: $gray1;
 	height: divceil(50, 16, "em");
 	top: 0;
 	padding: 0 divceil(10+34+10, 16, "em") 0 divceil(10, 16, "em");
 	@include fontWeight("bold");
 	text-align: left;
 	z-index: 1500;
+	&::before {
+    content: "";
+    position: absolute;
+	  background: $gray1;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    pointer-events: none;
+    z-index: 5;
+	}
 	> button {
+		position: relative;
+    z-index: 5;
 		&.now {
 			margin: 0 0 0 auto;
 		}
 	}
 	> h1 {
+    position: relative;
 		margin: 0 0 0 divceil(10, 20, "em");
 		letter-spacing: 0.07em;
 		line-height: divceil(50, 20, "em");
 		font-size: divceil(20, 16, "em");
 		font-family: $font, sans-serif;
 		font-feature-settings: "palt";
+    z-index: 5;
 	}
 }
 .body {
@@ -44,6 +58,7 @@
 	display: grid;
 	grid-template-columns: repeat(7, 1fr);
 	grid-auto-rows: 1fr;
+  background: $gray7;
 	height: 100%;
 	> div {
 		&:nth-child(odd) {
@@ -55,6 +70,9 @@
 		&.isEmpty {
 			background: $gray7;
 		}
+    &:empty {
+      background: transparent;
+    }
 	}
 }
 .day {

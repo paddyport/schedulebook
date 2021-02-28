@@ -2,5 +2,79 @@
 @import "_mixin";
 
 .monthlist {
-    position: absolute;
+  position: fixed;
+  background: $gray7;
+  left: 0;
+  right: 0;
+  top: divceil(50, 16, "em");
+  bottom: 0;
+  transform: translate(0, -200%);
+  transition: transform 300ms ease-in 0ms;
+  z-index: 3;
+  overflow-y: scroll;
+  &.isActive {
+    transform: translate(0, 0);
+    transition: transform 300ms ease-out 0ms;
+  }
+  > ul {
+    margin: 0;
+    padding: 0;
+    line-height: 1;
+    list-style: none;
+    > li {
+      display: block;
+      @include fontWeight(regular);
+      &:nth-child(odd) {
+        background: #fff;
+      }
+      &:nth-child(even) {
+        background: $gray1;
+      }
+      &.isCurrent {
+        pointer-events: none;
+      }
+      > a {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        height: divceil(40, 16, "em");
+        padding: 0 divceil(32, 16, "em") 0 divceil(10+4, 16, "em");
+        letter-spacing: 0.12em;
+        cursor: pointer;
+        &::before {
+          content: $right;
+          display: block;
+          background-position: left center;
+          background-repeat: no-repeat;
+          background-size: contain;
+          margin-right: divceil(4, 16, "em");
+          font-family: $icon;
+        }
+        > span {
+          margin-right: auto;
+        }
+        > small {
+          display: flex;
+          justify-content: flex-end;
+          align-items: center;
+          font-size: divceil(12, 16, "em");
+          color: map-get($map: $btn-prj, $key: "font");
+          &::before {
+            content: $project;
+            display: block;
+            margin-right: divceil(6, 16, "em");
+            font-size: divceil(16, 12, "em");
+            font-family: $icon;
+          }
+        }
+        &:hover {
+          background: map-get($map: $btn-nml, $key: "font");
+          color: #fff;
+          > small {
+            color: map-get($map: $btn-prj, $key: "side");
+          }
+        }
+      }
+    }
+  }
 }
