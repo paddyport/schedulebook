@@ -31,6 +31,7 @@
         background: $gray1;
       }
       &.isCurrent {
+        background: map-get($map: $btn-nml, $key: "bgActive");
         pointer-events: none;
       }
       > a {
@@ -52,6 +53,7 @@
         }
         > span {
           margin-right: auto;
+          pointer-events: none;
         }
         > small {
           display: flex;
@@ -59,6 +61,7 @@
           align-items: center;
           font-size: divceil(12, 16, "em");
           color: map-get($map: $btn-prj, $key: "font");
+          pointer-events: none;
           &::before {
             content: $project;
             display: block;

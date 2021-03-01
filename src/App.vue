@@ -286,48 +286,49 @@ export default {
 			this.currentMonth = this.current.getMonth();
 			this.setCalendar(yymm);
     },
-    setCalendar(yymm) {
-			// this.changeMonthObj = {};
+    async setCalendar(yymm) {
+      const prjArr = await this.getPrjAllData();
 			this.currentFirstDay = new Date(yymm.year, yymm.month).getDay();
 			this.currentDatesCnt = this.getCurrentDates(yymm.year, yymm.month);
 			this.currentWeeks = Math.ceil((this.currentFirstDay+this.currentDatesCnt)/this.weekLen);
-			this.setCalendarArr(yymm);
-			this.setMonthList();
-			// this.setDataCtg(yymm);
+			this.setCalendarArr(yymm, prjArr);
+			this.setMonthList(prjArr);
+      this.hiddenLoader();
 		},
-    setCalendarArr(yymm) {
+    setCalendarArr(yymm, arr) {
 			this.currentDatesArr = [];
 			for(let w=0;w<this.currentWeeks;w++) {
 				for(let d=0;d<this.weekLen;d++) {
-					let obj,
-						_d = !w&&d<this.currentFirstDay ? null : w*this.weekLen+(d+1)-this.currentFirstDay,
-						_t = new Date(yymm.year, yymm.month, _d).getTime();
-					_d = _d&&this.currentDatesCnt<_d ? null : _d;
-					obj = {
-						"date": _d,
-						"time": _t,
-					};
+					let _d = !w&&d<this.currentFirstDay ? null : w*this.weekLen+(d+1)-this.currentFirstDay,
+            time = new Date(yymm.year, yymm.month, _d).getTime(),
+            date = _d&&this.currentDatesCnt<_d ? null : _d,
+            prj = arr.filter((item)=> {
+              return (item.start<=time&&time<item.end);
+            }),
+            obj = {
+              "date": date,
+              "time": time,
+              "prj": prj,
+            };
 					this.currentDatesArr.push(obj);
 				}
       }
     },
-    async setMonthList() {
+    setMonthList(arr) {
       this.monthListArr = [];
-      const prjArr = await this.getPrjAllData();
       for(let m=0;m<12;m++) {
         const s = new Date(this.now.getFullYear(), this.now.getMonth()+m, 1).getTime(),
           e = new Date(this.now.getFullYear(), this.now.getMonth()+m+1, 1).getTime()-1,
-          arr = prjArr.filter((item)=> {
+          prj = arr.filter((item)=> {
             return (s<=item.start&&item.start<e) || (s<=item.end&&item.end<e);
           }),
           obj = {
             yy: new Date(s).getFullYear(),
             mm: new Date(s).getMonth(),
-            prj: arr,
+            prj: prj,
           };
         this.monthListArr.push(obj);
       }
-      this.hiddenLoader();
     },
     changeMonth(yymm) {
       this.shownLoader();
