@@ -8,7 +8,7 @@
 	align-items: stretch;
 	position: relative;
 	height: 100%;
-	padding: 0 0 divceil(50, 16, "em");
+	// padding: 0 0 divceil(50, 16, "em");
 .header {
 	flex-shrink: 0;
 	display: flex;
@@ -16,7 +16,6 @@
 	align-items: center;
 	position: relative;
 	height: divceil(50, 16, "em");
-	top: 0;
 	padding: 0 divceil(10+34+10, 16, "em") 0 divceil(10, 16, "em");
 	@include fontWeight("bold");
 	text-align: left;
@@ -102,45 +101,64 @@
 		display: flex;
 		justify-content: center;
 		align-items: center;
+    position: relative;
 		width: 100%;
 		height: 100%;
 		padding: divceil(24, 16, "em") 0 0;
 //		font-size: divceil(14, 16, "em");
 		cursor: pointer;
-		> p {
-			position: relative;
-			margin: 0 divceil(2, 18, "em");
-			font-size: divceil(18, 16, "em");
-			font-family: $icon;
-			pointer-events: none;
-			&.prj {
-				color: map-get($btn-prj, "side");
-			}
-			&.tsk {
-				color: map-get($btn-tsk, "side");
-			}
-		}
-		.isMD &:hover {
-			background: $gray3 !important;
-		}
-		.isMD &:active, .isTD &:active {
-			background: $gray2 !important;
-			+ .index {
-				color: #fff;
-			}
-		}
+    .prjbar {
+      position: absolute;
+      background: map-get($map: $btn-prj, $key: "side");
+      height: divceil(7, 16, "em");
+      left: 0;
+      right: 0;
+      pointer-events: none;
+      &.isFirst {
+        left: 3px;
+        border-top-left-radius: 2px;
+        border-bottom-left-radius: 2px;
+      }
+      &.isLast {
+        right: 3px;
+        border-top-right-radius: 2px;
+        border-bottom-right-radius: 2px;
+      }
+      &:nth-child(1) {
+        top: divceil(36, 16, "em");
+      }
+      &:nth-child(2) {
+        top: divceil(45, 16, "em");
+      }
+      &:nth-child(3) {
+        top: divceil(54, 16, "em");
+      }
+      &:nth-child(n+4) {
+        display: none;
+      }
+    }
+    .note {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: divceil(71, 10, "em");
+      margin: 0;
+      line-height: 1;
+      font-size: divceil(10, 16, "em");
+      @include fontWeight(bold);
+      text-align: center;
+      color: map-get($map: $btn-prj, $key: "font");
+      pointer-events: none;
+    }
 	}
 }
 .footer {
+	flex-shrink: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	position: absolute;
 	background: $gray1;
 	height: divceil(50, 16, "em");
-	left: 0;
-	right: 0;
-	bottom: 0;
 	padding: 0 divceil((50-34)/2, 16, "em");
 	> button {
 		margin: 0 divceil(16, 16, "em");

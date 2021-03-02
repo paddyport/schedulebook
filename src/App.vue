@@ -12,9 +12,22 @@
       :month-list-arr="monthListArr"
       @ap-shown-loader="shownLoader"
       @ap-change-month="changeMonth"
-      @ap-open-now-anew-prj="openNowAnewPrj"
-      @ap-open-now-anew-tsk="openNowAnewTsk">
+      @ap-show-date-list="showDateList"
+      @ap-open-current-anew-prj="openCurrentAnewPrj"
+      @ap-open-current-anew-tsk="openCurrentAnewTsk">
     </CalendarLayer>
+    <ShowLayerDate
+      v-if="showDateFlg"
+      :mark-year="markYear"
+      :mark-month="markMonth"
+      :mark-date="markDate"
+      :show-prj-arr="showPrjArr"
+      :show-tsk-arr="showTskArr"
+      @ap-shown-loader="shownLoader"
+      @ap-open-mark-anew-prj="openMarkAnewPrj"
+      @ap-open-mark-anew-tsk="openMarkAnewTsk"
+      @ap-close-show="closeShow">
+    </ShowLayerDate>
     <AnewLayerPrj
       v-if="anewPrjFlg"
       :now-year="now.getFullYear()"
@@ -48,6 +61,7 @@
 <script>
 import Dexie from 'dexie'
 import CalendarLayer from './components/CalendarLayer'
+import ShowLayerDate from './components/ShowLayerDate'
 import AnewLayerPrj from './components/AnewLayerPrj'
 import AnewLayerTsk from './components/AnewLayerTsk'
 import LoaderLayer from './components/LoaderLayer'
@@ -72,6 +86,9 @@ export default {
       mmbArr: [],
       lblArr: [],
       monthListArr: [],
+      showDateFlg: false,
+      showPrjArr: [],
+      showTskArr: [],
       anewPrjFlg: false,
       anewTskFlg: false,
       ctgName: "",
@@ -82,6 +99,7 @@ export default {
   },
   components: {
     CalendarLayer,
+    ShowLayerDate,
     AnewLayerPrj,
     AnewLayerTsk,
     LoaderLayer,
@@ -258,6 +276,14 @@ export default {
 				});
 			});
 		},
+		getTskAllData() {
+			const that = this;
+			return new Promise(function(resolve){
+				that.db.tsk.toArray().then((list) => {
+					resolve(list);
+				});
+			});
+		},
     getMmbAllData() {
       const that = this;
 			return new Promise(function(resolve){
@@ -303,7 +329,7 @@ export default {
             time = new Date(yymm.year, yymm.month, _d).getTime(),
             date = _d&&this.currentDatesCnt<_d ? null : _d,
             prj = arr.filter((item)=> {
-              return (item.start<=time&&time<item.end);
+              return (item.start<=time&&time<=item.end);
             }),
             obj = {
               "date": date,
@@ -334,15 +360,59 @@ export default {
       this.shownLoader();
       this.setCurrent(yymm);
     },
-    async openNowAnewPrj() {
-      this.openAnew("prj", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+    async getTimeListPrj(sd, ed) {
+      const prjArr = await this.getPrjAllData();
+      return new Promise(function(resolve){
+        const arr = prjArr.filter(li => li.start<=sd&&ed<=li.end);
+        resolve(arr);
+      });
+    },
+    async getTimeListTsk(sd, ed) {
+      const tskArr = await this.getTskAllData();
+      return new Promise(function(resolve){
+        const arr = tskArr.filter(li => li.start<=sd&&ed<=li.end);
+        resolve(arr);
+      });
+    },
+    async showDateList(...args) {
+      const [sd, ed] = args,
+        yymmdd = new Date(sd),
+        prj = await this.getTimeListPrj(sd, ed),
+        tsk = await this.getTimeListTsk(sd, ed);
+      this.markYear = yymmdd.getFullYear();
+      this.markMonth = yymmdd.getMonth();
+      this.markDate = yymmdd.getDate();
+      this.showPrjArr = prj;
+      this.showTskArr = tsk;
+      console.log(prj, tsk);
+      this.showDateFlg = true;
+      this.hiddenLoader();
+    },
+    closeShow() {
+      this.showDateFlg = false;
+    },
+    async openCurrentAnewPrj() {
+      this.openAnew("prj", {yy: this.current.getFullYear(), mm: this.current.getMonth(), dd: 1});
       this.mmbArr = await this.getMmbAllData();
       this.anewPrjFlg = true;
       this.hiddenLoader();
     },
-    async openNowAnewTsk() {
-      this.openAnew("tsk", {yy: this.now.getFullYear(), mm: this.now.getMonth(), dd: this.now.getDate()});
+    async openCurrentAnewTsk() {
+      this.openAnew("tsk", {yy: this.current.getFullYear(), mm: this.current.getMonth(), dd: 1});
       this.prjArr = await this.getPrjAllData();
+      this.lblArr = await this.getLblAllData();
+      this.anewTskFlg = true;
+      this.hiddenLoader();
+    },
+    async openMarkAnewPrj() {
+      this.openAnew("prj", {yy: this.markYear, mm: this.markMonth, dd: this.markDate});
+      this.mmbArr = await this.getMmbAllData();
+      this.anewPrjFlg = true;
+      this.hiddenLoader();
+    },
+    async openMarkAnewTsk() {
+      this.openAnew("tsk", {yy: this.markYear, mm: this.markMonth, dd: this.markDate});
+      this.mmbArr = await this.getMmbAllData();
       this.lblArr = await this.getLblAllData();
       this.anewTskFlg = true;
       this.hiddenLoader();

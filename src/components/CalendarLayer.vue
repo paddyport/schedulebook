@@ -30,14 +30,21 @@
         <div v-for="(cd, cdidx) in currentDatesArr" class="day" :key="cdidx">
           <a 
             v-if="cd.date"
-            class="content">
+            class="content"
+            @click="getDate">
+            <div 
+              v-for="(cp, cpidx) in cd.prj"
+              :class="['prjbar', cp.start===cd.time ? 'isFirst' : '', cp.end===cd.time ? 'isLast' : '']"
+              :key="cpidx">
+            </div>
+            <p v-if="cd.prj.length>3" class="note">＋{{ cd.prj.length-3 }}</p>
           </a>
           <div v-if="cd.date" class="index">{{ cd.date }}</div>
         </div>
       </div>
     </div>
     <div class="footer">
-     <GenerTxtbtn
+      <GenerTxtbtn
         :btn-flg="true"
         :btn-str="'新規作成'"
         :btn-cls="'def nml prj'"
@@ -89,13 +96,22 @@ export default {
       this.monthListFlg = false;
       this.$emit("ap-change-month", {year: yy, month: mm});
     },
+    getDate(e) {
+      this.$emit("ap-≈shown-loader");
+      const btn = e.target.parentNode,
+        arr = [].slice.call(btn.parentNode.childNodes),
+        lis = arr.filter(li => !li.nodeName.match(/text/)),
+        idx = lis.findIndex(list => list==btn),
+        time = new Date(this.currentYyMm.yy, this.currentYyMm.mm, this.currentDatesArr[idx].date).getTime();
+      this.$emit("ap-show-date-list", time, time);
+    },
     openAnewPrj() {
       this.$emit("ap-shown-loader");
-      this.$emit("ap-open-now-anew-prj");
+      this.$emit("ap-open-current-anew-prj");
     },
     openAnewTsk() {
       this.$emit("ap-shown-loader");
-      this.$emit("ap-open-now-anew-tsk");
+      this.$emit("ap-open-current-anew-tsk");
     }
   },
 }

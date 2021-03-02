@@ -95,6 +95,9 @@ button {
 		width: divceil(28, 16, "em");
 		height: divceil(28, 16, "em");
 		font-family: $icon;
+    > span {
+      display: none;
+    }
 		.isMD &:hover {
 			background: map-get($btn-nml, "side");
 		}
