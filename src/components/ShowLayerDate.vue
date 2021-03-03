@@ -11,11 +11,105 @@
       </GenerCclbtn>
     </div>
     <div class="body">
-      <ul v-if="showPrjArr.length">
-      </ul>
-      <ul v-if="showTskArr.length">
-      </ul>
-      <p v-if="!showPrjArr.length&&!showTskArr.length">何も登録されていません。</p>
+      <div class="switch">
+        <GenerTabbtn
+          :current-flg="tabCurrent=='prj'"
+          :btn-flg="showPrjArr.length ? true : false"
+          :btn-str="'スケジュール'"
+          :btn-cls="'def nml prj'"
+          :btn-submit="'prj'"
+          @tabbtn-click="tabSwitch">
+        </GenerTabbtn>
+        <GenerTabbtn
+          :current-flg="tabCurrent=='tsk'"
+          :btn-flg="showPrjArr.length ? true : false"
+          :btn-str="'タスク'"
+          :btn-cls="'def nml tsk'"
+          :btn-submit="'tsk'"
+          @tabbtn-click="tabSwitch">
+        </GenerTabbtn>
+      </div>
+      <div v-if="tabCurrent=='prj'" class="tab prj">
+        <ul v-if="showPrjArr.length">
+          <li 
+            v-for="(sp, spidx) in showPrjArr"
+            :data-pid="sp.pid"
+            :key="spidx">
+            <h2 class="title">{{ sp.title }}</h2>
+            <ul class="member">
+              <li v-for="(pm, pmidx) in sp.member" :key="pmidx">
+                <figure>
+                  <img :src="mmbArr[mmbArr.findIndex((li)=>li.mid==pm)].icon" :alt="mmbArr[mmbArr.findIndex((li)=>li.mid==pm)].name">
+                </figure>
+              </li>
+            </ul>
+            <div class="date">
+              <p>
+                {{ new Date(sp.start).getFullYear() }}年{{ new Date(sp.start).getMonth()+1 }}月{{ new Date(sp.start).getDate() }}日
+              </p>
+              <p v-if="sp.start!=sp.end">
+                {{ new Date(sp.end).getFullYear() }}年{{ new Date(sp.end).getMonth()+1 }}月{{ new Date(sp.end).getDate() }}日
+              </p>
+            </div>
+            <div class="btns">
+              <GenerIcnbtn
+                :btn-flg="true"
+                :btn-cls="'def prj edt'"
+                @icnbtn-click="openEditPrj">
+              </GenerIcnbtn>
+              <GenerIcnbtn
+                :btn-flg="true"
+                :btn-cls="'def nml cht'"
+                @icnbtn-click="openEditPrj">
+              </GenerIcnbtn>
+              <GenerIcnbtn
+                :btn-flg="true"
+                :btn-cls="'def alt rem'"
+                @icnbtn-click="remove">
+              </GenerIcnbtn>
+            </div>
+          </li>
+        </ul>
+        <p v-else>何も登録されていません。</p>
+      </div>
+      <div v-if="tabCurrent=='tsk'" class="tab tsk">
+        <ul v-if="showTskArr.length">
+          <li 
+            v-for="(st, stidx) in showTskArr"
+            :data-tid="st.tid"
+            :key="stidx">
+            <h2 class="title">{{ st.title }}</h2>
+            <ul class="member">
+              <li v-for="(tm, tmidx) in st.member" :key="tmidx">
+                <figure>
+                  <img :src="mmbArr[mmbArr.findIndex((li)=>li.mid==tm)].icon" :alt="mmbArr[mmbArr.findIndex((li)=>li.mid==tm)].name">
+                </figure>
+              </li>
+            </ul>
+            <div class="date">
+              <p>
+                {{ new Date(st.start).getFullYear() }}年{{ new Date(st.start).getMonth()+1 }}月{{ new Date(st.start).getDate() }}日
+              </p>
+              <p v-if="st.start!=st.end">
+                {{ new Date(st.end).getFullYear() }}年{{ new Date(st.end).getMonth()+1 }}月{{ new Date(st.end).getDate() }}日
+              </p>
+            </div>
+            <div class="btns">
+              <GenerIcnbtn
+                :btn-flg="true"
+                :btn-cls="'def tsk edt'"
+                @icnbtn-click="openEditPrj">
+              </GenerIcnbtn>
+              <GenerIcnbtn
+                :btn-flg="true"
+                :btn-cls="'def alt rem'"
+                @icnbtn-click="remove">
+              </GenerIcnbtn>
+            </div>
+          </li>
+        </ul>
+        <p v-else>何も登録されていません。</p>
+      </div>
     </div>
     <div class="footer">
       <GenerTxtbtn
@@ -36,30 +130,56 @@
 
 <script>
 import GenerHead from './GenerHead'
-// import GenerIcnbtn from './GenerIcnbtn'
+import GenerIcnbtn from './GenerIcnbtn'
 import GenerCclbtn from './GenerCclbtn'
 import GenerTxtbtn from './GenerTxtbtn'
+import GenerTabbtn from './GenerTabbtn'
 
 export default {
   name: 'ShowLayerDate',
   props: {
+    nowYear: Number,
+    nowMonth: Number,
+    nowDate: Number,
     markYear: Number,
     markMonth: Number,
     markDate: Number,
     showPrjArr: Array,
     showTskArr: Array,
+    mmbArr: Array,
   },
 	data() {
 		return {
+      tabCurrent: "prj",
+      markTime: 0,
 		}
   },
   components: {
     GenerHead,
-    // GenerIcnbtn,
+    GenerIcnbtn,
     GenerCclbtn,
     GenerTxtbtn,
+    GenerTabbtn,
+  },
+  created: function(){
+    this.nowTime = new Date(this.nowYear, this.nowMonth, this.nowDate).getTime();
+    this.tabCurrent = this.showPrjArr.length ? "prj" : "tsk";
   },
   methods: {
+    tabSwitch(str) {
+      this.tabCurrent = str;
+    },
+    openMember() {
+
+    },
+    openEditPrj(e) {
+      this.$emit("ap-shown-loader");
+      const pid = e.target.parentNode.parentNode.dataset.pid;
+      this.$emit("ap-open-edit-prj", pid);
+    },
+    remove() {
+
+    },
     openAnewPrj() {
       this.$emit("ap-shown-loader");
       this.$emit("ap-open-mark-anew-prj");

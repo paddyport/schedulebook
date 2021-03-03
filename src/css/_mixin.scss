@@ -32,6 +32,11 @@
     border-color: map-get($set, "bgBase");
 		color: map-get($set, "bgActive");
 	}
+  &.isCurrent {
+    border-color: map-get($set, "side");
+    background: map-get($set, "side");
+    color: map-get($set, "bgBase");
+  }
 }
 @mixin fontWeight($weight) {
   @if $weight == "regular" {
@@ -71,29 +76,35 @@ $btn-tsk: (
 	bgActive: #efe0a3,
 	side: #ddc560
 );
+$btn-alt: (
+	font: #6c0000,
+	bgBase: #ffdbdb,
+	bgActive: #ffa9a9,
+	side: #ff5959
+);
 $btn-font: (
 	nml: map-get($btn-nml, "font"),
 	prj: map-get($btn-prj, "font"),
 	tsk: map-get($btn-tsk, "font"),
+	alt: map-get($btn-alt, "font"),
 );
 $btn-base: (
 	nml: map-get($btn-nml, "bgBase"),
 	prj: map-get($btn-prj, "bgBase"),
 	tsk: map-get($btn-tsk, "bgBase"),
+	alt: map-get($btn-alt, "bgBase"),
 );
 $btn-active: (
 	nml: map-get($btn-nml, "bgActive"),
 	prj: map-get($btn-prj, "bgActive"),
 	tsk: map-get($btn-tsk, "bgActive"),
+	alt: map-get($btn-alt, "bgActive"),
 );
 $btn-side: (
 	nml: map-get($btn-nml, "side"),
 	prj: map-get($btn-prj, "side"),
 	tsk: map-get($btn-tsk, "side"),
-);
-$btn-icon: (
-	prj: $project,
-	tsk: $task,
+	alt: map-get($btn-alt, "side"),
 );
 
 $black1: #1a1a1a;

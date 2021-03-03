@@ -22,7 +22,7 @@ display: flex;
     text-align: left;
     z-index: 1500;
     &::before {
-      content: "";
+      // content: "";
       position: absolute;
       background: $gray1;
       left: 0;
@@ -52,12 +52,107 @@ display: flex;
   }
   .body {
     height: 100%;
+    padding: divceil(10, 16, "em");
 	  overflow-y: scroll;
-	  > div {
-		  + div {
-			  margin-top: divceil(16, 16, "em");
-		  }
-	  }
+    > .switch {
+      display: flex;
+      align-items: baseline;
+      border-bottom: 2px solid $gray1;
+      padding: 0 divceil(8, 16, "em");
+      > button {
+        + button {
+          margin-left: divceil(10, 16, "em");
+        }
+      }
+    }
+    > .tab {
+      margin: divceil(10, 16, "em") 0 0;
+      > ul {
+        margin: 0;
+        padding: 0;
+        > li {
+          display: block;
+          position: relative;
+          background: $gray1;
+          padding: divceil(8, 16, "em") divceil(10, 16, "em");
+          .title {
+            margin: 0;
+            padding: divceil(4, 16, "em") divceil(118, 16, "em") 0 0;
+            line-height: 1;
+            font-size: divceil(16, 16, "em");
+            @include endLeader();
+          }
+          .member {
+            display: flex;
+            align-items: center;
+            margin: divceil(32-18+4-4, 16, "em") 0 0;
+            padding: 0;
+            line-height: 0;
+            list-style: none;
+            overflow-x: scroll;
+            > li {
+              height: divceil(24, 16, "em");
+              > figure {
+                display: block;
+                border-radius: 50%;
+                height: 100%;
+                margin: 0;
+                overflow: hidden;
+                img {
+                  max-height: 100%;
+                }
+              }
+              + li {
+                margin-left: divceil(5, 16, "em");
+              }
+            }
+          }
+          .date {
+            display: flex;
+            align-items: center;
+            margin: divceil(10, 16, "em") 0 0;
+            line-height: 1;
+            &::before {
+              content: $datepicker;
+              margin-right: 0.2em;
+              line-height: 1;
+              font-family: $icon;
+              transform: translate(0, 1px);
+            }
+            > p {
+              margin: 0;
+              + p {
+                margin-left: 0.3em;
+                &::before {
+                  content: "~";
+                  margin-right: 0.3em;
+                }
+              }
+            }
+          }
+          .btns {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            position: absolute;
+            right: divceil(10, 16, "em");
+            top: divceil(8, 16, "em");
+            > button {
+              + button {
+                margin-left: divceil(6, 16, "em");
+              }
+            }
+          }
+          + li {
+            margin-top: divceil(10, 16, "em");
+          }
+        }
+      }
+      > p {
+        margin: 0;
+        line-height: 1;
+      }
+    }
   }
   .footer {
     flex-shrink: 0;

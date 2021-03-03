@@ -18,12 +18,17 @@
     </CalendarLayer>
     <ShowLayerDate
       v-if="showDateFlg"
+      :now-year="now.getFullYear()"
+      :now-month="now.getMonth()"
+      :now-date="now.getDate()"
       :mark-year="markYear"
       :mark-month="markMonth"
       :mark-date="markDate"
       :show-prj-arr="showPrjArr"
       :show-tsk-arr="showTskArr"
+      :mmb-arr="mmbArr"
       @ap-shown-loader="shownLoader"
+      @ap-open-edit-prj="openEditPrj"
       @ap-open-mark-anew-prj="openMarkAnewPrj"
       @ap-open-mark-anew-tsk="openMarkAnewTsk"
       @ap-close-show="closeShow">
@@ -384,7 +389,7 @@ export default {
       this.markDate = yymmdd.getDate();
       this.showPrjArr = prj;
       this.showTskArr = tsk;
-      console.log(prj, tsk);
+      this.mmbArr = await this.getMmbAllData();
       this.showDateFlg = true;
       this.hiddenLoader();
     },
@@ -436,6 +441,14 @@ export default {
         title: title,
         memo: memo
       });
+    },
+    async openEditPrj(pid) {
+      const prjArr = await this.getPrjAllData(),
+        prj = prjArr[prjArr.findIndex((li)=>li.pid==pid)];
+      this.mmbArr = await this.getMmbAllData();
+      this.lblArr = await this.getLblAllData();
+      console.log(pid, prj);
+      this.hiddenLoader();
     },
     closeAnew() {
       this.ctgName = "";
