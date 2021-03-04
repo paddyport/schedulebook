@@ -100,6 +100,9 @@ export default {
       markYear: 0,
       markMonth: 0,
       markDate: 0,
+      editPrjFlg: false,
+      editStartTime: 0,
+      editEndTime: 0,
     }
   },
   components: {
@@ -448,7 +451,14 @@ export default {
       this.mmbArr = await this.getMmbAllData();
       this.lblArr = await this.getLblAllData();
       console.log(pid, prj);
+      this.openEdit("prj", prj);
+      this.editPrjFlg = true;
       this.hiddenLoader();
+    },
+    openEdit(ctg, data) {
+      this.ctgName = ctg;
+      this.editStartTime = data.start;
+      this.editEndTime = data.end;
     },
     closeAnew() {
       this.ctgName = "";
