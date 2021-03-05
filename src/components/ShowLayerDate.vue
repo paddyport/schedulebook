@@ -93,11 +93,28 @@
               </li>
             </ul>
             <div class="date">
-              <p>
+              <p :class="new Date(nowYear, nowMonth, nowDate).getTime()>st.end ? 'alt' : ''">
                 {{ new Date(st.start).getFullYear() }}年{{ new Date(st.start).getMonth()+1 }}月{{ new Date(st.start).getDate() }}日
               </p>
-              <p v-if="st.start!=st.end">
+              <p
+                v-if="st.start!=st.end"
+                :class="new Date(nowYear, nowMonth, nowDate).getTime()>st.end ? 'alt' : ''">
                 {{ new Date(st.end).getFullYear() }}年{{ new Date(st.end).getMonth()+1 }}月{{ new Date(st.end).getDate() }}日
+              </p>
+            </div>
+            <div class="status">
+              <p
+                v-if="st.status==0"
+                :class="['stt0', new Date(nowYear, nowMonth, nowDate).getTime()>st.end ? 'aaltlr' : '']">
+                未処理
+              </p>
+              <p
+                v-if="st.status==1"
+                :class="['stt1', new Date(nowYear, nowMonth, nowDate).getTime()>st.end ? 'alt' : '']">
+                処理中
+              </p>
+              <p v-if="st.status==2" class="stt2">
+                処理済み
               </p>
             </div>
             <div class="btns">
