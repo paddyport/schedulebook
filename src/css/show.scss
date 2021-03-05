@@ -74,7 +74,20 @@ display: flex;
           display: block;
           position: relative;
           background: $gray1;
-          padding: divceil(8, 16, "em") divceil(10, 16, "em");
+          padding: divceil(8, 16, "em") divceil(10, 16, "em") divceil(10, 16, "em");
+          .label {
+            position: absolute;
+            border-left: divceil(10, 16, "em") solid transparent;
+            border-right: divceil(10, 16, "em") solid;
+            border-top: divceil(10, 16, "em") solid transparent;
+            border-bottom: divceil(10, 16, "em") solid;
+            width: 0;
+            height: 0;
+            right: 0;
+            bottom: 0;
+            text-indent: -9999px;
+            pointer-events: none;
+          }
           .title {
             margin: 0;
             padding: divceil(4, 16, "em") divceil(118, 16, "em") 0 0;

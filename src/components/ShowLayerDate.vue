@@ -78,6 +78,12 @@
             v-for="(st, stidx) in showTskArr"
             :data-tid="st.tid"
             :key="stidx">
+            <i
+              v-if="st.lid"
+              class="label"
+              :style="{color: lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].color}">
+              {{ lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].title }}
+            </i>
             <h2 class="title">{{ st.title }}</h2>
             <ul class="member">
               <li v-for="(tm, tmidx) in st.member" :key="tmidx">
@@ -147,6 +153,7 @@ export default {
     showPrjArr: Array,
     showTskArr: Array,
     mmbArr: Array,
+    lblArr: Array,
   },
 	data() {
 		return {

@@ -1,7 +1,8 @@
 <template>
   <input 
     type="text"
-    :placeholder="inputPlaceholder"
+    :placeholder="!inputValue ? inputPlaceholder : ''"
+    :value="inputValue ? inputValue : ''"
     @blur="onBlur">
 </template>
 
@@ -10,10 +11,12 @@ export default {
   name: 'GenerTxtarea',
   props: {
     inputPlaceholder: String,
+    inputValue: String,
   },
   methods: {
     onBlur(e) {
       const str = e.target.value;
+      if(this.inputValue && str==this.inputValue) return;
       if(!str || !str.match(/\S/g)) {
         e.target.value = "";
         return;

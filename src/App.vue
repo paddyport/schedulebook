@@ -27,6 +27,7 @@
       :show-prj-arr="showPrjArr"
       :show-tsk-arr="showTskArr"
       :mmb-arr="mmbArr"
+      :lbl-arr="lblArr"
       @ap-shown-loader="shownLoader"
       @ap-open-edit-prj="openEditPrj"
       @ap-open-mark-anew-prj="openMarkAnewPrj"
@@ -101,8 +102,7 @@ export default {
       markMonth: 0,
       markDate: 0,
       editPrjFlg: false,
-      editStartTime: 0,
-      editEndTime: 0,
+      editData: {},
     }
   },
   components: {
@@ -393,6 +393,7 @@ export default {
       this.showPrjArr = prj;
       this.showTskArr = tsk;
       this.mmbArr = await this.getMmbAllData();
+      this.lblArr = await this.getLblAllData();
       this.showDateFlg = true;
       this.hiddenLoader();
     },
@@ -457,8 +458,7 @@ export default {
     },
     openEdit(ctg, data) {
       this.ctgName = ctg;
-      this.editStartTime = data.start;
-      this.editEndTime = data.end;
+      this.editData = Object.assign(this.editData, data);
     },
     closeAnew() {
       this.ctgName = "";
