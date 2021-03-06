@@ -78,12 +78,12 @@
             v-for="(st, stidx) in showTskArr"
             :data-tid="st.tid"
             :key="stidx">
-            <i
+            <p
               v-if="st.lid"
               class="label"
               :style="{color: lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].color}">
-              {{ lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].title }}
-            </i>
+              <span>{{ lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].title }}</span>
+            </p>
             <h2 class="title">{{ st.title }}</h2>
             <ul class="member">
               <li v-for="(tm, tmidx) in st.member" :key="tmidx">

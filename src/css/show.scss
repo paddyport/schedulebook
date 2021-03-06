@@ -85,8 +85,19 @@ display: flex;
             height: 0;
             right: 0;
             bottom: 0;
-            text-indent: -9999px;
+            margin: 0;
+            line-height: 1;
             pointer-events: none;
+            > span {
+              display: block;
+              position: absolute;
+              width: 10em;
+              right: divceil(2, 12, "em");
+              bottom: 0;
+              font-size: divceil(12, 16, "em");
+              text-align: right;
+              @include endLeader();
+            }
           }
           .title {
             margin: 0;
@@ -153,11 +164,19 @@ display: flex;
             > p {
               position: relative;
               margin: 0;
-              padding: 0 0 0 divceil(16, 12, "em");
               font-size: divceil(12, 16, "em");
+              &.stt0 {
+                color: $stt0;
+              }
+              &.stt1 {
+                color: $stt1;
+              }
+              &.stt2 {
+                color: $stt2;
+              }
               &.alt {
+                padding: 0 0 0 divceil(16, 12, "em");
                 font-weight: bold;
-                color: map-get($map: $btn-alt, $key: "side");
                 &::before {
                   content: $fire;
                   position: absolute;
@@ -165,6 +184,7 @@ display: flex;
                   top: 50%;
                   font-size: 1.2em;
                   font-family: $icon;
+                  color: map-get($map: $btn-alt, $key: "side");
                   transform: translate(0, -45%);
                 }
               }
