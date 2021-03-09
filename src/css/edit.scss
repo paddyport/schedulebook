@@ -1,3 +1,274 @@
-@charset "UTF-8";
 @import "_pseudo";
 @import "_mixin";
+
+
+.edit {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: absolute;
+	background: #fff;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 9000;
+> div {
+	height: 100%;
+	padding: divceil(10, 16, "em");
+	overflow-y: scroll;
+	> div {
+		+ div {
+			margin-top: divceil(16, 16, "em");
+		}
+	}
+}
+.content {
+	height: calc(100% - #{divceil(50+16-4, 16, "em")});
+	margin: divceil(16-4, 16, "em") 0 divceil(50, 16, "em");
+	padding: divceil(4, 16, "em") divceil(16, 16, "em") divceil(8, 16, "em");
+	overflow-y: scroll;
+}
+.title {
+	font-size: divceil(20, 16, "em");
+}
+.date {
+	display: flex;
+	align-items: center;
+	position: relative;
+	.res {
+		display: flex;
+		align-items: center;
+		position: relative;
+		margin: 0 0 0 divceil(10, 16, "em");
+		letter-spacing: 0.03em;
+		.start {
+			margin: 0;
+		}
+		.end {
+			margin: 0;
+			&::before {
+				content: "〜";
+				margin: 0 divceil(4, 16, "em");
+			}
+		}
+	}
+	.datepicker {
+		position: absolute;
+		left: divceil(32, 16, "em");
+		right: 0;
+		top: 100%;
+		z-index: 100;
+	}
+}
+.priority {
+  > button.prr {
+    pointer-events: none;
+  }
+}
+.member {
+  display: flex;
+  align-items: center;
+  position: relative;
+  > button {
+    flex-shrink: 0;
+  }
+  .res {
+    width: 100%;
+		margin: 0 0 0 divceil(10, 16, "em");
+    > ul {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+      list-style: none;
+      line-height: 0;
+      overflow: hidden;
+      > li {
+        display: block;
+        flex-shrink: 0;
+        > figure {
+          border-radius: 50%;
+          width: divceil(28, 16, "em");
+          height: divceil(28, 16, "em");
+          margin: divceil((32-28)/2, 16, "em") 0;
+          overflow: hidden;
+          img {
+            max-width: 100%;
+            max-height: 100%;
+          }
+        }
+        + li {
+          margin-left: divceil(6, 16, "em");
+        }
+      }
+    }
+  }
+  .mmblist {
+    position: absolute;
+		left: divceil(32, 16, "em");
+		right: 0;
+		top: 100%;
+		z-index: 100;
+  }
+}
+.label {
+	display: flex;
+	align-items: center;
+	position: relative;
+	.res {
+		display: flex;
+		align-items: center;
+		margin: 0 0 0 divceil(10, 16, "em");
+		letter-spacing: 0.03em;
+		> i {
+			display: block;
+			width: divceil(20, 16, "em");
+			height: divceil(20, 16, "em");
+			margin: 0 divceil(6, 16, "em") 0 0;
+		}
+	}
+	.colorpicker {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%;
+		z-index: 100;
+	}
+	.lbllist {
+		position: absolute;
+		left: divceil(32+10, 16, "em");
+		right: 0;
+		top: 100%;
+		z-index: 100;
+	}
+}
+.link {
+	display: flex;
+	align-items: center;
+	position: relative;
+	.res {
+		display: flex;
+		align-items: center;
+		position: relative;
+		margin: 0 0 0 divceil(10, 16, "em");
+		letter-spacing: 0.03em;
+		@include endLeader();
+	}
+	.prjlist {
+		position: absolute;
+		max-height: divceil(280, 16, "em");
+		left: divceil(32+10, 16, "em");
+		right: 0;
+		top: 100%;
+	}
+}
+.caption {
+	line-height: 0;
+	> textarea {
+		border-radius: 2px;
+		width: 100%;
+		min-height: divceil(30*3+2*2+1*2, 16, "em");
+		margin: 0;
+		padding: divceil(2, 16, "em") divceil((30-16)/2, 16, "em");
+		line-height: divceil(30, 16, "em");
+		text-align: left;
+		white-space: pre-line;
+		cursor: text;
+		&[data-placeholder]:empty::before {
+			content: attr(data-placeholder);
+			color: $gray4;
+		}
+	}
+}
+.list {
+	text-align: left;
+	list-style: none;
+	> ul {
+		margin: 0;
+		padding: 0;
+		> li {
+			display: block;
+			+ li {
+				margin-top: divceil(8, 16, "em");
+			}
+		}
+	}
+	.cardItem {
+		position: relative;
+		background: $gray7;
+		padding: divceil(10-(22-18)/2, 16, "em") divceil(10, 16, "em") divceil(10, 16, "em");
+		> i {
+			position: absolute;
+			border-left: divceil(12, 16, "em") solid transparent;
+			border-right: divceil(12, 16, "em") solid;
+			border-top: divceil(12, 16, "em") solid;
+			border-bottom: divceil(12, 16, "em") solid transparent;
+			width: 0;
+			height: 0;
+			right: 0;
+			top: 0;
+			// color: transparent;
+			pointer-events: none;
+		}
+		> h2 {
+			margin: 0;
+			padding: 0 divceil(10, 18, "em") 0 0;
+//			letter-spacing: 0.03em;
+			line-height: divceil(22, 18, "em");
+			font-size: divceil(18, 16, "em");
+			@include fontWeight("bold");
+			text-align: justify;
+//			@include endLeader();
+			+ time {
+				margin-top: divceil(20, 16, "em");
+			}
+		}
+		> time {
+			display: block;
+			position: relative;
+			margin: divceil(10, 16, "em") 0 0;
+			padding: 0 0 0 divceil(22, 16, "em");
+			letter-spacing: 0.02em;
+			line-height: 1;
+			&::before {
+				position: absolute;
+				left: 0;
+				top: 50%;
+				font-family: $icon;
+				color: $black2;
+				transform: translate(0, -50%);
+			}
+		}
+		> p {
+			display: flex;
+			justify-content: flex-end;
+			align-items: flex-end;
+			position: absolute;
+			bottom: divceil(10-2, 16, "em");
+			right: divceil(10, 16, "em");
+			margin: 0;
+			line-height: 1;
+			> button {
+				display: block;
+				+ button {
+					margin-left: divceil(10, 16, "em");
+				}
+			}
+		}
+	}
+}
+.footer {
+	flex-shrink: 0;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	background: $gray1;
+	height: divceil(50, 16, "em");
+	padding: 0 divceil((50-34)/2, 16, "em");
+	> button {
+		margin: 0 divceil(16, 16, "em");
+	}
+}
+}

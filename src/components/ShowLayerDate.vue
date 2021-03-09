@@ -82,7 +82,6 @@
               v-if="st.lid"
               class="label"
               :style="{color: lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].color}">
-              <span>{{ lblArr[lblArr.findIndex((li)=>li.lid==st.lid)].title }}</span>
             </p>
             <h2 class="title">{{ st.title }}</h2>
             <ul class="member">

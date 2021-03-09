@@ -88,16 +88,16 @@ display: flex;
             margin: 0;
             line-height: 1;
             pointer-events: none;
-            > span {
-              display: block;
-              position: absolute;
-              width: 10em;
-              right: divceil(2, 12, "em");
-              bottom: 0;
-              font-size: divceil(12, 16, "em");
-              text-align: right;
-              @include endLeader();
-            }
+            // > span {
+            //   display: block;
+            //   position: absolute;
+            //   width: 10em;
+            //   right: divceil(2, 12, "em");
+            //   bottom: 0;
+            //   font-size: divceil(12, 16, "em");
+            //   text-align: right;
+            //   @include endLeader();
+            // }
           }
           .title {
             margin: 0;

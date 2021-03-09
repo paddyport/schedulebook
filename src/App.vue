@@ -34,6 +34,20 @@
       @ap-open-mark-anew-tsk="openMarkAnewTsk"
       @ap-close-show="closeShow">
     </ShowLayerDate>
+    <EditLayerPrj
+      v-if="editPrjFlg"
+      :now-year="now.getFullYear()"
+      :now-month="now.getMonth()"
+      :now-date="now.getDate()"
+      :ctg-name="ctgName"
+      :mark-year="markYear"
+      :mark-month="markMonth"
+      :mark-date="markDate"
+      :edit-data="editData"
+      :mmb-arr="mmbArr"
+      @ap-anew-prj="anewPrj"
+      @ap-close-edit="closeEdit">
+    </EditLayerPrj>
     <AnewLayerPrj
       v-if="anewPrjFlg"
       :now-year="now.getFullYear()"
@@ -68,6 +82,7 @@
 import Dexie from 'dexie'
 import CalendarLayer from './components/CalendarLayer'
 import ShowLayerDate from './components/ShowLayerDate'
+import EditLayerPrj from './components/EditLayerPrj'
 import AnewLayerPrj from './components/AnewLayerPrj'
 import AnewLayerTsk from './components/AnewLayerTsk'
 import LoaderLayer from './components/LoaderLayer'
@@ -108,6 +123,7 @@ export default {
   components: {
     CalendarLayer,
     ShowLayerDate,
+    EditLayerPrj,
     AnewLayerPrj,
     AnewLayerTsk,
     LoaderLayer,
@@ -451,14 +467,19 @@ export default {
         prj = prjArr[prjArr.findIndex((li)=>li.pid==pid)];
       this.mmbArr = await this.getMmbAllData();
       this.lblArr = await this.getLblAllData();
-      console.log(pid, prj);
       this.openEdit("prj", prj);
       this.editPrjFlg = true;
       this.hiddenLoader();
     },
     openEdit(ctg, data) {
       this.ctgName = ctg;
+      for(let key in this.editData) delete this.editData[key];
       this.editData = Object.assign(this.editData, data);
+    },
+    closeEdit() {
+      this.ctgName = "";
+      this.editPrjFlg = false;
+      this.editTskFlg = false;
     },
     closeAnew() {
       this.ctgName = "";

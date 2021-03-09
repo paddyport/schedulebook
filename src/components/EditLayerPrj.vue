@@ -46,13 +46,14 @@
         <GenerMmblist
           v-if="memberFlg"
           :mmb-arr="mmbArr"
-          :choice-mmb-arr="choiceMmbArr"
+          :choice-mmb-arr="editData.member"
           @rem-member="remMember"
           @add-member="addMember">
         </GenerMmblist>
       </div>
       <div class="caption">
         <GenerTxtarea
+          :textarea-value="editData.memo"
           @txtarea-blur="inputText"></GenerTxtarea>
       </div>
     </div>
@@ -62,7 +63,7 @@
         :btn-flg="true"
         :btn-str="'キャンセル'"
         :btn-cls="'def nml cla'"
-        @txtbtn-click="closeAnew">
+        @txtbtn-click="closeEdit">
       </GenerTxtbtn>
       <GenerTxtbtn
         :icon-flg="true"
@@ -163,8 +164,8 @@ export default {
       const mmb = this.choiceMmbArr.map(function(item) {return item.mid;});
       this.$emit("ap-anew-prj", this.anewTitle, this.anewStartTime, this.anewEndTime, mmb, this.anewMemo);
     },
-    closeAnew() {
-      this.$emit("ap-close-anew");
+    closeEdit() {
+      this.$emit("ap-close-edit");
     },
   },
 }

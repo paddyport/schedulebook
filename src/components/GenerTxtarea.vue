@@ -1,13 +1,16 @@
 <template>
   <textarea
+    :value="textareaValue ? textareaValue : ''"
     @blur="onBlur">
   </textarea>
 </template>
 
 <script>
 export default {
-// SU Component
   name: 'GenerTxtarea',
+  props: {
+    textareaValue: String,
+  },
   methods: {
     onBlur(e) {
       const str = e.target.value;
