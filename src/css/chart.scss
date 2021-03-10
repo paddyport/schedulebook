@@ -1,0 +1,53 @@
+@import "_pseudo";
+@import "_mixin";
+
+.chart {
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	position: absolute;
+	background: #fff;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 9000;
+  .header {
+    flex-shrink: 0;
+    position: relative;
+    height: divceil(50, 16, "em");
+    padding: 0 divceil(10, 16, "em");
+    @include fontWeight("bold");
+    text-align: left;
+    z-index: 1500;
+    &::before {
+      content: "";
+      position: absolute;
+      // background: $gray1;
+      border-bottom: 2px solid $gray3;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      pointer-events: none;
+      z-index: 5;
+    }
+    > h1 {
+      position: relative;
+      margin: 0;
+      letter-spacing: 0.07em;
+      line-height: divceil(50, 20, "em");
+      font-size: divceil(20, 16, "em");
+      font-family: $font, sans-serif;
+      font-feature-settings: "palt";
+      z-index: 5;
+    }
+    > button {
+      position: absolute;
+      right: divceil(10, 16, "em");
+      top: 50%;
+      transform: translate(0, -50%);
+      z-index: 5;
+    }
+  }
+}

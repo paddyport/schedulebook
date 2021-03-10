@@ -60,7 +60,7 @@
               <GenerIcnbtn
                 :btn-flg="true"
                 :btn-cls="'def nml cht'"
-                @icnbtn-click="openEditPrj">
+                @icnbtn-click="openChart">
               </GenerIcnbtn>
               <GenerIcnbtn
                 :btn-flg="true"
@@ -199,6 +199,11 @@ export default {
       this.$emit("ap-shown-loader");
       const pid = e.target.parentNode.parentNode.dataset.pid;
       this.$emit("ap-open-edit-prj", pid);
+    },
+    openChart(e) {
+      this.$emit("ap-shown-loader");
+      const pid = e.target.parentNode.parentNode.dataset.pid;
+      this.$emit("ap-open-chart", pid);
     },
     remove() {
 

@@ -30,6 +30,7 @@
       :lbl-arr="lblArr"
       @ap-shown-loader="shownLoader"
       @ap-open-edit-prj="openEditPrj"
+      @ap-open-chart="openChart"
       @ap-open-mark-anew-prj="openMarkAnewPrj"
       @ap-open-mark-anew-tsk="openMarkAnewTsk"
       @ap-close-show="closeShow">
@@ -48,6 +49,13 @@
       @ap-anew-prj="anewPrj"
       @ap-close-edit="closeEdit">
     </EditLayerPrj>
+    <ChartLayer
+      v-if="chartFlg"
+      :prj-data="editData"
+      :mmb-arr="mmbArr"
+      :lbl-arr="lblArr"
+      @ap-close-chart="closeChart">
+    </ChartLayer>
     <AnewLayerPrj
       v-if="anewPrjFlg"
       :now-year="now.getFullYear()"
@@ -83,6 +91,7 @@ import Dexie from 'dexie'
 import CalendarLayer from './components/CalendarLayer'
 import ShowLayerDate from './components/ShowLayerDate'
 import EditLayerPrj from './components/EditLayerPrj'
+import ChartLayer from './components/ChartLayer'
 import AnewLayerPrj from './components/AnewLayerPrj'
 import AnewLayerTsk from './components/AnewLayerTsk'
 import LoaderLayer from './components/LoaderLayer'
@@ -118,12 +127,14 @@ export default {
       markDate: 0,
       editPrjFlg: false,
       editData: {},
+      chartFlg: false,
     }
   },
   components: {
     CalendarLayer,
     ShowLayerDate,
     EditLayerPrj,
+    ChartLayer,
     AnewLayerPrj,
     AnewLayerTsk,
     LoaderLayer,
@@ -462,10 +473,15 @@ export default {
         memo: memo
       });
     },
+    closeAnew() {
+      this.ctgName = "";
+      this.anewPrjFlg = false;
+      this.anewTskFlg = false;
+    },
     async openEditPrj(pid) {
       const prjArr = await this.getPrjAllData(),
         prj = prjArr[prjArr.findIndex((li)=>li.pid==pid)];
-      this.mmbArr = await this.getMmbAllData();
+      this.mmbArvr = await this.getMmbAllData();
       this.lblArr = await this.getLblAllData();
       this.openEdit("prj", prj);
       this.editPrjFlg = true;
@@ -481,10 +497,17 @@ export default {
       this.editPrjFlg = false;
       this.editTskFlg = false;
     },
-    closeAnew() {
-      this.ctgName = "";
-      this.anewPrjFlg = false;
-      this.anewTskFlg = false;
+    async openChart(pid) {
+      const prjArr = await this.getPrjAllData(),
+        prj = prjArr[prjArr.findIndex((li)=>li.pid==pid)];
+      this.mmbArr = await this.getMmbAllData();
+      this.lblArr = await this.getLblAllData();
+      this.openEdit("prj", prj);
+      this.chartFlg = true;
+      this.hiddenLoader();
+    },
+    closeChart() {
+      this.chartFlg = false;
     },
   },
 }
