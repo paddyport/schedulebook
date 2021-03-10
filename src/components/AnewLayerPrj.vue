@@ -145,13 +145,10 @@ export default {
       this.memberFlg = this.memberFlg ? false : true;
     },
     remMember(id) {
-      console.log(id, this.choiceMmbArr);
-      this.choiceMmbArr = this.choiceMmbArr.filter(function(arr){return arr.mid!==id});
-      console.log(this.choiceMmbArr);
+      this.choiceMmbArr = this.choiceMmbArr.filter(function(item){return item!==id});
     },
     addMember(id) {
-      const obj = this.mmbArr.filter(function(arr){return arr.mid===id});
-      this.choiceMmbArr.push(obj[0]);
+      this.choiceMmbArr.push(id);
     },
     inputText(str) {
       this.anewMemo = str;
@@ -159,8 +156,8 @@ export default {
     checkAnew() {
       // 新規保存
       // console.log(this.anewTitle, this.choiceMmbArr, this.anewStartTime, this.anewEndTime, this.anewMemo);
-      const mmb = this.choiceMmbArr.map(function(item) {return item.mid;});
-      this.$emit("ap-anew-prj", this.anewTitle, this.anewStartTime, this.anewEndTime, mmb, this.anewMemo);
+      // const mmb = this.choiceMmbArr.map(function(item) {return item.mid;});
+      this.$emit("ap-anew-prj", this.anewTitle, this.anewStartTime, this.anewEndTime, this.choiceMmbArr, this.anewMemo);
     },
     closeAnew() {
       this.$emit("ap-close-anew");

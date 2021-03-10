@@ -16,7 +16,7 @@
   <ul v-if="mmbArr.length">
     <li
       v-for="(sm, smidx) in sortMmbArr"
-      :class="[choiceMmbArr&&choiceMmbArr.some(item=>item.mid==sm.mid) ? 'isChecked' : candidateMmbName&&sm.name.indexOf(candidateMmbName)>-1 ?'isCandidate' : '']"
+      :class="[changeMmbArr&&changeMmbArr.some(item=>item==sm.mid) ? 'isChecked' : candidateMmbName&&sm.name.indexOf(candidateMmbName)>-1 ?'isCandidate' : '']"
       :key="smidx">
       <a
         :data-mid="sm.mid"
@@ -43,6 +43,7 @@ export default {
       sortMmbArr: this.mmbArr,
       addMmbFlg: false,
       candidateMmbName: "",
+      changeMmbArr: this.choiceMmbArr,
     }
   },
   components: {
@@ -61,9 +62,11 @@ export default {
     choiceMmb(e) {
       const btn = e.target,
 				id = Number(btn.dataset.mid);
-      if(this.choiceMmbArr.some(item=>item.mid==id)) {
+      if(this.changeMmbArr.some(item=>item==id)) {
+        this.changeMmbArr = this.changeMmbArr.filter(function(item){return item!==id});
         this.$emit("rem-member", id);
       } else {
+        this.changeMmbArr.push(id);
         this.$emit("add-member", id);
       }
     },

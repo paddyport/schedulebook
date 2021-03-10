@@ -38,7 +38,7 @@
               v-for="(cm, cmidx) in choiceMmbArr"
               :key="cmidx">
               <figure>
-                <img :src="cm.icon" :alt="cm.name">
+                <img :src="mmbArr[mmbArr.findIndex((li)=>li.mid==cm)].icon" :alt="mmbArr[mmbArr.findIndex((li)=>li.mid==cm)].name">
               </figure>
             </li>
           </ul>
@@ -106,7 +106,7 @@ export default {
       anewEndTime: new Date(this.markYear, this.markMonth, this.markDate).getTime(),
       selEndYyMmDd: {yy: this.markYear, mm: this.markMonth, dd: this.markDate},
       memberFlg: false,
-      choiceMmbArr: [],
+      choiceMmbArr: this.editData.member.length ? this.editData.member : [],
       anewMemo: "",
       anewBtnFlg: false,
 		}
@@ -147,13 +147,10 @@ export default {
       this.memberFlg = this.memberFlg ? false : true;
     },
     remMember(id) {
-      console.log(id, this.choiceMmbArr);
-      this.choiceMmbArr = this.choiceMmbArr.filter(function(arr){return arr.mid!==id});
-      console.log(this.choiceMmbArr);
+      this.choiceMmbArr = this.choiceMmbArr.filter(function(item){return item!==id});
     },
     addMember(id) {
-      const obj = this.mmbArr.filter(function(arr){return arr.mid===id});
-      this.choiceMmbArr.push(obj[0]);
+      this.choiceMmbArr.push(id);
     },
     inputText(str) {
       this.anewMemo = str;
