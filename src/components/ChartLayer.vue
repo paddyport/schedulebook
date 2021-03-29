@@ -10,6 +10,9 @@
         @click="closeChart">
       </GenerCclbtn>
     </div>
+    <div class="body">
+      
+    </div>
   </div>
 </template>
 
