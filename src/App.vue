@@ -52,6 +52,7 @@
     <ChartLayer
       v-if="chartFlg"
       :prj-data="editData"
+      :tsk-arr="tskArr"
       :mmb-arr="mmbArr"
       :lbl-arr="lblArr"
       @ap-close-chart="closeChart">
@@ -113,6 +114,7 @@ export default {
       currentWeeks: 0,
       weekLen: 7,
       prjArr: [],
+      tskArr: [],
       mmbArr: [],
       lblArr: [],
       monthListArr: [],
@@ -319,6 +321,14 @@ export default {
 				});
 			});
 		},
+		getTskData(key) {
+			const that = this;
+			return new Promise(function(resolve){
+				that.db.tsk.where(key).toArray().then((list) => {
+					resolve(list);
+				});
+			});
+		},
     getMmbAllData() {
       const that = this;
 			return new Promise(function(resolve){
@@ -500,6 +510,7 @@ export default {
     async openChart(pid) {
       const prjArr = await this.getPrjAllData(),
         prj = prjArr[prjArr.findIndex((li)=>li.pid==pid)];
+      this.tskArr = await this.getTskData({pid: prj.pid});
       this.mmbArr = await this.getMmbAllData();
       this.lblArr = await this.getLblAllData();
       this.openEdit("prj", prj);

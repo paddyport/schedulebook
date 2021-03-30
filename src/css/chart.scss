@@ -50,4 +50,79 @@
       z-index: 5;
     }
   }
+  .body {
+    height: 100%;
+    overflow: scroll;
+    > div {
+      display: flex;
+      position: relative;
+      // height: 100%;
+      .day {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        position: relative;
+        width: 10vw;
+        &::before {
+          content: "";
+          position: absolute;
+          border-right: 1px dashed $gray6;
+          height: 100%;
+          right: 0;
+          top: 0;
+          pointer-events: none;
+        }
+        &:nth-of-type(1) {
+          z-index: 5;
+          .task::before {
+            content: "";
+          }
+        }
+        .task {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          position: relative;
+          // height: 10vh;
+          height: calc((100vh - #{divceil(50, 16, "em")})/9);
+          padding: 0 0 1px;
+          &::before {
+            position: absolute;
+            border-bottom: 1px solid $gray5;
+            width: 100vw;
+            height: 0;
+            left: 0;
+            bottom: 0;
+            pointer-events: none;
+          }
+          > div {
+            display: flex;
+            align-items: center;
+            width: 100%;
+            height: 75%;
+            cursor: pointer;
+            &.stt0 {
+              background: rgba($stt0, 0.5);
+            }
+            &.stt1 {
+              background: rgba($stt1, 0.5);
+            }
+            &.stt2 {
+              background: rgba($stt2, 0.5);
+            }
+            span {
+              display: block;
+              padding-left: divceil(5, 14, "em");
+              font-size: divceil(14, 16, "em");
+              white-space: nowrap;
+              pointer-events: none;
+            }
+          }
+        }
+      }
+      .ttip {
+        position: absolute;
+      }
+    }
+  }
 }
