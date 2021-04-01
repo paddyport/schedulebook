@@ -11,11 +11,22 @@
       </GenerCclbtn>
     </div>
     <div class="body">
-      <div>
+      <div
+        :style="{width: chartWidth+'px'}">
         <div
           v-for="n in chartNum"
           class="day"
           :key="n">
+          <div class="month"
+            :style="{width:  n==1 || new Date(prjData.start+(n-1)*dayTime).getDate()==1 ?chartWidth+'px' : ''}">
+            <span
+              v-if="n==1 || new Date(prjData.start+(n-1)*dayTime).getDate()==1">
+              {{ new Date(prjData.start+(n-1)*dayTime).getMonth()+1 }}月
+            </span>
+          </div>
+          <div class="date">
+            <span>{{ new Date(prjData.start+(n-1)*dayTime).getDate() }}</span>
+          </div>
           <div
             v-for="(ta, taidx) in tskArr"
             class="task"
@@ -65,6 +76,7 @@ export default {
 		return {
       dayTime: 1000*60*60*24,
       chartNum: 0,
+      chartWidth: 0,
       chartTskArr: [],
       tipFlg: false,
       tipTsk: {},
@@ -81,6 +93,7 @@ export default {
     setChartArr() {
       this.chartNum = (this.prjData.end-this.prjData.start)/this.dayTime+1;
       this.chartNum = this.chartNum<11 ? 11 : this.chartNum;
+      this.chartWidth = this.chartNum*(document.body.clientWidth/10);
     },
     openTooltip(e) {
       const tid = e.target.dataset.tid;

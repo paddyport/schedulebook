@@ -74,8 +74,68 @@
         }
         &:nth-of-type(1) {
           z-index: 5;
-          .task::before {
+          .month {
+            background: $gray7;
+            z-index: 15;
+          }
+          // .task::before {
+          //   content: "";
+          // }
+        }
+        .month {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: sticky;
+          height: divceil(18, 10, "em");
+          top: 0;
+          line-height: 1;
+          font-size: divceil(10, 16, "em");
+          text-align: center;
+          color: $gray4;
+          z-index: 5;
+          &::before {
             content: "";
+            position: absolute;
+            border-left: 1px dashed #fff;
+            right: 100%;
+            top: 0;
+            bottom: 0;
+            opacity: 0.75;
+            pointer-events: none;
+          }
+          &:empty::before {
+            content: none;
+          }
+          > span {
+            display: block;
+          }
+        }
+        .date {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          position: sticky;
+          background: #fff;
+          border-bottom: 1px solid $gray5;
+          height: divceil(22, 12, "em");
+          top: divceil(18, 12, "em");
+          line-height: 1;
+          font-size: divceil(12, 16, "em");
+          text-align: center;
+          color: $black2;
+          z-index: 5;
+          &::before {
+            content: "";
+            position: absolute;
+            border-right: 1px dashed $gray6;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            pointer-events: none;
+          }
+          > span {
+            display: block;
           }
         }
         .task {
@@ -83,13 +143,15 @@
           justify-content: space-between;
           align-items: center;
           position: relative;
+          // background: #fff;
           // height: 10vh;
           height: calc((100vh - #{divceil(50, 16, "em")})/9);
           padding: 0 0 1px;
           &::before {
+            content: "";
             position: absolute;
             border-bottom: 1px solid $gray5;
-            width: 100vw;
+            width: 100%;
             height: 0;
             left: 0;
             bottom: 0;
