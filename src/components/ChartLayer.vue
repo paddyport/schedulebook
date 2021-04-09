@@ -18,7 +18,7 @@
           class="day"
           :key="n">
           <div class="month"
-            :style="{width:  n==1 || new Date(prjData.start+(n-1)*dayTime).getDate()==1 ?chartWidth+'px' : ''}">
+            :style="{width:  n==1 || new Date(prjData.start+(n-1)*dayTime).getDate()==1 ?chartMonthWidth[monthName[new Date(prjData.start+(n-1)*dayTime).getMonth()]]+'px' : ''}">
             <span
               v-if="n==1 || new Date(prjData.start+(n-1)*dayTime).getDate()==1">
               {{ new Date(prjData.start+(n-1)*dayTime).getMonth()+1 }}月
@@ -75,8 +75,11 @@ export default {
 	data() {
 		return {
       dayTime: 1000*60*60*24,
+      dayWidth: document.body.clientWidth/10,
       chartNum: 0,
       chartWidth: 0,
+      monthName: ["jan", "feb", "mar", "apr", "may", "jun", "jul", "aug", "sep", "oct", "nov", "dec"],
+      chartMonthWidth: {"jan": 0, "feb": 0, "mar": 0, "apr": 0, "may": 0, "jun": 0, "jul": 0, "aug": 0, "sep": 0, "oct": 0, "nov": 0, "dec": 0},
       chartTskArr: [],
       tipFlg: false,
       tipTsk: {},
@@ -92,8 +95,15 @@ export default {
   methods: {
     setChartArr() {
       this.chartNum = (this.prjData.end-this.prjData.start)/this.dayTime+1;
-      this.chartNum = this.chartNum<11 ? 11 : this.chartNum;
-      this.chartWidth = this.chartNum*(document.body.clientWidth/10);
+      this.chartNum = this.chartNum<10 ? 10 : this.chartNum;
+      this.chartWidth = this.chartNum*this.dayWidth;
+      for(let d=0;d<this.chartNum;d++) {
+        const m = this.monthName[new Date(this.prjData.start+d*this.dayTime).getMonth()], 
+          nn = this.chartMonthWidth[m]+this.dayWidth,
+          obj = this.chartMonthWidth;
+        obj[m] = nn;
+        this.chartMonthWidth = Object.assign(this.chartMonthWidth, obj);
+      }
     },
     openTooltip(e) {
       const tid = e.target.dataset.tid;
